@@ -1,0 +1,126 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom styles and animations */
+@layer base {
+  /* Set CSS variables for theme colors - Space Theme */
+  :root {
+    --color-primary: 0 212 255; /* Neon cyan */
+    --color-accent: 139 92 246; /* Purple */
+    --color-success: 16 185 129;
+    --color-warning: 245 158 11;
+    --color-error: 239 68 68;
+
+    --duration-fast: 120ms;
+    --duration-medium: 260ms;
+    --duration-long: 560ms;
+
+    font-family: system-ui, -apple-system, sans-serif;
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  html {
+    @apply scroll-smooth;
+  }
+
+  body {
+    @apply bg-black text-white antialiased;
+    margin: 0;
+    min-width: 320px;
+  }
+}
+
+/* Smooth scrolling behavior */
+@supports (scroll-behavior: smooth) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Focus visible styles for accessibility */
+@layer components {
+  .focus-visible:focus-visible {
+    @apply outline-2 outline-offset-2 outline-primary-400;
+  }
+
+  /* Glass morphism cards */
+  .glass-card {
+    @apply bg-white/10 backdrop-blur-md border border-white/20 rounded-lg transition-all duration-300;
+  }
+
+  .glass-card:hover {
+    @apply bg-white/15 border-white/30 shadow-glass;
+  }
+
+  /* Gradient text */
+  .gradient-text {
+    @apply bg-gradient-to-r from-primary-400 to-accent-400 bg-clip-text text-transparent;
+  }
+
+  /* Smooth transitions */
+  .smooth-transition {
+    @apply transition-all duration-300 ease-out;
+  }
+}
+
+/* Animations */
+@keyframes glow {
+  0%, 100% {
+    text-shadow: 0 0 10px rgba(14, 165, 233, 0.5);
+  }
+  50% {
+    text-shadow: 0 0 20px rgba(14, 165, 233, 0.8);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+.animate-glow {
+  animation: glow 3s ease-in-out infinite;
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(14, 165, 233, 0.5);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(14, 165, 233, 0.7);
+}
