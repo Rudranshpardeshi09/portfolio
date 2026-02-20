@@ -1,5 +1,6 @@
-import React from 'react';
-import { SpaceBackground, CustomCursor } from '@/components';
+import React, { useState } from 'react';
+import WelcomeScreen from '@/components/WelcomeScreen';
+import Navbar from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
 import HeroPage from '@/pages/HeroPage';
 import AboutPage from '@/pages/AboutPage';
@@ -10,35 +11,39 @@ import ContactPage from '@/pages/ContactPage';
 
 /**
  * Main App Component
- * Integrates all pages and global components
+ * Bike-themed portfolio with welcome screen, navbar, and all sections
  */
 function App() {
-  return (
-    <div className="min-h-screen bg-black text-white">
-      {/* Space background with stars and constellations */}
-      <SpaceBackground />
+  const [showWelcome, setShowWelcome] = useState(true);
 
-      {/* Custom cursor */}
-      <CustomCursor />
+  return (
+    <div className="min-h-screen bg-garage-dark text-white">
+      {/* Welcome screen overlay */}
+      {showWelcome && (
+        <WelcomeScreen onComplete={() => setShowWelcome(false)} />
+      )}
+
+      {/* Navbar */}
+      <Navbar />
 
       {/* Main content */}
       <main className="relative z-10">
-        {/* Hero section */}
+        {/* Hero / Garage section */}
         <HeroPage />
 
-        {/* About section */}
+        {/* About the Rider */}
         <AboutPage />
 
-        {/* Skills section */}
+        {/* Engine Specs (Skills) */}
         <SkillsPage />
 
-        {/* Projects section */}
+        {/* My Builds (Projects) */}
         <ProjectsPage />
 
-        {/* Testimonials section */}
+        {/* Pit Crew Says (Testimonials) */}
         <TestimonialsPage />
 
-        {/* Contact section */}
+        {/* Drop a Message (Contact) */}
         <ContactPage />
       </main>
 
@@ -49,4 +54,3 @@ function App() {
 }
 
 export default App;
-
