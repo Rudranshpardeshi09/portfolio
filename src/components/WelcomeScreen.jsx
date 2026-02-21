@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useThemeStore, getThemeConfig } from '@/store/useThemeStore';
 
 /**
  * WelcomeScreen Component
- * Displays "Welcome to My Garage" with Ducati image fill text
- * Animates: zoom out → pause → zoom in → reveal main content
+ * Displays "Welcome to My Garage" in white Orbitron text
+ * with themed glow particles and zoom animation
  */
 const WelcomeScreen = ({ onComplete }) => {
     const [isVisible, setIsVisible] = useState(true);
+    const { activeTheme } = useThemeStore();
+    const theme = getThemeConfig(activeTheme);
 
     useEffect(() => {
-        // Auto dismiss after animation completes
         const timer = setTimeout(() => {
             setIsVisible(false);
             if (onComplete) onComplete();
@@ -28,15 +30,16 @@ const WelcomeScreen = ({ onComplete }) => {
                     exit={{ opacity: 0 }}
                     transition={{ duration: 0.5 }}
                 >
-                    {/* Background particles */}
+                    {/* Background particles — themed color */}
                     <div className="absolute inset-0 overflow-hidden">
                         {[...Array(20)].map((_, i) => (
                             <motion.div
                                 key={i}
-                                className="absolute w-1 h-1 bg-red-500 rounded-full"
+                                className="absolute w-1 h-1 rounded-full"
                                 style={{
                                     left: `${Math.random() * 100}%`,
                                     top: `${Math.random() * 100}%`,
+                                    backgroundColor: theme.primaryColor,
                                 }}
                                 animate={{
                                     opacity: [0, 0.6, 0],
@@ -51,16 +54,18 @@ const WelcomeScreen = ({ onComplete }) => {
                         ))}
                     </div>
 
-                    {/* Red glow lines */}
+                    {/* Themed glow line */}
                     <motion.div
                         className="absolute top-1/2 left-0 w-full h-px"
-                        style={{ background: 'linear-gradient(90deg, transparent, #DC143C, transparent)' }}
+                        style={{
+                            background: `linear-gradient(90deg, transparent, ${theme.primaryColor}, transparent)`,
+                        }}
                         initial={{ scaleX: 0, opacity: 0 }}
                         animate={{ scaleX: 1, opacity: [0, 0.5, 0] }}
                         transition={{ duration: 2, delay: 0.5 }}
                     />
 
-                    {/* Main text container with zoom animation */}
+                    {/* Main text — white Orbitron, straight font */}
                     <motion.div
                         className="relative flex flex-col items-center justify-center z-10 px-4"
                         initial={{ scale: 1, opacity: 0 }}
@@ -79,13 +84,13 @@ const WelcomeScreen = ({ onComplete }) => {
                             Welcome to<br />My Garage
                         </span>
 
-                        {/* Image-filled text */}
+                        {/* White text */}
                         <h1 className="welcome-text">
                             Welcome to<br />My Garage
                         </h1>
                     </motion.div>
 
-                    {/* Animated rev line at bottom */}
+                    {/* Loading indicator */}
                     <motion.div
                         className="absolute bottom-10 left-1/2 -translate-x-1/2"
                         initial={{ opacity: 0 }}
@@ -93,11 +98,24 @@ const WelcomeScreen = ({ onComplete }) => {
                         transition={{ duration: 3, delay: 0.5 }}
                     >
                         <div className="flex items-center gap-2">
-                            <div className="w-8 h-0.5 bg-gradient-to-r from-transparent to-red-500" />
-                            <span className="text-red-500 font-heading text-xs tracking-[0.3em] uppercase">
+                            <div
+                                className="w-8 h-0.5"
+                                style={{
+                                    background: `linear-gradient(to right, transparent, ${theme.primaryColor})`,
+                                }}
+                            />
+                            <span
+                                className="font-heading text-xs tracking-[0.3em] uppercase"
+                                style={{ color: theme.primaryColor }}
+                            >
                                 Loading Garage
                             </span>
-                            <div className="w-8 h-0.5 bg-gradient-to-l from-transparent to-red-500" />
+                            <div
+                                className="w-8 h-0.5"
+                                style={{
+                                    background: `linear-gradient(to left, transparent, ${theme.primaryColor})`,
+                                }}
+                            />
                         </div>
                     </motion.div>
                 </motion.div>

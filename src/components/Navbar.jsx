@@ -1,67 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-
-/**
- * DucatiSticker SVG
- * Animated red Ducati motorcycle silhouette for the navbar
- */
-const DucatiSticker = () => (
-    <svg
-        className="ducati-sticker"
-        width="60"
-        height="35"
-        viewBox="0 0 120 70"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-    >
-        {/* Bike body */}
-        <path
-            d="M25 50 C25 50 30 25 50 20 L70 18 C75 17 80 20 82 25 L85 35 L95 30 C100 28 105 30 105 35 L105 45 C105 50 100 55 95 55 L85 55 L80 55 C80 55 78 45 70 45 L50 45 C45 45 40 48 38 52 L35 55 L25 55 C20 55 18 50 25 50Z"
-            fill="#DC143C"
-            stroke="#ff2244"
-            strokeWidth="1"
-        />
-        {/* Front wheel */}
-        <circle cx="85" cy="55" r="12" fill="none" stroke="#aaa" strokeWidth="4" />
-        <circle cx="85" cy="55" r="4" fill="#666" />
-        {/* Rear wheel */}
-        <circle cx="35" cy="55" r="12" fill="none" stroke="#aaa" strokeWidth="4" />
-        <circle cx="35" cy="55" r="4" fill="#666" />
-        {/* Exhaust */}
-        <path d="M20 48 L10 48 L8 45 L10 42 L22 42" fill="#888" stroke="#999" strokeWidth="0.5" />
-        {/* Headlight */}
-        <ellipse cx="100" cy="32" rx="4" ry="3" fill="#FFD700" opacity="0.8" />
-        {/* Windscreen */}
-        <path d="M82 25 C85 20 90 18 95 20 L95 28 C90 26 85 27 82 25Z" fill="rgba(255,255,255,0.15)" />
-        {/* Speed lines */}
-        <motion.line
-            x1="5" y1="35" x2="20" y2="35"
-            stroke="#DC143C" strokeWidth="1" opacity="0.4"
-            animate={{ x1: [-5, 5], opacity: [0.2, 0.6, 0.2] }}
-            transition={{ duration: 0.8, repeat: Infinity }}
-        />
-        <motion.line
-            x1="0" y1="42" x2="18" y2="42"
-            stroke="#DC143C" strokeWidth="1" opacity="0.3"
-            animate={{ x1: [-3, 3], opacity: [0.1, 0.5, 0.1] }}
-            transition={{ duration: 1, repeat: Infinity, delay: 0.3 }}
-        />
-        <motion.line
-            x1="3" y1="50" x2="15" y2="50"
-            stroke="#DC143C" strokeWidth="0.8" opacity="0.3"
-            animate={{ x1: [-4, 4], opacity: [0.15, 0.4, 0.15] }}
-            transition={{ duration: 0.9, repeat: Infinity, delay: 0.6 }}
-        />
-    </svg>
-);
+import { motion, AnimatePresence } from 'framer-motion';
+import { useThemeStore, getThemeConfig } from '@/store/useThemeStore';
 
 /**
  * Navbar Component
- * Black background, animated Ducati sticker on left, white nav links with cherry red hover
+ * Dynamic bike icon from theme, glassmorphism nav bar, themed hover colors
  */
 const Navbar = () => {
     const [isScrolled, setIsScrolled] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const { activeTheme } = useThemeStore();
+    const theme = getThemeConfig(activeTheme);
 
     const navItems = [
         { label: 'Garage', href: '#hero' },
@@ -92,23 +41,46 @@ const Navbar = () => {
     return (
         <motion.nav
             className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled
-                    ? 'bg-black/95 backdrop-blur-md shadow-lg shadow-black/50'
-                    : 'bg-black/80 backdrop-blur-sm'
+                ? 'bg-black/80 backdrop-blur-xl shadow-lg shadow-black/50'
+                : 'bg-black/40 backdrop-blur-md'
                 }`}
+            style={{
+                borderBottom: isScrolled ? `1px solid rgba(255,255,255,0.06)` : 'none',
+            }}
             initial={{ y: -100 }}
             animate={{ y: 0 }}
             transition={{ duration: 0.6, delay: 4.5 }}
         >
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex items-center justify-between h-16 md:h-20">
-                    {/* Left - Ducati Sticker */}
+                    {/* Left — Dynamic bike icon */}
                     <a
                         href="#hero"
                         onClick={(e) => handleNavClick(e, '#hero')}
                         className="flex items-center gap-3 group"
                     >
-                        <DucatiSticker />
-                        <span className="hidden sm:block font-racing text-lg text-white group-hover:text-red-500 transition-colors">
+                        {/* Dynamic bike icon based on active theme */}
+                        <AnimatePresence mode="wait">
+                            <motion.img
+                                key={activeTheme}
+                                src={theme.iconPath}
+                                alt={`${theme.label} icon`}
+                                className="navbar-bike-icon"
+                                initial={{ opacity: 0, scale: 0.5, rotate: -15 }}
+                                animate={{ opacity: 1, scale: 1, rotate: 0 }}
+                                exit={{ opacity: 0, scale: 0.5, rotate: 15 }}
+                                transition={{ duration: 0.4, ease: 'easeOut' }}
+                            />
+                        </AnimatePresence>
+
+                        <span
+                            className="hidden sm:block font-racing text-lg text-white transition-colors"
+                            style={{
+                                '--hover-color': theme.primaryColor,
+                            }}
+                            onMouseEnter={(e) => e.target.style.color = theme.primaryColor}
+                            onMouseLeave={(e) => e.target.style.color = '#fff'}
+                        >
                             RG
                         </span>
                     </a>
@@ -151,7 +123,7 @@ const Navbar = () => {
 
             {/* Mobile Menu Dropdown */}
             <motion.div
-                className="md:hidden overflow-hidden bg-black/95 border-t border-gray-800"
+                className="md:hidden overflow-hidden bg-black/90 backdrop-blur-xl border-t border-white/5"
                 initial={false}
                 animate={{
                     height: isMobileMenuOpen ? 'auto' : 0,

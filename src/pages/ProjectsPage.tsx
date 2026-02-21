@@ -107,23 +107,61 @@ export const ProjectsPage: React.FC = () => {
   return (
     <Section id="projects" className="relative">
       <Container>
-        <Heading as="h2" className="mb-12 text-center">
-          Featured Projects
-        </Heading>
+        {/* Enhanced Section Heading */}
+        <motion.div
+          className="text-center mb-16"
+          initial={{ opacity: 0, y: -50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true, amount: 0.3 }}
+        >
+          <Heading as="h2" className="text-white">My Builds</Heading>
+          <motion.p
+            className="text-white/60 mt-4"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            viewport={{ once: true }}
+          >
+            Featured projects showcasing full-stack development expertise
+          </motion.p>
+        </motion.div>
 
-        {/* Projects Grid */}
+        {/* Projects Grid with 3D flip animations */}
         <motion.div
           className="grid md:grid-cols-2 lg:grid-cols-3 gap-6"
-          variants={MOTION_CONFIG.staggerContainer(0.05)}
-          initial="hidden"
-          whileInView="visible"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
           viewport={{ once: true, amount: 0.2 }}
         >
-          {projects.map((project) => (
+          {projects.map((project, index) => (
             <motion.div
               key={project.id}
-              variants={MOTION_CONFIG.staggerItem}
+              initial={{
+                opacity: 0,
+                rotateY: index % 2 === 0 ? -90 : 90,
+                scale: 0.8,
+              }}
+              whileInView={{
+                opacity: 1,
+                rotateY: 0,
+                scale: 1,
+              }}
+              transition={{
+                duration: 0.7,
+                delay: (index % 3) * 0.12,
+              }}
+              viewport={{ once: true, amount: 0.3 }}
+              whileHover={{
+                scale: 1.05,
+                rotateX: 5,
+                y: -10,
+              }}
               onClick={() => setSelectedProject(project)}
+              style={{
+                perspective: '1200px',
+                cursor: 'pointer',
+              }}
             >
               <ProjectCard
                 title={project.title}
@@ -146,44 +184,77 @@ export const ProjectsPage: React.FC = () => {
           size="lg"
         >
           {selectedProject && (
-            <div className="space-y-6">
+            <motion.div
+              className="space-y-6"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.3 }}
+            >
               {/* Image */}
-              <img
+              <motion.img
                 src={selectedProject.image}
                 alt={selectedProject.title}
                 className="w-full h-64 object-cover rounded-lg"
+                initial={{ opacity: 0, rotateX: -90 }}
+                animate={{ opacity: 1, rotateX: 0 }}
+                transition={{ duration: 0.5 }}
               />
 
               {/* Description */}
-              <p className="text-white/80">{selectedProject.details || selectedProject.description}</p>
+              <motion.p
+                className="text-white/80"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+              >
+                {selectedProject.details || selectedProject.description}
+              </motion.p>
 
               {/* Metrics */}
               {selectedProject.metrics && (
-                <div className="grid md:grid-cols-3 gap-4">
-                  {selectedProject.metrics.map((metric) => (
-                    <div
+                <motion.div
+                  className="grid md:grid-cols-3 gap-4"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.3 }}
+                >
+                  {selectedProject.metrics.map((metric, idx) => (
+                    <motion.div
                       key={metric.label}
                       className="p-4 bg-white/10 rounded-lg border border-white/20"
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ duration: 0.4, delay: 0.3 + idx * 0.1 }}
+                      whileHover={{ scale: 1.05 }}
                     >
                       <p className="text-sm text-white/70">{metric.label}</p>
                       <p className="text-2xl font-bold gradient-text">{metric.value}</p>
-                    </div>
+                    </motion.div>
                   ))}
-                </div>
+                </motion.div>
               )}
 
               {/* Tags */}
-              <div className="flex flex-wrap gap-2">
-                {selectedProject.tags.map((tag) => (
-                  <span
+              <motion.div
+                className="flex flex-wrap gap-2"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5, delay: 0.4 }}
+              >
+                {selectedProject.tags.map((tag, idx) => (
+                  <motion.span
                     key={tag}
-                    className="px-3 py-1.5 bg-primary-500/20 text-primary-200 rounded-full text-sm"
+                    className="px-3 py-1.5 bg-white/10 text-white/80 rounded-full text-sm border border-white/20"
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.3, delay: 0.4 + idx * 0.05 }}
+                    whileHover={{ scale: 1.1 }}
                   >
                     {tag}
-                  </span>
+                  </motion.span>
                 ))}
-              </div>
-            </div>
+              </motion.div>
+            </motion.div>
           )}
         </Modal>
       </Container>

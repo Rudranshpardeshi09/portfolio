@@ -140,3 +140,24 @@ npm run build  # Creates dist/ folder
 ---
 
 **Built with React, Tailwind CSS, and Framer Motion**
+
+
+prompt 
+you are a professional frontend developer and ui/ux expert.
+now i want :-
+1. when the user load the page the text that is appearing "welcome to my garage" should be in white color with that ducati image. and the font should be changed . instead of making it slant use straight  fonts.
+2. in the nav bar that icon with the rg text should be selected from the icons that i have in my  portfolio\public\bike icons , 
+i want this icon to be selected dynamically. 
+so for that you have to :-
+create a small circle at the bottom left of the page that will be floating . this button will provide the functionality of changing the theme of the whole project like for eg:( the default one will be duggati means - red, 
+no wwhen the user clicks the circle there should be option like bmw refers to whhite, hayabusa refers to yellow , kawasaki ninja h2 refers to neon , mv augusta refers to blue.)
+so based on the user selection the of this whole project shoul d be changed. also it should persist until the user chosses another. and all those options will also be floating near that main circle.
+funtions :-
+if the user chosses kawasaki ninja then the theme should be black + neon and the nav bar icon should be changed to ninja icon.
+if user chooses bmw then the theme should be based on black blue white color and icon shouldbe changed to bmw icon.
+3. now the hero section 
+in this the background image should be placed from public\hero-sec.png this path. the image at the background should be backdroped with appropriate value. and the heading "Rudransh's
+Garage" should be designed and placed according to the background image(position it at bottom and center of the semi circle formed by the bikes ).
+that text should compliment the background image.
+4. i want timeline 3d animations for this as the user scroll thimgs would come in   , out ,rotate, flip,etc from diffrent directions.
+5. use glass morphism white text combo so some creativity and do the things

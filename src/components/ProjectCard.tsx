@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { GlassCard } from './GlassCard';
-import { Badge } from './Typography';
+import { GlassCard } from './ui/GlassCard';
+import { Badge } from './typography/Typography';
 import { cn } from '@/lib/utils';
 import { ExternalLink, Github } from 'lucide-react';
 

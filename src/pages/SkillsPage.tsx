@@ -109,15 +109,32 @@ export const SkillsPage: React.FC = () => {
   return (
     <Section id="skills" className="relative">
       <Container>
-        <Heading as="h2" className="mb-12 text-center">
-          Skills & Expertise
-        </Heading>
+        {/* Enhanced Section Heading with animation */}
+        <motion.div
+          className="text-center mb-16"
+          initial={{ opacity: 0, y: -50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true, amount: 0.3 }}
+        >
+          <Heading as="h2" className="text-white">Engine Specs</Heading>
+          <motion.p
+            className="text-white/60 mt-4"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            viewport={{ once: true }}
+          >
+            Technologies and tools that power my projects
+          </motion.p>
+        </motion.div>
 
-        {/* Category Filter */}
+        {/* Category Filter with enhanced animations */}
         <motion.div
           className="flex flex-wrap justify-center gap-3 mb-12"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, scale: 0.8 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.6, delay: 0.1 }}
           viewport={{ once: true }}
         >
           <Badge
@@ -127,31 +144,50 @@ export const SkillsPage: React.FC = () => {
           >
             All Skills
           </Badge>
-          {categories.map((category) => (
-            <Badge
+          {categories.map((category, idx) => (
+            <motion.div
               key={category.id}
-              variant={activeCategory === category.id ? 'primary' : 'accent'}
-              className="cursor-pointer flex items-center gap-2"
-              onClick={() => setActiveCategory(category.id)}
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
             >
-              {category.icon}
-              {category.label}
-            </Badge>
+              <Badge
+                variant={activeCategory === category.id ? 'primary' : 'accent'}
+                className="cursor-pointer flex items-center gap-2"
+                onClick={() => setActiveCategory(category.id)}
+              >
+                {category.icon}
+                {category.label}
+              </Badge>
+            </motion.div>
           ))}
         </motion.div>
 
-        {/* Skills Grid */}
+        {/* Skills Grid with 3D rotating cards */}
         <motion.div
           className="grid md:grid-cols-2 lg:grid-cols-3 gap-6"
-          variants={MOTION_CONFIG.staggerContainer(0.05)}
-          initial="hidden"
-          whileInView="visible"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
           viewport={{ once: true, amount: 0.2 }}
         >
-          {filtered.map((skill) => (
+          {filtered.map((skill, index) => (
             <motion.div
               key={skill.name}
-              variants={MOTION_CONFIG.staggerItem}
+              initial={{ opacity: 0, rotateX: -90, y: 50 }}
+              whileInView={{
+                opacity: 1,
+                rotateX: 0,
+                y: 0,
+              }}
+              transition={{
+                duration: 0.6,
+                delay: (index % 3) * 0.1,
+              }}
+              viewport={{ once: true, amount: 0.3 }}
+              whileHover={{
+                scale: 1.08,
+                rotateY: 5,
+              }}
+              style={{ perspective: '1200px' }}
             >
               <SkillCard
                 icon={skill.icon}

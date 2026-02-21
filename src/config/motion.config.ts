@@ -1,14 +1,3 @@
-/**
- * Motion Configuration
- * Centralized animation tokens and easing templates for consistent motion design
- *
- * Usage:
- * import { motion } from 'framer-motion';
- * import { MOTION_CONFIG } from '@/config/motion.config';
- *
- * <motion.div variants={MOTION_CONFIG.variants.fadeUp} />
- */
-
 // Animation durations
 export const DURATIONS = {
   fast: 0.12, // 120ms - quick micro-interactions
