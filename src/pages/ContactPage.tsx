@@ -5,6 +5,7 @@ import { z } from 'zod';
 import { motion } from 'framer-motion';
 import { Container, Heading, Section, Button, GlassCard } from '@/components';
 import { MOTION_CONFIG } from '@/config/motion.config';
+import { useThemeStore, getThemeConfig } from '@/store/useThemeStore';
 import { Mail, Phone, Linkedin, Github, Send } from 'lucide-react';
 
 // Validation schema
@@ -24,6 +25,8 @@ type ContactFormData = z.infer<typeof contactSchema>;
 export const ContactPage: React.FC = () => {
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
+  const { activeTheme } = useThemeStore();
+  const theme = getThemeConfig(activeTheme);
 
   const {
     register,
@@ -58,7 +61,10 @@ export const ContactPage: React.FC = () => {
   return (
     <Section id="contact" className="relative">
       <Container>
-        <Heading as="h2" className="mb-4 text-center">
+        <Heading as="h2" className="mb-4 text-center" style={{
+          color: theme.primaryColor,
+          textShadow: `0 0 20px ${theme.glowColor}`,
+        }}>
           Get In Touch
         </Heading>
         <p className="text-center text-white/70 mb-12 max-w-2xl mx-auto">
@@ -102,11 +108,15 @@ export const ContactPage: React.FC = () => {
                 rel="noopener noreferrer"
                 variants={MOTION_CONFIG.staggerItem}
               >
-                <GlassCard className="flex items-center gap-4 p-4 cursor-pointer hover:bg-white/20 transition-colors">
-                  <div className="text-primary-400">{item.icon}</div>
+                <GlassCard className="flex items-center gap-4 p-4 cursor-pointer transition-colors" style={{
+                  borderColor: theme.primaryColor,
+                  border: `1px solid`,
+                  boxShadow: `0 0 15px ${theme.glowColor}`,
+                }}>
+                  <div style={{ color: theme.primaryColor, filter: `drop-shadow(0 0 8px ${theme.glowColor})` }}>{item.icon}</div>
                   <div>
                     <p className="text-sm text-white/70">{item.label}</p>
-                    <p className="font-semibold text-white">{item.value}</p>
+                    <p style={{ fontWeight: '600', color: theme.primaryColor }}>{item.value}</p>
                   </div>
                 </GlassCard>
               </motion.a>
@@ -145,10 +155,27 @@ export const ContactPage: React.FC = () => {
                       {...register('name')}
                       type="text"
                       placeholder="Your name"
-                      className="w-full px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:border-primary-400"
+                      className="w-full px-4 py-2 rounded-lg text-white placeholder-white/50 resize-none"
+                      style={{
+                        backgroundColor: `rgba(${parseInt(theme.primaryColor.slice(1, 3), 16)}, ${parseInt(theme.primaryColor.slice(3, 5), 16)}, ${parseInt(theme.primaryColor.slice(5, 7), 16)}, 0.05)`,
+                        borderColor: errors.name ? theme.primaryColor : 'rgba(255, 255, 255, 0.2)',
+                        border: `1px solid`,
+                        boxShadow: errors.name ? `0 0 12px ${theme.glowColor}` : 'none',
+                        outline: 'none',
+                      }}
+                      onFocus={(e) => {
+                        e.currentTarget.style.borderColor = theme.primaryColor;
+                        e.currentTarget.style.boxShadow = `0 0 15px ${theme.glowColor}`;
+                      }}
+                      onBlur={(e) => {
+                        if (!errors.name) {
+                          e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.2)';
+                          e.currentTarget.style.boxShadow = 'none';
+                        }
+                      }}
                     />
                     {errors.name && (
-                      <p className="text-red-400 text-sm mt-1">{errors.name.message}</p>
+                      <p style={{ color: theme.primaryColor, fontSize: '0.875rem', marginTop: '0.25rem' }}>{errors.name.message}</p>
                     )}
                   </div>
 
@@ -161,10 +188,27 @@ export const ContactPage: React.FC = () => {
                       {...register('email')}
                       type="email"
                       placeholder="your@email.com"
-                      className="w-full px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:border-primary-400"
+                      className="w-full px-4 py-2 rounded-lg text-white placeholder-white/50 resize-none"
+                      style={{
+                        backgroundColor: `rgba(${parseInt(theme.primaryColor.slice(1, 3), 16)}, ${parseInt(theme.primaryColor.slice(3, 5), 16)}, ${parseInt(theme.primaryColor.slice(5, 7), 16)}, 0.05)`,
+                        borderColor: errors.email ? theme.primaryColor : 'rgba(255, 255, 255, 0.2)',
+                        border: `1px solid`,
+                        boxShadow: errors.email ? `0 0 12px ${theme.glowColor}` : 'none',
+                        outline: 'none',
+                      }}
+                      onFocus={(e) => {
+                        e.currentTarget.style.borderColor = theme.primaryColor;
+                        e.currentTarget.style.boxShadow = `0 0 15px ${theme.glowColor}`;
+                      }}
+                      onBlur={(e) => {
+                        if (!errors.email) {
+                          e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.2)';
+                          e.currentTarget.style.boxShadow = 'none';
+                        }
+                      }}
                     />
                     {errors.email && (
-                      <p className="text-red-400 text-sm mt-1">{errors.email.message}</p>
+                      <p style={{ color: theme.primaryColor, fontSize: '0.875rem', marginTop: '0.25rem' }}>{errors.email.message}</p>
                     )}
                   </div>
 
@@ -177,10 +221,27 @@ export const ContactPage: React.FC = () => {
                       {...register('subject')}
                       type="text"
                       placeholder="What's this about?"
-                      className="w-full px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:border-primary-400"
+                      className="w-full px-4 py-2 rounded-lg text-white placeholder-white/50 resize-none"
+                      style={{
+                        backgroundColor: `rgba(${parseInt(theme.primaryColor.slice(1, 3), 16)}, ${parseInt(theme.primaryColor.slice(3, 5), 16)}, ${parseInt(theme.primaryColor.slice(5, 7), 16)}, 0.05)`,
+                        borderColor: errors.subject ? theme.primaryColor : 'rgba(255, 255, 255, 0.2)',
+                        border: `1px solid`,
+                        boxShadow: errors.subject ? `0 0 12px ${theme.glowColor}` : 'none',
+                        outline: 'none',
+                      }}
+                      onFocus={(e) => {
+                        e.currentTarget.style.borderColor = theme.primaryColor;
+                        e.currentTarget.style.boxShadow = `0 0 15px ${theme.glowColor}`;
+                      }}
+                      onBlur={(e) => {
+                        if (!errors.subject) {
+                          e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.2)';
+                          e.currentTarget.style.boxShadow = 'none';
+                        }
+                      }}
                     />
                     {errors.subject && (
-                      <p className="text-red-400 text-sm mt-1">{errors.subject.message}</p>
+                      <p style={{ color: theme.primaryColor, fontSize: '0.875rem', marginTop: '0.25rem' }}>{errors.subject.message}</p>
                     )}
                   </div>
 
@@ -193,10 +254,27 @@ export const ContactPage: React.FC = () => {
                       {...register('message')}
                       placeholder="Your message..."
                       rows={5}
-                      className="w-full px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:border-primary-400 resize-none"
+                      className="w-full px-4 py-2 rounded-lg text-white placeholder-white/50 resize-none"
+                      style={{
+                        backgroundColor: `rgba(${parseInt(theme.primaryColor.slice(1, 3), 16)}, ${parseInt(theme.primaryColor.slice(3, 5), 16)}, ${parseInt(theme.primaryColor.slice(5, 7), 16)}, 0.05)`,
+                        borderColor: errors.message ? theme.primaryColor : 'rgba(255, 255, 255, 0.2)',
+                        border: `1px solid`,
+                        boxShadow: errors.message ? `0 0 12px ${theme.glowColor}` : 'none',
+                        outline: 'none',
+                      }}
+                      onFocus={(e) => {
+                        e.currentTarget.style.borderColor = theme.primaryColor;
+                        e.currentTarget.style.boxShadow = `0 0 15px ${theme.glowColor}`;
+                      }}
+                      onBlur={(e) => {
+                        if (!errors.message) {
+                          e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.2)';
+                          e.currentTarget.style.boxShadow = 'none';
+                        }
+                      }}
                     />
                     {errors.message && (
-                      <p className="text-red-400 text-sm mt-1">{errors.message.message}</p>
+                      <p style={{ color: theme.primaryColor, fontSize: '0.875rem', marginTop: '0.25rem' }}>{errors.message.message}</p>
                     )}
                   </div>
 

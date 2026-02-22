@@ -16,7 +16,7 @@ const WelcomeScreen = ({ onComplete }) => {
         const timer = setTimeout(() => {
             setIsVisible(false);
             if (onComplete) onComplete();
-        }, 4200);
+        }, 6800);
 
         return () => clearTimeout(timer);
     }, [onComplete]);
@@ -70,14 +70,15 @@ const WelcomeScreen = ({ onComplete }) => {
                         className="relative flex flex-col items-center justify-center z-10 px-4"
                         initial={{ scale: 1, opacity: 0 }}
                         animate={{
-                            scale: [1, 1, 0.7, 0.7, 4],
-                            opacity: [0, 1, 1, 1, 0],
+                            scale: [1, 0.85, 5],
+                            opacity: [0, 1, 0],
                         }}
                         transition={{
-                            duration: 4,
-                            times: [0, 0.15, 0.35, 0.55, 0.85],
-                            ease: "easeInOut",
+                            duration: 6.5,
+                            times: [0, 0.4, 1.0],
+                            ease: [0.25, 0.46, 0.45, 0.94],
                         }}
+                        style={{ willChange: 'transform, opacity' }}
                     >
                         {/* Outline text (behind) */}
                         <span className="welcome-text-outline" aria-hidden="true">

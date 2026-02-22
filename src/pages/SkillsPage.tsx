@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Container, Heading, Section, SkillCard, Badge } from '@/components';
 import { MOTION_CONFIG } from '@/config/motion.config';
+import { useThemeStore, getThemeConfig } from '@/store/useThemeStore';
 import {
   Code,
   Database,
@@ -17,6 +18,14 @@ import {
  */
 export const SkillsPage: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState<'all' | string>('all');
+  const { activeTheme } = useThemeStore();
+  const theme = getThemeConfig(activeTheme);
+
+  // Icon colors rotate through theme colors and complementary colors
+  const getIconColor = (index: number) => {
+    const colors = [theme.primaryColor, theme.accentColor, theme.secondaryColor];
+    return colors[index % colors.length];
+  };
 
   const categories = [
     { id: 'frontend', label: 'Frontend', icon: <Palette className="w-4 h-4" /> },
@@ -29,29 +38,29 @@ export const SkillsPage: React.FC = () => {
     // Frontend
     {
       category: 'frontend',
-      name: 'React/React Native',
-      icon: <Code className="w-6 h-6 text-blue-400" />,
+      name: 'React',
+      icon: <Code className="w-6 h-6" />,
       proficiency: 95,
       description: 'Hooks, Context, Performance optimization',
     },
     {
       category: 'frontend',
       name: 'TypeScript',
-      icon: <Globe className="w-6 h-6 text-blue-600" />,
+      icon: <Globe className="w-6 h-6" />,
       proficiency: 90,
       description: 'Advanced types, generics, utilities',
     },
     {
       category: 'frontend',
       name: 'Tailwind CSS',
-      icon: <Palette className="w-6 h-6 text-cyan-400" />,
+      icon: <Palette className="w-6 h-6" />,
       proficiency: 92,
       description: 'Custom configs, responsive design',
     },
     {
       category: 'frontend',
       name: 'Framer Motion',
-      icon: <Zap className="w-6 h-6 text-purple-400" />,
+      icon: <Zap className="w-6 h-6" />,
       proficiency: 88,
       description: 'Complex animations, interactions',
     },
@@ -59,14 +68,14 @@ export const SkillsPage: React.FC = () => {
     {
       category: 'backend',
       name: 'Node.js/Express',
-      icon: <Database className="w-6 h-6 text-green-400" />,
+      icon: <Database className="w-6 h-6" />,
       proficiency: 87,
       description: 'RESTful APIs, middleware, auth',
     },
     {
       category: 'backend',
       name: 'PostgreSQL',
-      icon: <Database className="w-6 h-6 text-orange-400" />,
+      icon: <Database className="w-6 h-6" />,
       proficiency: 85,
       description: 'Complex queries, indexing, optimization',
     },
@@ -74,14 +83,14 @@ export const SkillsPage: React.FC = () => {
     {
       category: 'tools',
       name: 'Git & GitHub',
-      icon: <Code className="w-6 h-6 text-gray-400" />,
+      icon: <Code className="w-6 h-6" />,
       proficiency: 93,
       description: 'Branching, CI/CD, pull requests',
     },
     {
       category: 'tools',
       name: 'Webpack/Vite',
-      icon: <Zap className="w-6 h-6 text-yellow-400" />,
+      icon: <Zap className="w-6 h-6" />,
       proficiency: 85,
       description: 'Bundling, optimization, dev server',
     },
@@ -89,14 +98,14 @@ export const SkillsPage: React.FC = () => {
     {
       category: 'devops',
       name: 'Docker',
-      icon: <Cloud className="w-6 h-6 text-blue-500" />,
+      icon: <Cloud className="w-6 h-6" />,
       proficiency: 80,
       description: 'Containerization, docker-compose',
     },
     {
       category: 'devops',
       name: 'AWS',
-      icon: <Cloud className="w-6 h-6 text-orange-500" />,
+      icon: <Cloud className="w-6 h-6" />,
       proficiency: 78,
       description: 'EC2, S3, Lambda, RDS',
     },
@@ -117,7 +126,10 @@ export const SkillsPage: React.FC = () => {
           transition={{ duration: 0.6 }}
           viewport={{ once: true, amount: 0.3 }}
         >
-          <Heading as="h2" className="text-white">Engine Specs</Heading>
+          <Heading as="h2" style={{
+            color: theme.primaryColor,
+            textShadow: `0 0 20px ${theme.glowColor}`,
+          }}>Engine Specs</Heading>
           <motion.p
             className="text-white/60 mt-4"
             initial={{ opacity: 0 }}
@@ -169,7 +181,11 @@ export const SkillsPage: React.FC = () => {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true, amount: 0.2 }}
         >
-          {filtered.map((skill, index) => (
+          {filtered.map((skill, index) => {
+            const coloredIcon = React.cloneElement(skill.icon, {
+              style: { color: getIconColor(index), filter: `drop-shadow(0 0 8px ${theme.glowColor})` }
+            });
+            return (
             <motion.div
               key={skill.name}
               initial={{ opacity: 0, rotateX: -90, y: 50 }}
@@ -190,13 +206,14 @@ export const SkillsPage: React.FC = () => {
               style={{ perspective: '1200px' }}
             >
               <SkillCard
-                icon={skill.icon}
+                icon={coloredIcon}
                 name={skill.name}
                 proficiency={skill.proficiency}
                 description={skill.description}
               />
             </motion.div>
-          ))}
+            );
+          })}
         </motion.div>
       </Container>
     </Section>

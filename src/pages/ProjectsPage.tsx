@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Container, Heading, Section, ProjectCard, Modal } from '@/components';
 import { MOTION_CONFIG } from '@/config/motion.config';
+import { useThemeStore, getThemeConfig } from '@/store/useThemeStore';
 
 interface Project {
   id: string;
@@ -22,6 +23,8 @@ interface Project {
  */
 export const ProjectsPage: React.FC = () => {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const { activeTheme } = useThemeStore();
+  const theme = getThemeConfig(activeTheme);
 
   const projects: Project[] = [
     {
@@ -115,7 +118,10 @@ export const ProjectsPage: React.FC = () => {
           transition={{ duration: 0.6 }}
           viewport={{ once: true, amount: 0.3 }}
         >
-          <Heading as="h2" className="text-white">My Builds</Heading>
+          <Heading as="h2" style={{
+            color: theme.primaryColor,
+            textShadow: `0 0 20px ${theme.glowColor}`,
+          }}>My Builds</Heading>
           <motion.p
             className="text-white/60 mt-4"
             initial={{ opacity: 0 }}
@@ -226,9 +232,17 @@ export const ProjectsPage: React.FC = () => {
                       animate={{ opacity: 1, scale: 1 }}
                       transition={{ duration: 0.4, delay: 0.3 + idx * 0.1 }}
                       whileHover={{ scale: 1.05 }}
+                      style={{
+                        borderColor: theme.primaryColor,
+                        boxShadow: `0 0 15px ${theme.glowColor}`,
+                      }}
                     >
                       <p className="text-sm text-white/70">{metric.label}</p>
-                      <p className="text-2xl font-bold gradient-text">{metric.value}</p>
+                      <p style={{
+                        fontSize: '1.5rem',
+                        fontWeight: 'bold',
+                        color: theme.primaryColor,
+                      }}>{metric.value}</p>
                     </motion.div>
                   ))}
                 </motion.div>
@@ -244,11 +258,17 @@ export const ProjectsPage: React.FC = () => {
                 {selectedProject.tags.map((tag, idx) => (
                   <motion.span
                     key={tag}
-                    className="px-3 py-1.5 bg-white/10 text-white/80 rounded-full text-sm border border-white/20"
+                    className="px-3 py-1.5 rounded-full text-sm"
                     initial={{ opacity: 0, scale: 0.8 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 0.3, delay: 0.4 + idx * 0.05 }}
                     whileHover={{ scale: 1.1 }}
+                    style={{
+                      backgroundColor: `rgba(${parseInt(theme.primaryColor.slice(1, 3), 16)}, ${parseInt(theme.primaryColor.slice(3, 5), 16)}, ${parseInt(theme.primaryColor.slice(5, 7), 16)}, 0.15)`,
+                      color: theme.primaryColor,
+                      borderColor: theme.primaryColor,
+                      border: `1px solid`,
+                    }}
                   >
                     {tag}
                   </motion.span>

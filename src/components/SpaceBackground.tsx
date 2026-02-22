@@ -31,8 +31,8 @@ export const SpaceBackground: React.FC = () => {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const starsRef = useRef<Star[]>([]);
   const constellationsRef = useRef<Constellation[]>([]);
-  const animationIdRef = useRef<number>();
-  const isMobileRef = useRef(
+  const animationIdRef = useRef<number | undefined>(undefined);
+  const isMobileRef = useRef<boolean>(
     typeof window !== 'undefined' &&
       /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
         navigator.userAgent,

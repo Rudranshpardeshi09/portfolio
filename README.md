@@ -161,3 +161,21 @@ Garage" should be designed and placed according to the background image(position
 that text should compliment the background image.
 4. i want timeline 3d animations for this as the user scroll thimgs would come in   , out ,rotate, flip,etc from diffrent directions.
 5. use glass morphism white text combo so some creativity and do the things
+
+act a professional ui/ux developer who has 5 years of experience . now by showing you creativity perform following taskss:-
+
+the animations of wecolme to the garrage is not smooth . make that super smooth
+increase the size of the images in the nav bar that is at the left side of rg text
+all chnage the theme of Engine Specs- skills, My Builds-projects , What Clients Say-testimonials, Get In Touch-contact
+and footer according to the bike selected forn the options. also the chnage the text ad icons of these
+in the select section of the bike, increaese the size of the bike icons so that they can be visible and contained in that circle. sclae and stretch it cover the circle.
+the hero section image should remain there and when the user scrolls the other sections would overlap that background image.
+improve the text font of the hhero section. also the position of the hero section text should be according to the background image.
+
+map and a rider that moves on map when we scroll
+1. about 2. skills 3. projects 4. experience 5. contact
+start your journy 
+1. pick your bike 
+2. scroll to move to the destination
+3.on about section click to enter it
+4. if user skips one of section show this locations is left you should visit it once in a atoast form with glassa morphic effect and a bike icon on the left most side 

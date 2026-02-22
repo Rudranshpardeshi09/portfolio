@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Container } from '@/components';
+import { useThemeStore, getThemeConfig } from '@/store/useThemeStore';
 import { Github, Linkedin, Twitter, Mail } from 'lucide-react';
 
 /**
@@ -9,6 +10,8 @@ import { Github, Linkedin, Twitter, Mail } from 'lucide-react';
  */
 export const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
+  const { activeTheme } = useThemeStore();
+  const theme = getThemeConfig(activeTheme);
 
   const socialLinks = [
     {
@@ -36,7 +39,11 @@ export const Footer: React.FC = () => {
   ];
 
   return (
-    <footer className="relative border-t border-primary-500/10 bg-gradient-to-b from-transparent to-black/50">
+    <footer style={{
+      borderTopColor: theme.primaryColor,
+      borderTopWidth: '1px',
+      background: 'linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.5))',
+    }}>
       <Container className="py-12">
         <div className="grid md:grid-cols-3 gap-12 mb-8">
           {/* Brand */}
@@ -46,7 +53,10 @@ export const Footer: React.FC = () => {
             viewport={{ once: true }}
             className="space-y-2"
           >
-            <h3 className="text-xl font-bold text-primary-500">Rudransh Pardeshi</h3>
+            <h3 className="text-xl font-bold" style={{
+              color: theme.primaryColor,
+              textShadow: `0 0 15px ${theme.glowColor}`,
+            }}>Rudransh Pardeshi</h3>
             <p className="text-white/70">Full Stack Developer & AI/ML Enthusiast</p>
           </motion.div>
 
@@ -62,12 +72,17 @@ export const Footer: React.FC = () => {
             <ul className="space-y-2">
               {navLinks.map((link) => (
                 <li key={link.label}>
-                  <a
+                  <motion.a
                     href={link.href}
-                    className="text-white/70 hover:text-white transition-colors"
+                    className="text-white/70 transition-colors"
+                    style={{ color: 'rgba(255, 255, 255, 0.7)' }}
+                    whileHover={{
+                      color: theme.primaryColor,
+                      textShadow: `0 0 10px ${theme.glowColor}`,
+                    }}
                   >
                     {link.label}
-                  </a>
+                  </motion.a>
                 </li>
               ))}
             </ul>
@@ -89,8 +104,16 @@ export const Footer: React.FC = () => {
                   href={link.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="p-2 rounded-lg bg-white/10 text-white/70 hover:bg-primary-500/20 hover:text-primary-400 transition-all"
-                  whileHover={{ scale: 1.1 }}
+                  className="p-2 rounded-lg transition-all"
+                  style={{
+                    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                    color: 'rgba(255, 255, 255, 0.7)',
+                  }}
+                  whileHover={{
+                    backgroundColor: `rgba(${parseInt(theme.primaryColor.slice(1, 3), 16)}, ${parseInt(theme.primaryColor.slice(3, 5), 16)}, ${parseInt(theme.primaryColor.slice(5, 7), 16)}, 0.2)`,
+                    color: theme.primaryColor,
+                    boxShadow: `0 0 12px ${theme.glowColor}`,
+                  }}
                   whileTap={{ scale: 0.95 }}
                   aria-label={link.label}
                 >
@@ -106,7 +129,11 @@ export const Footer: React.FC = () => {
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          className="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-white/70"
+          className="pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-white/70"
+          style={{
+            borderTopColor: theme.primaryColor,
+            borderTopWidth: '1px',
+          }}
         >
           <p>© {currentYear} Rudransh Pardeshi. All rights reserved.</p>
           <p>Built with React, Tailwind, and Framer Motion</p>

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Container, Heading, Section, GlassCard } from '@/components';
 import { MOTION_CONFIG } from '@/config/motion.config';
+import { useThemeStore, getThemeConfig } from '@/store/useThemeStore';
 import { ChevronLeft, ChevronRight, Star } from 'lucide-react';
 
 interface Testimonial {
@@ -20,6 +21,8 @@ interface Testimonial {
  */
 export const TestimonialsPage: React.FC = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const { activeTheme } = useThemeStore();
+  const theme = getThemeConfig(activeTheme);
 
   const testimonials: Testimonial[] = [
     {
@@ -67,7 +70,10 @@ export const TestimonialsPage: React.FC = () => {
   return (
     <Section id="testimonials" className="relative">
       <Container>
-        <Heading as="h2" className="mb-12 text-center">
+        <Heading as="h2" className="mb-12 text-center" style={{
+          color: theme.primaryColor,
+          textShadow: `0 0 20px ${theme.glowColor}`,
+        }}>
           What Clients Say
         </Heading>
 
@@ -92,7 +98,9 @@ export const TestimonialsPage: React.FC = () => {
                 {Array.from({ length: testimonial.rating }).map((_, i) => (
                   <Star
                     key={i}
-                    className="w-5 h-5 fill-yellow-400 text-yellow-400"
+                    className="w-5 h-5"
+                    fill={theme.primaryColor}
+                    color={theme.primaryColor}
                   />
                 ))}
               </div>
@@ -104,7 +112,7 @@ export const TestimonialsPage: React.FC = () => {
 
               {/* Author */}
               <div className="space-y-2">
-                <p className="font-bold text-white">{testimonial.name}</p>
+                <p style={{ fontWeight: 'bold', color: theme.primaryColor }}>{testimonial.name}</p>
                 <p className="text-sm text-white/70">
                   {testimonial.role} at {testimonial.company}
                 </p>
@@ -114,35 +122,49 @@ export const TestimonialsPage: React.FC = () => {
 
           {/* Carousel controls */}
           <div className="flex items-center justify-between mt-8">
-            <button
+            <motion.button
               onClick={previous}
-              className="p-2 rounded-full hover:bg-white/10 transition-colors"
+              className="p-2 rounded-full transition-colors"
+              style={{
+                color: theme.primaryColor,
+              }}
+              whileHover={{
+                boxShadow: `0 0 15px ${theme.glowColor}`,
+              }}
               aria-label="Previous testimonial"
             >
               <ChevronLeft className="w-6 h-6" />
-            </button>
+            </motion.button>
 
             {/* Indicators */}
             <div className="flex gap-2">
               {testimonials.map((_, i) => (
                 <motion.button
                   key={i}
-                  className={`w-2 h-2 rounded-full transition-colors ${
-                    i === currentIndex ? 'bg-primary-400' : 'bg-white/30'
-                  }`}
+                  className="w-2 h-2 rounded-full transition-colors"
+                  style={{
+                    backgroundColor: i === currentIndex ? theme.primaryColor : 'rgba(255, 255, 255, 0.3)',
+                    boxShadow: i === currentIndex ? `0 0 10px ${theme.glowColor}` : 'none',
+                  }}
                   onClick={() => setCurrentIndex(i)}
                   whileHover={{ scale: 1.2 }}
                 />
               ))}
             </div>
 
-            <button
+            <motion.button
               onClick={next}
-              className="p-2 rounded-full hover:bg-white/10 transition-colors"
+              className="p-2 rounded-full transition-colors"
+              style={{
+                color: theme.primaryColor,
+              }}
+              whileHover={{
+                boxShadow: `0 0 15px ${theme.glowColor}`,
+              }}
               aria-label="Next testimonial"
             >
               <ChevronRight className="w-6 h-6" />
-            </button>
+            </motion.button>
           </div>
         </motion.div>
       </Container>

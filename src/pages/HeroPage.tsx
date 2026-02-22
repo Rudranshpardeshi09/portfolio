@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { motion, useViewportScroll, useTransform } from 'framer-motion';
 import { ArrowRight, Sparkles } from 'lucide-react';
 import {
   Button,
@@ -65,13 +65,20 @@ const SkillCircle: React.FC<{ color: string; skill: string; delay: number }> = (
 
 /**
  * HeroPage Component
- * Landing page with hero background image, garage theme heading, and skill palette
+ * Landing page with hero background image, garage theme heading, and skill palette with parallax zoom effect
  */
 export const HeroPage: React.FC = () => {
+  const { scrollY } = useViewportScroll();
+  // Create parallax zoom effect: scale from 1 at top to 1.2 when scrolled 600px
+  const backgroundScale = useTransform(scrollY, [0, 600], [1, 1.2]);
+
   return (
-    <Section id="hero" className="hero-section">
-      {/* Background image */}
-      <div className="hero-bg" />
+    <Section id="hero" className="hero-section relative overflow-visible">
+      {/* Background image with parallax zoom effect */}
+      <motion.div
+        className="hero-bg"
+        style={{ scale: backgroundScale, willChange: 'transform' }}
+      />
 
       {/* Backdrop with blur effect */}
       <div className="hero-backdrop" />
@@ -85,7 +92,7 @@ export const HeroPage: React.FC = () => {
         >
           {/* Main Garage Heading - positioned at bottom center */}
           <motion.div
-            className="text-center space-y-6 max-w-4xl"
+            className="text-center space-y-8 max-w-4xl"
             initial={{ opacity: 0, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.2 }}
@@ -113,7 +120,7 @@ export const HeroPage: React.FC = () => {
 
             {/* Description with glassmorphism */}
             <motion.div
-              className="glass-card p-4 md:p-6 max-w-2xl mx-auto"
+              className="glass-card p-6 md:p-8 max-w-2xl mx-auto border border-white/20 hover:border-white/40"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.5 }}
@@ -125,7 +132,7 @@ export const HeroPage: React.FC = () => {
 
             {/* CTA Buttons with glassmorphism */}
             <motion.div
-              className="flex flex-col sm:flex-row gap-4 justify-center pt-4"
+              className="flex flex-col sm:flex-row gap-6 justify-center pt-6"
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               transition={{ duration: 0.6, delay: 0.6 }}

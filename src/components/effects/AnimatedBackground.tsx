@@ -20,7 +20,7 @@ export const AnimatedBackground: React.FC = () => {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const particlesRef = useRef<Particle[]>([]);
   const animationIdRef = useRef<number>();
-  const isMobileRef = useRef(
+  const isMobileRef = useRef<boolean>(
     typeof window !== 'undefined' &&
       /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
         navigator.userAgent,
