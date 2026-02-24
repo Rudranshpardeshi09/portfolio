@@ -72,6 +72,15 @@ export const HeroPage: React.FC = () => {
   // Create parallax zoom effect: scale from 1 at top to 1.2 when scrolled 600px
   const backgroundScale = useTransform(scrollY, [0, 600], [1, 1.2]);
 
+  // Scroll-driven opacity for subtitle fade-out
+  const subtitleOpacity = useTransform(scrollY, [0, 300], [1, 0]);
+
+  // Scroll-driven scale for title compression
+  const titleScale = useTransform(scrollY, [0, 400], [1, 0.85]);
+
+  // Scroll-driven blur effect
+  const contentBlur = useTransform(scrollY, [0, 300], [0, 5]);
+
   return (
     <Section id="hero" className="hero-section relative overflow-visible">
       {/* Background image with parallax zoom effect */}
@@ -85,81 +94,106 @@ export const HeroPage: React.FC = () => {
 
       <Container>
         <motion.div
-          className="relative z-10 w-full h-full flex flex-col items-center justify-end pb-12"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          className="relative z-10 w-full h-full flex flex-col items-center justify-center"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
           transition={{ duration: 0.8 }}
         >
-          {/* Main Garage Heading - positioned at bottom center */}
+          {/* Main Garage Heading - Centered content */}
           <motion.div
-            className="text-center space-y-8 max-w-4xl"
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
+            className="text-center space-y-6 md:space-y-8 max-w-5xl px-4"
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.1 }}
           >
-            {/* Subtitle with glassmorphism */}
+            {/* Subtitle with heavy animations */}
             <motion.div
-              initial={{ opacity: 0, y: -20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.3 }}
+              style={{ opacity: subtitleOpacity }}
+              initial={{ opacity: 0, y: -40, scale: 0.8 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{ duration: 0.7, delay: 0.2, ease: "easeOut" }}
             >
               <div className="hero-subtitle">
                 Welcome to the Garage
               </div>
             </motion.div>
 
-            {/* Main Title */}
-            <motion.h1
-              className="hero-title"
-              initial={{ opacity: 0, y: 20 }}
+            {/* Main Title with gradient and scroll animations */}
+            <motion.div
+              style={{ scale: titleScale }}
+              initial={{ opacity: 0, y: 60 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
+              transition={{ duration: 0.9, delay: 0.3, ease: "easeOut" }}
             >
-              Rudransh's<br />Garage
-            </motion.h1>
+              <motion.h1
+                className="hero-title"
+                animate={{
+                  letterSpacing: ['0.05em', '0.08em', '0.05em']
+                }}
+                transition={{ duration: 4, repeat: Infinity }}
+              >
+                Rudransh's<br />Garage
+              </motion.h1>
+            </motion.div>
 
-            {/* Description with glassmorphism */}
+            {/* Description with glassmorphism and scroll blur */}
             <motion.div
               className="glass-card p-6 md:p-8 max-w-2xl mx-auto border border-white/20 hover:border-white/40"
-              initial={{ opacity: 0, y: 20 }}
+              style={{ filter: contentBlur }}
+              initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.5 }}
+              transition={{ duration: 0.7, delay: 0.4 }}
             >
               <Paragraph size="lg" animated={false} className="text-white/90">
                 Full-Stack Developer & AI/ML Enthusiast. Master of Computer Applications with expertise in React, Python, and AI/ML.
               </Paragraph>
             </motion.div>
 
-            {/* CTA Buttons with glassmorphism */}
+            {/* CTA Buttons with enhanced animations */}
             <motion.div
-              className="flex flex-col sm:flex-row gap-6 justify-center pt-6"
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              transition={{ duration: 0.6, delay: 0.6 }}
+              className="flex flex-col sm:flex-row gap-4 md:gap-6 justify-center pt-4 md:pt-8"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.5 }}
             >
-              <Button
-                size="lg"
-                variant="primary"
-                className="group bg-white/10 border border-white/30 hover:bg-white/20 backdrop-blur-sm text-white"
-                onClick={() => {
-                  const section = document.getElementById('projects');
-                  section?.scrollIntoView({ behavior: 'smooth' });
-                }}
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
               >
-                View My Work
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-              </Button>
-              <Button
-                size="lg"
-                variant="outline"
-                className="border-white/30 text-white hover:text-white hover:border-white/60 bg-white/5 backdrop-blur-sm"
-                onClick={() => {
-                  const section = document.getElementById('contact');
-                  section?.scrollIntoView({ behavior: 'smooth' });
-                }}
+                <Button
+                  size="lg"
+                  variant="primary"
+                  className="group bg-white/10 border border-white/30 hover:bg-white/20 backdrop-blur-sm text-white w-full sm:w-auto"
+                  onClick={() => {
+                    const section = document.getElementById('projects');
+                    section?.scrollIntoView({ behavior: 'smooth' });
+                  }}
+                >
+                  View My Work
+                  <motion.div
+                    animate={{ x: [0, 4, 0] }}
+                    transition={{ duration: 1.5, repeat: Infinity }}
+                  >
+                    <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                  </motion.div>
+                </Button>
+              </motion.div>
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
               >
-                Get in Touch
-              </Button>
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="border-white/30 text-white hover:text-white hover:border-white/60 bg-white/5 backdrop-blur-sm w-full sm:w-auto"
+                  onClick={() => {
+                    const section = document.getElementById('contact');
+                    section?.scrollIntoView({ behavior: 'smooth' });
+                  }}
+                >
+                  Get in Touch
+                </Button>
+              </motion.div>
             </motion.div>
           </motion.div>
         </motion.div>

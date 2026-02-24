@@ -172,6 +172,11 @@ in the select section of the bike, increaese the size of the bike icons so that 
 the hero section image should remain there and when the user scrolls the other sections would overlap that background image.
 improve the text font of the hhero section. also the position of the hero section text should be according to the background image.
 
+place the hero secction text in a way thaat is show in public\image.png. do this thing. also the text should be well crafted and animated according to the scroll and text would be readable
+in bmw theme the text is only white but i want white blue red gradient in texts icons etc everywhere.
+aslo in mv agusta theme the blue color is very dark make it ocean of light blue so that i looks good with the background
+dont use that much bolder text in hero setction heading also the" Welcome to the Garage" text with glass morphism looks very odd make that text creative and artistic with loads of heavy animations
+
 map and a rider that moves on map when we scroll
 1. about 2. skills 3. projects 4. experience 5. contact
 start your journy 

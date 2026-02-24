@@ -35,17 +35,17 @@
 
 [data-theme="bmw"] {
   --theme-primary: #FFFFFF;
-  --theme-accent: #000000;
-  --theme-glow: rgba(255, 255, 255, 0.3);
-  --theme-secondary: #E8E8E8;
+  --theme-accent: #0066FF;
+  --theme-glow: rgba(0, 102, 255, 0.4);
+  --theme-secondary: #FF3366;
   --theme-gradient-from: #FFFFFF;
-  --theme-gradient-to: #CCCCCC;
+  --theme-gradient-to: #0066FF;
   /* Theme-aware text colors */
   --text-color: #333333;
   --text-muted: rgba(0, 0, 0, 0.5);
   --text-inverse: #ffffff;
   --bg-card: rgba(232, 232, 232, 0.4);
-  --border-color: rgba(0, 0, 0, 0.2);
+  --border-color: rgba(0, 102, 255, 0.3);
   --icon-primary: var(--theme-primary);
   --icon-secondary: var(--theme-accent);
 }
@@ -85,18 +85,18 @@
 }
 
 [data-theme="mvagusta"] {
-  --theme-primary: #0F3460;
-  --theme-accent: #16A085;
-  --theme-glow: rgba(22, 160, 133, 0.5);
-  --theme-secondary: #01D4D4;
-  --theme-gradient-from: #0F3460;
-  --theme-gradient-to: #16A085;
+  --theme-primary: #00B4D8;
+  --theme-accent: #0096C7;
+  --theme-glow: rgba(0, 180, 216, 0.5);
+  --theme-secondary: #00D9FF;
+  --theme-gradient-from: #00B4D8;
+  --theme-gradient-to: #00D9FF;
   /* Theme-aware text colors */
   --text-color: #ffffff;
   --text-muted: rgba(255, 255, 255, 0.6);
   --text-inverse: #000000;
   --bg-card: rgba(28, 28, 28, 0.6);
-  --border-color: rgba(15, 52, 96, 0.3);
+  --border-color: rgba(0, 180, 216, 0.3);
   --icon-primary: var(--theme-primary);
   --icon-secondary: var(--theme-accent);
 }
@@ -268,17 +268,20 @@ body {
 
 .hero-title {
   font-family: var(--font-racing);
-  font-size: clamp(3rem, 10vw, 8rem);
-  color: #fff;
+  font-size: clamp(2rem, 7vw, 5.5rem);
+  color: #ffffff;
   text-shadow:
-    0 0 30px var(--theme-glow),
-    0 0 60px var(--theme-glow),
-    0 0 100px rgba(0, 0, 0, 0.5);
+    0 0 20px var(--theme-glow),
+    0 0 40px var(--theme-glow);
   letter-spacing: 0.05em;
   text-transform: uppercase;
-  font-weight: 900;
+  font-weight: 500;
   line-height: 1.1;
   font-feature-settings: 'kern' 1;
+  background: linear-gradient(135deg, #ffffff 0%, #ffffff 60%, var(--theme-accent) 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .hero-subtitle {
@@ -296,6 +299,42 @@ body {
   display: inline-block;
   font-weight: 600;
   text-shadow: 0 0 10px var(--theme-glow);
+  position: relative;
+  overflow: hidden;
+  animation: subtitleAnimation 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.hero-subtitle::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  animation: shimmer 3s infinite;
+}
+
+@keyframes subtitleAnimation {
+  0% {
+    opacity: 0;
+    transform: translateY(-30px) scale(0.8);
+    filter: blur(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
 }
 
 /* === GLASSMORPHISM CARD === */

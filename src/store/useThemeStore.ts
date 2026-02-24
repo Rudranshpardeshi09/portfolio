@@ -5,23 +5,23 @@ import { persist } from 'zustand/middleware';
  * Theme configuration interface
  */
 export interface ThemeConfig {
-  id: string;
-  label: string;
-  primaryColor: string;
-  accentColor: string;
-  glowColor: string;
-  secondaryColor: string;
-  iconPath: string;
-  gradientFrom: string;
-  gradientTo: string;
+    id: string;
+    label: string;
+    primaryColor: string;
+    accentColor: string;
+    glowColor: string;
+    secondaryColor: string;
+    iconPath: string;
+    gradientFrom: string;
+    gradientTo: string;
 }
 
 /**
  * Theme store state interface
  */
 interface ThemeState {
-  activeTheme: string;
-  setTheme: (themeId: string) => void;
+    activeTheme: string;
+    setTheme: (themeId: string) => void;
 }
 
 /**
@@ -43,13 +43,13 @@ export const THEMES: Record<string, ThemeConfig> = {
     bmw: {
         id: 'bmw',
         label: 'BMW S1000RR',
-        primaryColor: '#FFFFFF',            // White
-        accentColor: '#000000',             // Black
-        glowColor: 'rgba(255, 255, 255, 0.3)',
-        secondaryColor: '#E8E8E8',          // Light Gray
+        primaryColor: '#FFFFFF',            // White base
+        accentColor: '#0066FF',             // Blue
+        glowColor: 'rgba(0, 102, 255, 0.4)',
+        secondaryColor: '#FF3366',          // Red
         iconPath: '/bike icons/bmw-icon.png',
         gradientFrom: '#FFFFFF',
-        gradientTo: '#CCCCCC',
+        gradientTo: '#0066FF',
     },
     hayabusa: {
         id: 'hayabusa',
@@ -76,13 +76,13 @@ export const THEMES: Record<string, ThemeConfig> = {
     mvagusta: {
         id: 'mvagusta',
         label: 'MV Agusta F4',
-        primaryColor: '#0F3460',        // Midnight Blue
-        accentColor: '#16A085',         // Teal/Cyan
-        glowColor: 'rgba(22, 160, 133, 0.5)',
-        secondaryColor: '#01D4D4',      // Bright Cyan
+        primaryColor: '#00B4D8',        // Ocean Light Blue
+        accentColor: '#0096C7',         // Lighter Ocean Blue
+        glowColor: 'rgba(0, 180, 216, 0.5)',
+        secondaryColor: '#00D9FF',      // Bright Cyan
         iconPath: '/bike icons/mv-augusta.png',
-        gradientFrom: '#0F3460',
-        gradientTo: '#16A085',
+        gradientFrom: '#00B4D8',
+        gradientTo: '#00D9FF',
     },
 };
 
@@ -90,7 +90,7 @@ export const THEMES: Record<string, ThemeConfig> = {
  * Zustand theme store with localStorage persistence
  * Manages the active bike theme across the entire portfolio
  */
-export const useThemeStore = create<ThemeState>(
+export const useThemeStore = create<ThemeState>()(
     persist(
         (set) => ({
             activeTheme: 'ducati',
