@@ -2,11 +2,9 @@ import React from 'react';
 import { motion, MotionProps } from 'framer-motion';
 import { cn } from '@/lib/utils';
 
-interface GlassCardProps extends React.HTMLAttributes<HTMLDivElement> {
+interface GlassCardProps extends React.ComponentPropsWithoutRef<typeof motion.div> {
   animated?: boolean;
   hoverEffect?: boolean;
-  children: React.ReactNode;
-  className?: string;
 }
 
 /**
@@ -26,18 +24,18 @@ export const GlassCard = React.forwardRef<HTMLDivElement, GlassCardProps>(
     ref,
   ) => {
     const baseClasses = cn(
-      'relative rounded-2xl p-6 backdrop-blur-md border border-white/20 bg-gradient-to-br from-white/10 to-white/5 transition-all duration-300',
+      'relative rounded-2xl p-4 sm:p-6 backdrop-blur-md border border-white/20 bg-gradient-to-br from-white/10 to-white/5 transition-all duration-300',
       hoverEffect && 'hover:border-white/30 hover:bg-white/15 hover:shadow-glass',
       className,
     );
 
     const motionProps: MotionProps = animated
       ? {
-          initial: { opacity: 0, y: 20 },
-          whileInView: { opacity: 1, y: 0 },
-          viewport: { once: true, amount: 0.3 },
-          transition: { duration: 0.6, ease: 'easeOut' },
-        }
+        initial: { opacity: 0, y: 20 },
+        whileInView: { opacity: 1, y: 0 },
+        viewport: { once: true, amount: 0.3 },
+        transition: { duration: 0.6, ease: 'easeOut' },
+      }
       : {};
 
     return (
@@ -52,7 +50,7 @@ export const GlassCard = React.forwardRef<HTMLDivElement, GlassCardProps>(
 
         {/* Content */}
         <div className="relative z-10">
-          {children}
+          {children as React.ReactNode}
         </div>
       </motion.div>
     );

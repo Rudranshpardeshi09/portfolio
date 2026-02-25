@@ -135,7 +135,7 @@ export const ProjectsPage: React.FC = () => {
 
         {/* Projects Grid with 3D flip animations */}
         <motion.div
-          className="grid md:grid-cols-2 lg:grid-cols-3 gap-6"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true, amount: 0.2 }}

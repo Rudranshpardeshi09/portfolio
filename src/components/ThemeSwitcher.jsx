@@ -35,7 +35,7 @@ const ThemeSwitcher = () => {
     };
 
     return (
-        <div className="fixed bottom-8 left-8 z-[1000] pointer-events-none">
+        <div className="fixed bottom-4 right-4 md:bottom-8 md:left-8 z-[1000] pointer-events-none transform scale-75 md:scale-100 origin-bottom-right md:origin-bottom-left">
             {/* Container for theme options with absolute positioning */}
             <div className="relative w-24 h-24 pointer-events-auto">
                 {/* Theme options - absolutely positioned */}

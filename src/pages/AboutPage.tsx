@@ -17,7 +17,7 @@ const TimelineItem: React.FC<{
 
   return (
     <motion.div
-      className="relative pl-8 pb-12"
+      className="relative pl-8 pb-8 md:pb-12"
       initial={{ opacity: 0, x: isEven ? -50 : 50, rotateY: isEven ? -45 : 45 }}
       whileInView={{
         opacity: 1,
@@ -88,7 +88,7 @@ const InfoCard: React.FC<{ icon: React.ReactNode; title: string; content: string
   const direction = directions[index % 3];
 
   const getInitialState = () => {
-    switch(direction) {
+    switch (direction) {
       case 'fromLeft': return { opacity: 0, x: -100, rotateZ: -45 };
       case 'fromTop': return { opacity: 0, y: -100, rotateX: -90 };
       case 'fromRight': return { opacity: 0, x: 100, rotateZ: 45 };
@@ -247,7 +247,7 @@ export const AboutPage: React.FC = () => {
 
         {/* Stats Section with rotating cards */}
         <motion.div
-          className="grid md:grid-cols-3 gap-6"
+          className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true, amount: 0.2 }}

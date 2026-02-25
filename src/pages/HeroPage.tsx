@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { motion, useViewportScroll, useTransform } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { ArrowRight, Sparkles } from 'lucide-react';
 import {
   Button,
@@ -68,7 +68,7 @@ const SkillCircle: React.FC<{ color: string; skill: string; delay: number }> = (
  * Landing page with hero background image, garage theme heading, and skill palette with parallax zoom effect
  */
 export const HeroPage: React.FC = () => {
-  const { scrollY } = useViewportScroll();
+  const { scrollY } = useScroll();
   // Create parallax zoom effect: scale from 1 at top to 1.2 when scrolled 600px
   const backgroundScale = useTransform(scrollY, [0, 600], [1, 1.2]);
 

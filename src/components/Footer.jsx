@@ -21,7 +21,7 @@ export const Footer = () => {
                     </div>
 
                     {/* Social links */}
-                    <div className="flex items-center gap-6">
+                    <div className="flex flex-wrap justify-center items-center gap-4 sm:gap-6">
                         {[
                             { label: 'GitHub', icon: '💻', url: '#' },
                             { label: 'LinkedIn', icon: '🔗', url: '#' },
@@ -46,7 +46,7 @@ export const Footer = () => {
                 <div className="glow-line w-full opacity-30" />
 
                 {/* Bottom section */}
-                <div className="flex flex-col md:flex-row justify-between items-center gap-4 mt-8">
+                <div className="flex flex-col md:flex-row justify-between items-center gap-4 mt-8 text-center md:text-left">
                     <p className="text-gray-500 text-sm font-body">
                         © {currentYear} Rudransh's Garage. Built with ❤️ and high octane fuel.
                     </p>

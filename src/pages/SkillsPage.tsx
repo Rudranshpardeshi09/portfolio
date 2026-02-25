@@ -143,7 +143,7 @@ export const SkillsPage: React.FC = () => {
 
         {/* Category Filter with enhanced animations */}
         <motion.div
-          className="flex flex-wrap justify-center gap-3 mb-12"
+          className="grid grid-cols-2 sm:flex sm:flex-wrap justify-center gap-2 sm:gap-3 mb-8 md:mb-12"
           initial={{ opacity: 0, scale: 0.8 }}
           whileInView={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.6, delay: 0.1 }}
@@ -186,32 +186,32 @@ export const SkillsPage: React.FC = () => {
               style: { color: getIconColor(index), filter: `drop-shadow(0 0 8px ${theme.glowColor})` }
             });
             return (
-            <motion.div
-              key={skill.name}
-              initial={{ opacity: 0, rotateX: -90, y: 50 }}
-              whileInView={{
-                opacity: 1,
-                rotateX: 0,
-                y: 0,
-              }}
-              transition={{
-                duration: 0.6,
-                delay: (index % 3) * 0.1,
-              }}
-              viewport={{ once: true, amount: 0.3 }}
-              whileHover={{
-                scale: 1.08,
-                rotateY: 5,
-              }}
-              style={{ perspective: '1200px' }}
-            >
-              <SkillCard
-                icon={coloredIcon}
-                name={skill.name}
-                proficiency={skill.proficiency}
-                description={skill.description}
-              />
-            </motion.div>
+              <motion.div
+                key={skill.name}
+                initial={{ opacity: 0, rotateX: -90, y: 50 }}
+                whileInView={{
+                  opacity: 1,
+                  rotateX: 0,
+                  y: 0,
+                }}
+                transition={{
+                  duration: 0.6,
+                  delay: (index % 3) * 0.1,
+                }}
+                viewport={{ once: true, amount: 0.3 }}
+                whileHover={{
+                  scale: 1.08,
+                  rotateY: 5,
+                }}
+                style={{ perspective: '1200px' }}
+              >
+                <SkillCard
+                  icon={coloredIcon}
+                  name={skill.name}
+                  proficiency={skill.proficiency}
+                  description={skill.description}
+                />
+              </motion.div>
             );
           })}
         </motion.div>

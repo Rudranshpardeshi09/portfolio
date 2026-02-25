@@ -92,7 +92,7 @@ export const TestimonialsPage: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4 }}
           >
-            <GlassCard className="p-12 text-center space-y-6">
+            <GlassCard className="p-6 md:p-12 text-center space-y-4 md:space-y-6">
               {/* Stars */}
               <div className="flex justify-center gap-1">
                 {Array.from({ length: testimonial.rating }).map((_, i) => (

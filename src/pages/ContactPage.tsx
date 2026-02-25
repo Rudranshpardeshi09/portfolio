@@ -72,10 +72,10 @@ export const ContactPage: React.FC = () => {
           Send me a message and I'll respond as soon as possible.
         </p>
 
-        <div className="grid md:grid-cols-3 gap-8">
+        <div className="grid md:grid-cols-3 gap-6 md:gap-8">
           {/* Contact Info */}
           <motion.div
-            className="space-y-6"
+            className="space-y-4 md:space-y-6"
             variants={MOTION_CONFIG.staggerContainer(0.1)}
             initial="hidden"
             whileInView="visible"
