@@ -267,7 +267,8 @@ export const ProjectsPage: React.FC = () => {
                       backgroundColor: `rgba(${parseInt(theme.primaryColor.slice(1, 3), 16)}, ${parseInt(theme.primaryColor.slice(3, 5), 16)}, ${parseInt(theme.primaryColor.slice(5, 7), 16)}, 0.15)`,
                       color: theme.primaryColor,
                       borderColor: theme.primaryColor,
-                      border: `1px solid`,
+                      borderWidth: '1px',
+                      borderStyle: 'solid',
                     }}
                   >
                     {tag}

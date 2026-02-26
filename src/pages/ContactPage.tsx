@@ -110,7 +110,8 @@ export const ContactPage: React.FC = () => {
               >
                 <GlassCard className="flex items-center gap-4 p-4 cursor-pointer transition-colors" style={{
                   borderColor: theme.primaryColor,
-                  border: `1px solid`,
+                  borderWidth: '1px',
+                  borderStyle: 'solid',
                   boxShadow: `0 0 15px ${theme.glowColor}`,
                 }}>
                   <div style={{ color: theme.primaryColor, filter: `drop-shadow(0 0 8px ${theme.glowColor})` }}>{item.icon}</div>
@@ -159,7 +160,8 @@ export const ContactPage: React.FC = () => {
                       style={{
                         backgroundColor: `rgba(${parseInt(theme.primaryColor.slice(1, 3), 16)}, ${parseInt(theme.primaryColor.slice(3, 5), 16)}, ${parseInt(theme.primaryColor.slice(5, 7), 16)}, 0.05)`,
                         borderColor: errors.name ? theme.primaryColor : 'rgba(255, 255, 255, 0.2)',
-                        border: `1px solid`,
+                        borderWidth: '1px',
+                        borderStyle: 'solid',
                         boxShadow: errors.name ? `0 0 12px ${theme.glowColor}` : 'none',
                         outline: 'none',
                       }}
@@ -192,7 +194,8 @@ export const ContactPage: React.FC = () => {
                       style={{
                         backgroundColor: `rgba(${parseInt(theme.primaryColor.slice(1, 3), 16)}, ${parseInt(theme.primaryColor.slice(3, 5), 16)}, ${parseInt(theme.primaryColor.slice(5, 7), 16)}, 0.05)`,
                         borderColor: errors.email ? theme.primaryColor : 'rgba(255, 255, 255, 0.2)',
-                        border: `1px solid`,
+                        borderWidth: '1px',
+                        borderStyle: 'solid',
                         boxShadow: errors.email ? `0 0 12px ${theme.glowColor}` : 'none',
                         outline: 'none',
                       }}
@@ -225,7 +228,8 @@ export const ContactPage: React.FC = () => {
                       style={{
                         backgroundColor: `rgba(${parseInt(theme.primaryColor.slice(1, 3), 16)}, ${parseInt(theme.primaryColor.slice(3, 5), 16)}, ${parseInt(theme.primaryColor.slice(5, 7), 16)}, 0.05)`,
                         borderColor: errors.subject ? theme.primaryColor : 'rgba(255, 255, 255, 0.2)',
-                        border: `1px solid`,
+                        borderWidth: '1px',
+                        borderStyle: 'solid',
                         boxShadow: errors.subject ? `0 0 12px ${theme.glowColor}` : 'none',
                         outline: 'none',
                       }}
@@ -258,7 +262,8 @@ export const ContactPage: React.FC = () => {
                       style={{
                         backgroundColor: `rgba(${parseInt(theme.primaryColor.slice(1, 3), 16)}, ${parseInt(theme.primaryColor.slice(3, 5), 16)}, ${parseInt(theme.primaryColor.slice(5, 7), 16)}, 0.05)`,
                         borderColor: errors.message ? theme.primaryColor : 'rgba(255, 255, 255, 0.2)',
-                        border: `1px solid`,
+                        borderWidth: '1px',
+                        borderStyle: 'solid',
                         boxShadow: errors.message ? `0 0 12px ${theme.glowColor}` : 'none',
                         outline: 'none',
                       }}
