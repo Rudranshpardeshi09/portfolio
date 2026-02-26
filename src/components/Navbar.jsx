@@ -30,10 +30,23 @@ const Navbar = () => {
     }, []);
 
     const handleNavClick = (e, href) => {
-        e.preventDefault();
-        const target = document.querySelector(href);
-        if (target) {
-            target.scrollIntoView({ behavior: 'smooth' });
+        // Only prevent default if it's a hash link that we want to smooth scroll to
+        if (href.startsWith('#')) {
+            e.preventDefault();
+            const targetId = href.replace('#', '');
+            const targetElement = document.getElementById(targetId);
+
+            if (targetElement) {
+                // Determine header offset (height of navbar)
+                const headerOffset = window.innerWidth < 768 ? 64 : 80;
+                const elementPosition = targetElement.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: 'smooth'
+                });
+            }
             setIsMobileMenuOpen(false);
         }
     };

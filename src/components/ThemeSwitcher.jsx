@@ -14,19 +14,23 @@ const ThemeSwitcher = () => {
 
     const themeEntries = Object.values(THEMES);
 
-    // Calculate positions for the 5 options (fanning upward and to the right)
+    // Use vertically stacked positions with a slight S-curve or scattered pattern
+    // so they float directly opening above the main theme selector in a random vertical line.
     const getOptionPosition = (index, total) => {
-        // Fan from 45 degrees (up-right) to 120 degrees (up-left)
-        const startAngle = 45;   // degrees
-        const endAngle = 120;     // degrees
-        const angle = startAngle + (endAngle - startAngle) * (index / (total - 1));
-        const rad = (angle * Math.PI) / 180;
-        const radius = 100;       // Distance from center
+        const positions = [
+            { x: 0, y: -70 },     // directly above
+            { x: -5, y: -130 },   // slight left
+            { x: 5, y: -190 },    // slight right
+            { x: -2, y: -250 },   // slight left
+            { x: 3, y: -310 },    // slight right
+        ];
 
-        return {
-            x: Math.cos(rad) * radius,
-            y: -(Math.sin(rad) * radius),  // Negative because Y increases downward
-        };
+        // Fallback for more items
+        if (index >= positions.length) {
+            return { x: -80, y: -80 };
+        }
+
+        return positions[index];
     };
 
     const handleSelect = (themeId) => {

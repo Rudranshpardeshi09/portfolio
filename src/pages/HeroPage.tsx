@@ -82,7 +82,7 @@ export const HeroPage: React.FC = () => {
   const contentBlur = useTransform(scrollY, [0, 300], [0, 5]);
 
   return (
-    <Section id="hero" className="hero-section relative overflow-visible">
+    <Section id="hero" className="hero-section relative overflow-hidden">
       {/* Background image with parallax zoom effect */}
       <motion.div
         className="hero-bg"

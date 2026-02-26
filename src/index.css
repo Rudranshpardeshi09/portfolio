@@ -110,6 +110,7 @@
 
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
 body {
@@ -321,6 +322,7 @@ body {
     transform: translateY(-30px) scale(0.8);
     filter: blur(10px);
   }
+
   100% {
     opacity: 1;
     transform: translateY(0) scale(1);
@@ -332,6 +334,7 @@ body {
   0% {
     left: -100%;
   }
+
   100% {
     left: 100%;
   }
@@ -849,5 +852,9 @@ body {
   .theme-option img {
     width: 34px;
     height: 34px;
+  }
+
+  .theme-option-tooltip {
+    display: none;
   }
 }
