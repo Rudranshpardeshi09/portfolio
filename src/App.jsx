@@ -1,67 +1,43 @@
-import React, { useState, useEffect } from 'react';
-import WelcomeScreen from '@/components/WelcomeScreen';
-import Navbar from '@/components/Navbar';
-import ThemeSwitcher from '@/components/ThemeSwitcher';
-import { Footer } from '@/components/Footer';
-import HeroPage from '@/pages/HeroPage';
-import AboutPage from '@/pages/AboutPage';
-import SkillsPage from '@/pages/SkillsPage';
-import ProjectsPage from '@/pages/ProjectsPage';
-import TestimonialsPage from '@/pages/TestimonialsPage';
-import ContactPage from '@/pages/ContactPage';
-import { useThemeStore } from '@/store/useThemeStore';
+import { useEffect } from 'react';
+import { Routes, Route } from 'react-router-dom';
+import { AnimatePresence } from 'framer-motion';
 
-/**
- * Main App Component
- * Bike-themed portfolio with welcome screen, navbar, and all sections
- */
-function App() {
-  const [showWelcome, setShowWelcome] = useState(true);
-  const activeTheme = useThemeStore((state) => state.activeTheme);
+import ProtectedRoute from './components/ui/ProtectedRoute';
+import GlassmorphicToast from './components/ui/GlassmorphicToast';
 
-  // Sync theme with DOM data-theme attribute for CSS variables
-  useEffect(() => {
-    document.documentElement.setAttribute('data-theme', activeTheme);
-  }, [activeTheme]);
+// Pages
+import BikeSelectionPage from './components/pages/BikeSelectionPage';
+import MapPage from './components/pages/MapPage';
+import AboutPage from './components/pages/AboutPage';
+import SkillsPage from './components/pages/SkillsPage';
+import ProjectsPage from './components/pages/ProjectsPage';
+import ExperiencePage from './components/pages/ExperiencePage';
+import ContactPage from './components/pages/ContactPage';
 
+export default function App() {
   return (
-    <div className="min-h-screen bg-garage-dark text-white">
-      {/* Welcome screen overlay */}
-      {showWelcome && (
-        <WelcomeScreen onComplete={() => setShowWelcome(false)} />
-      )}
+    <div className="relative w-full h-full min-h-screen bg-black text-white overflow-hidden">
+      {/* Subtle noise overlay */}
+      <div className="noise-overlay" />
 
-      {/* Navbar */}
-      <Navbar />
+      {/* Toast notifications */}
+      <GlassmorphicToast />
 
-      {/* Floating Theme Switcher (Bottom-Left) */}
-      <ThemeSwitcher />
+      {/* Routing */}
+      <AnimatePresence mode="wait">
+        <Routes>
+          {/* Public Landing Route */}
+          <Route path="/" element={<BikeSelectionPage />} />
 
-      {/* Main content */}
-      <main className="relative z-10">
-        {/* Hero / Garage section */}
-        <HeroPage />
-
-        {/* About the Rider */}
-        <AboutPage />
-
-        {/* Engine Specs (Skills) */}
-        <SkillsPage />
-
-        {/* My Builds (Projects) */}
-        <ProjectsPage />
-
-        {/* Pit Crew Says (Testimonials) */}
-        <TestimonialsPage />
-
-        {/* Drop a Message (Contact) */}
-        <ContactPage />
-      </main>
-
-      {/* Footer */}
-      <Footer />
+          {/* Protected Interactive Routes */}
+          <Route path="/map" element={<ProtectedRoute><MapPage /></ProtectedRoute>} />
+          <Route path="/about" element={<ProtectedRoute><AboutPage /></ProtectedRoute>} />
+          <Route path="/skills" element={<ProtectedRoute><SkillsPage /></ProtectedRoute>} />
+          <Route path="/projects" element={<ProtectedRoute><ProjectsPage /></ProtectedRoute>} />
+          <Route path="/experience" element={<ProtectedRoute><ExperiencePage /></ProtectedRoute>} />
+          <Route path="/contact" element={<ProtectedRoute><ContactPage /></ProtectedRoute>} />
+        </Routes>
+      </AnimatePresence>
     </div>
   );
 }
-
-export default App;

@@ -1,186 +1,55 @@
-# Rudransh's Professional Portfolio
+# React + Vite
 
-A stunning, production-ready portfolio website featuring heavy animations, interactive backgrounds, and modern web technologies. Built with Vite + React, Tailwind CSS, and Framer Motion.
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-Live Demo: https://portfolio-demo.vercel.app (Coming Soon)
+Currently, two official plugins are available:
 
-## Quick Start
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-```bash
-# Install dependencies
-npm install
+## React Compiler
 
-# Start development server
-npm run dev
+The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
 
-# Build for production
-npm run build
-```
+## Expanding the ESLint configuration
 
-The site opens at `http://localhost:5173`
-
-## Tech Stack
-
-- **Framework**: Vite + React 18+ with TypeScript
-- **Styling**: Tailwind CSS with custom design tokens
-- **Animations**: Framer Motion for UI motion
-- **Background**: Canvas-based particle system with cursor tracking
-- **Forms**: React Hook Form + Zod
-- **Icons**: Lucide React
-
-## Features
-
-✨ Hero section with typewriter animation
-📖 About page with timeline and stats
-💻 Skills showcase with progress bars
-🚀 Featured projects grid with modals
-💬 Contact form with validation
-🗣️ Testimonials carousel
-🎨 Interactive particle background
-🔗 Social links footer
-
-## Real Projects Included
-
-- [Auto-Attendance System](https://github.com/Rudranshpardeshi09/Auto-Attendance-system) - Facial recognition + liveness detection
-- [Inventory Management](https://github.com/Rudranshpardeshi09/inventory_management) - Django enterprise app
-- [Sales Forecast AI](https://github.com/Rudranshpardeshi09/Ecommerce-Sales-Forecast-AI) - ML/Data science
-- [StudyMind-AI](https://github.com/Rudranshpardeshi09/StudyMind-AI) - Full-stack AI app
-- [Certificate Generator](https://github.com/Rudranshpardeshi09/Certificate-Generator) - Web app on Vercel
-
-## Project Structure
-
-```
-src/
-├── components/        # Reusable UI components
-├── pages/            # Page components (Hero, About, Skills, etc.)
-├── config/           # Animation tokens and config
-├── lib/              # Utility functions
-├── App.jsx           # Main app
-└── index.css         # Global styles
-```
-
-## Key Files
-
-- `src/config/motion.config.ts` - Centralized animation tokens
-- `src/components/ButtonGlassCard.tsx` - Core reusable components
-- `src/components/AnimatedBackground.tsx` - Interactive particle background
-- `tailwind.config.js` - Design tokens and theme config
-- `vite.config.js` - Path aliases (@) configuration
-
-## Customization
-
-### Update Content
-- Hero: `src/pages/HeroPage.tsx`
-- About: `src/pages/AboutPage.tsx`
-- Skills: `src/pages/SkillsPage.tsx`
-- Projects: `src/pages/ProjectsPage.tsx` (update projects array)
-- Contact: `src/pages/ContactPage.tsx`
-- Footer: `src/components/Footer.tsx`
-
-### Modify Design
-- Colors: `tailwind.config.js` (primary, accent, colors section)
-- Fonts: `tailwind.config.js` (fontSize)
-- Animations: `src/config/motion.config.ts` (durations, easings)
-
-## Accessibility
-
-✅ Keyboard navigation (Tab, Enter, Escape)
-✅ ARIA labels and semantic HTML
-✅ Respects `prefers-reduced-motion`
-✅ WCAG AA color contrast
-✅ Focus states on all interactive elements
-
-## Performance
-
-- Canvas particles disabled on mobile
-- GPU-accelerated animations with `transform`
-- HTML image lazy-loading
-- Efficient re-renders
-- Lighthouse target: Performance >50, Accessibility >90
-
-## Deployment
-
-### Vercel (Easiest)
-1. Push to GitHub
-2. Go to vercel.com → Connect repo → Deploy
-3. Auto-detects Vite configuration
-
-### Build & Deploy Anywhere
-```bash
-npm run build  # Creates dist/ folder
-# Upload dist/ to any static hosting
-```
-
-### Other Platforms
-- Netlify: `netlify deploy --prod --dir=dist`
-- GitHub Pages: Update `vite.config.js` base path
-- Firebase: `firebase deploy`
-
-## Troubleshooting
-
-**Port 5173 in use**: `npm run dev -- --port 3000`
-
-**Module errors**: `rm -rf node_modules && npm install`
-
-**Cursor/animations not showing**: Check browser console, disable extensions
-
-**Build fails**: Ensure Node.js 16+ installed
-
-## Browser Support
-
-✅ Chrome 90+, Firefox 88+, Safari 14+, Mobile browsers
-❌ IE 11
-
-## Contact
-
-- GitHub: [@Rudranshpardeshi09](https://github.com/Rudranshpardeshi09)
-- LinkedIn: [Rudransh Pardeshi](https://linkedin.com/in/rudransh-pardeshi)
-- Email: hello@example.com
-
----
-
-**Built with React, Tailwind CSS, and Framer Motion**
+If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
 
 
-prompt 
-you are a professional frontend developer and ui/ux expert.
-now i want :-
-1. when the user load the page the text that is appearing "welcome to my garage" should be in white color with that ducati image. and the font should be changed . instead of making it slant use straight  fonts.
-2. in the nav bar that icon with the rg text should be selected from the icons that i have in my  portfolio\public\bike icons , 
-i want this icon to be selected dynamically. 
-so for that you have to :-
-create a small circle at the bottom left of the page that will be floating . this button will provide the functionality of changing the theme of the whole project like for eg:( the default one will be duggati means - red, 
-no wwhen the user clicks the circle there should be option like bmw refers to whhite, hayabusa refers to yellow , kawasaki ninja h2 refers to neon , mv augusta refers to blue.)
-so based on the user selection the of this whole project shoul d be changed. also it should persist until the user chosses another. and all those options will also be floating near that main circle.
-funtions :-
-if the user chosses kawasaki ninja then the theme should be black + neon and the nav bar icon should be changed to ninja icon.
-if user chooses bmw then the theme should be based on black blue white color and icon shouldbe changed to bmw icon.
-3. now the hero section 
-in this the background image should be placed from public\hero-sec.png this path. the image at the background should be backdroped with appropriate value. and the heading "Rudransh's
-Garage" should be designed and placed according to the background image(position it at bottom and center of the semi circle formed by the bikes ).
-that text should compliment the background image.
-4. i want timeline 3d animations for this as the user scroll thimgs would come in   , out ,rotate, flip,etc from diffrent directions.
-5. use glass morphism white text combo so some creativity and do the things
+in this i want:
 
-act a professional ui/ux developer who has 5 years of experience . now by showing you creativity perform following taskss:-
+1. keep margin padding in mind , the things you have designed are not well spaced and placed. for a responsive website.
 
-the animations of wecolme to the garrage is not smooth . make that super smooth
-increase the size of the images in the nav bar that is at the left side of rg text
-all chnage the theme of Engine Specs- skills, My Builds-projects , What Clients Say-testimonials, Get In Touch-contact
-and footer according to the bike selected forn the options. also the chnage the text ad icons of these
-in the select section of the bike, increaese the size of the bike icons so that they can be visible and contained in that circle. sclae and stretch it cover the circle.
-the hero section image should remain there and when the user scrolls the other sections would overlap that background image.
-improve the text font of the hhero section. also the position of the hero section text should be according to the background image.
+ 2. there would be separate pages for all the sections (About Skills Projects Experience Contact)
 
-place the hero secction text in a way thaat is show in public\image.png. do this thing. also the text should be well crafted and animated according to the scroll and text would be readable
-in bmw theme the text is only white but i want white blue red gradient in texts icons etc everywhere.
-aslo in mv agusta theme the blue color is very dark make it ocean of light blue so that i looks good with the background
-dont use that much bolder text in hero setction heading also the" Welcome to the Garage" text with glass morphism looks very odd make that text creative and artistic with loads of heavy animations
+flow:-a. first the user will lend to the bike selection page where he will select bike. no other section would be visible until and unless the user selects the bike.
 
-map and a rider that moves on map when we scroll
-1. about 2. skills 3. projects 4. experience 5. contact
-start your journy 
-1. pick your bike 
-2. scroll to move to the destination
-3.on about section click to enter it
-4. if user skips one of section show this locations is left you should visit it once in a atoast form with glassa morphic effect and a bike icon on the left most side 
+b. after the selection the user will see a map(that will be a loop of any shape) on the full screen on which destinations and a moving circcle would be their that will indicate in which location we are currently in. no other section would be visible.
+
+c. when the user scroll ,the circular icon will move on to the map that will be locating the locations in order about>Skills> Projects> Experience> Contact(at this point their would be button that will throw back to about section. if clicked)
+
+d. when the user click about section there would be an animation of zoom in to about and then the about page will appear. and if user want to exit there should be button " back to map " to go back to the map. the present state of the user will be map form their it will move ahead.
+
+this will be similar for all the sections. and at the end if user will reach contact, he clicks exit then it will take back to map page . and their if user click back button then it will move to the bike selection page.
+
+3. in that about section there would be a photo of mine (in folder public/my-pfp/pfp) that will be placed at left hand side with a proper about my self paragraph. the pfp image should have floating animations. the text should be written in proper and in a humanized form. 
+
+4. in skills page i want flip card animations on which there would be a tech logo that i have in (public/tech logos folder) then on flip they will show the skill name and a bar that represents how much i know about that.
+
+5. keep the project section same but should have a separate page with proper margin and padding between elements text icons etc.
+
+6. same with experience section should have a separate page with proper margin and padding between elements text icons etc.
+
+7. same with get in touch should have a separate page with proper margin and padding between elements text icons etc.
+
+
+
+rules:-
+
+1. it should have protected routes
+
+2. it should be responsive 
+
+3. it should keep margin padding spacing very neat and tidy. avoid overlapping of elements.
+
+4. should have animated icons for this whole project. (refer lord icon,etc)
