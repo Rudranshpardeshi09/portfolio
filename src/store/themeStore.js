@@ -86,7 +86,7 @@ if (typeof window !== 'undefined') {
     applyThemeToDom(BIKE_THEMES[initialBike]);
 }
 
-const useThemeStore = create((set) => ({
+const useThemeStore = create((set, get) => ({
     selectedBike: initialBike,
     theme: BIKE_THEMES[initialBike],
     bikeSelected: !!savedBike,
@@ -104,6 +104,15 @@ const useThemeStore = create((set) => ({
             theme,
             bikeSelected: true,
         });
+    },
+    getBackgroundStyle: () => {
+        const theme = get().theme;
+        if (theme.key === 'ducati') return { backgroundColor: '#D1001C' }; // Pure Ducati Red
+        if (theme.key === 'bmw') return { background: 'linear-gradient(135deg, #0066B1 0%, #FFFFFF 50%, #D21F3C 100%)' };
+        if (theme.key === 'ninja') return { background: 'linear-gradient(135deg, #39FF14 0%, #00CC00 100%)' };
+        if (theme.key === 'hayabusa') return { background: 'linear-gradient(135deg, #FFCC00 0%, #FF8800 100%)' };
+        if (theme.key === 'agusta') return { background: 'linear-gradient(135deg, #0088FF 0%, #005DA4 100%)' };
+        return { backgroundColor: theme.primary };
     },
 }));
 

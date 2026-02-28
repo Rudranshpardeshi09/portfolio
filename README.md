@@ -53,3 +53,29 @@ rules:-
 3. it should keep margin padding spacing very neat and tidy. avoid overlapping of elements.
 
 4. should have animated icons for this whole project. (refer lord icon,etc)
+
+
+
+in this without changing the functionality of the code and just changing the stated ones implement the following 
+now in scroll map section:-
+1. the scroll should remain same with same functinality
+2. the background of this page would be based on the selection of the bike like(for ducati - cheery red, for bmw - mixture of blue white red, for hayabusa, ninja ,agusta- the colors that we have in the themestore respectively).
+3. the color of the scroll would be white and the text color is also white for this.
+
+4.align the map contents at the left. their would be  an image at thhe right covering half the width of the page just before the boundary of the map. it will be image of the bike that the user will select in the starting .you choose that image form (public\solo-bike-map-comp) this path. 
+5. need a live background animation such that when the user is at the about section and not started scrolling yet ,the biike has its headlights of , as soon as the user starts scrolling the bike headlighht will glow up all teh way to contact. and by crossing the contact on the map the headlight will be switched off. you can choose the image form the (public\solo-bike-map-comp\ducati-img--for ducati) i dont have images just leave a mark so that iwill replace that mark with real image.
+6. in the map when we are scrolling the points should be highlited as soon as the moving circle passed the location point.  like fro eg. if it passes the about section it would be highlighted till the half way before the next point . form there it will hiihlight the skill section. do this same thing in whole map wilth all sections.
+7. give some sapcing of top content (Scroll to navigate the journey, switch machine) form the top. there is no margine padding given too them form the top .
+
+
+
+
+
+in this without changing the functionality of the code and just changing the stated ones implement the following 
+do this for whole project :-
+1. there is no proper margin padding with the boundaries of the container and the text within it .
+2. the background color of thhe sbout me section is not matcching with the map section or the bike colors that we have selected. . make the bavkground color similar for all the section of that selected bike (for eg. we have selected ducatii to the background color all the section would become cherry red. this would be the pattern for all the bikes.)
+3. the website should be responsive . it should automatically adjust with the size of the screen.
+now in about section:-
+1. in the animation of riders info ,the background color should match the bike that has been selected by the user and th e text should be white 
+2.remove the about me hover animation

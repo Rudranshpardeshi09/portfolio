@@ -37,65 +37,91 @@ export default function AboutSection() {
     return (
         <section id="about" ref={sectionRef} className="section-container">
             <div className="section-inner">
-                <div className="flex flex-col md:flex-row items-center gap-12 lg:gap-20">
-                    {/* Image Left */}
-                    <div ref={imageRef} className="flex-shrink-0">
-                        <div className="relative">
-                            {/* Tire frame around image */}
+                <div className="flex flex-col lg:flex-row items-center gap-10 lg:gap-0 py-16 min-h-screen px-4 md:px-0">
+                    {/* Image Left - 50% split */}
+                    <div ref={imageRef} className="lg:w-1/2 flex justify-center items-center">
+                        <div className="relative group">
+                            {/* Tire frame around image - slightly more subtle but large */}
                             <div
-                                className="w-56 h-56 sm:w-64 sm:h-64 lg:w-72 lg:h-72 rounded-full p-2 mx-auto"
+                                className="w-64 h-64 sm:w-80 sm:h-80 lg:w-[480px] lg:h-[480px] rounded-full p-4 mx-auto flex items-center justify-center transition-all duration-700"
                                 style={{
-                                    background: `conic-gradient(from 0deg, ${theme.primary}, #333, ${theme.primary}, #333, ${theme.primary})`,
-                                    boxShadow: `0 0 40px rgba(${theme.primaryRgb}, 0.2)`,
+                                    background: `conic-gradient(from 180deg, rgba(255,255,255,0.2), #1a1a1a, rgba(255,255,255,0.2), #1a1a1a, rgba(255,255,255,0.2))`,
+                                    boxShadow: `0 30px 60px rgba(0,0,0,0.5)`,
                                 }}
                             >
-                                <div className="w-full h-full rounded-full bg-gradient-to-br from-gray-800 to-gray-900 overflow-hidden border-4 border-gray-700 animate-float">
+                                <div className="w-full h-full rounded-full bg-slate-900 overflow-hidden border-[12px] border-gray-800 animate-float relative shadow-inner">
                                     <img
                                         src="/my-pfp/pfp.jpg"
                                         alt="Rudransh"
-                                        className="w-full h-full object-cover mix-blend-overlay opacity-90 transition-all hover:scale-110 duration-700"
+                                        className="w-full h-full object-cover object-[center_10%] opacity-100 transition-all duration-1000"
                                     />
+                                    {/* Matte finish overlay */}
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none"></div>
                                 </div>
                             </div>
-                            {/* Decorative ring */}
+                            {/* Decorative ring - more refined */}
                             <div
-                                className="absolute -inset-3 rounded-full border border-dashed opacity-30 animate-[spin_20s_linear_infinite]"
-                                style={{ borderColor: theme.primary }}
+                                className="absolute -inset-8 rounded-full border border-white/20 opacity-50 animate-[spin_40s_linear_infinite]"
+                                style={{ borderStyle: 'double', borderWidth: '4px' }}
                             />
                         </div>
                     </div>
 
-                    {/* Text Right */}
-                    <div ref={textRef} className="flex-1">
-                        <h2 className="section-title text-gradient">About Me</h2>
-                        <h3
-                            className="text-xl sm:text-2xl font-semibold mb-4 mt-6"
-                            style={{ color: theme.primary }}
-                        >
-                            {ABOUT_DATA.title}
-                        </h3>
-                        <p className="text-gray-400 leading-relaxed mb-4">{ABOUT_DATA.bio}</p>
-                        <p className="text-gray-500 leading-relaxed mb-8">{ABOUT_DATA.bio2}</p>
-
-                        {/* Stats */}
-                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-                            {ABOUT_DATA.stats.map((stat) => (
-                                <div
-                                    key={stat.label}
-                                    className="glass rounded-xl p-4 text-center transition-all duration-300 hover:scale-105"
+                    {/* Text Right - Expanded width with Matte Glass Card */}
+                    <div ref={textRef} className="lg:w-[55%] flex flex-col justify-center px-8 lg:px-8">
+                        <div className="w-full mt-4 mb-4 lg:mt-4 lg:mb-4 glass-strong p-10 lg:p-14 rounded-[40px] border-white/10 relative overflow-hidden group/card shadow-2xl transition-all duration-500 hover:shadow-white/5"
+                            style={{
+                                background: 'rgba(20, 20, 20, 0.75)',
+                                backdropFilter: 'blur(30px) saturate(150%)',
+                                boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)'
+                            }}>
+                            {/* Creative Heading - Animation Removed */}
+                            <div className="relative mb-10 inline-block">
+                                <h2 className="text-5xl lg:text-7xl font-black uppercase tracking-tighter"
                                     style={{
-                                        borderColor: `rgba(${theme.primaryRgb}, 0.15)`,
-                                    }}
-                                >
+                                        WebkitTextStroke: '1px rgba(255,255,255,0.3)',
+                                        color: 'transparent',
+                                    }}>
+                                    About Me
+                                </h2>
+                                <h2 className="absolute top-0 left-0 text-5xl lg:text-7xl font-black uppercase tracking-tighter text-white"
+                                    style={{ clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0% 100%)' }}>
+                                    About Me
+                                </h2>
+                                <div className="h-1 w-20 bg-white mt-2"></div>
+                            </div>
+
+                            <h3 className="text-3xl sm:text-4xl font-black mb-8 text-white leading-tight font-display tracking-tight"
+                                style={{ fontFamily: 'var(--font-display)' }}>
+                                {ABOUT_DATA.title}
+                            </h3>
+
+                            <div className="space-y-6">
+                                <p className="text-white/90 text-xl leading-relaxed font-medium tracking-tight">
+                                    {ABOUT_DATA.bio}
+                                </p>
+                                <p className="text-white/70 text-lg leading-relaxed font-light italic">
+                                    {ABOUT_DATA.bio2}
+                                </p>
+                            </div>
+
+                            {/* Stats - updated grid layout */}
+                            <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 mt-12">
+                                {ABOUT_DATA.stats.map((stat) => (
                                     <div
-                                        className="text-2xl font-bold mb-1"
-                                        style={{ color: theme.primary, fontFamily: 'var(--font-display)' }}
+                                        key={stat.label}
+                                        className="p-4 text-center border-l border-white/10 hover:border-white transition-all duration-300"
                                     >
-                                        {stat.value}
+                                        <div
+                                            className="text-3xl font-black mb-1 text-white"
+                                            style={{ fontFamily: 'var(--font-display)', letterSpacing: '-0.05em' }}
+                                        >
+                                            {stat.value}
+                                        </div>
+                                        <div className="text-[10px] text-white/50 font-bold uppercase tracking-[0.2em]">{stat.label}</div>
                                     </div>
-                                    <div className="text-xs text-gray-500">{stat.label}</div>
-                                </div>
-                            ))}
+                                ))}
+                            </div>
                         </div>
                     </div>
                 </div>

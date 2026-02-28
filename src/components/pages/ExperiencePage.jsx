@@ -3,8 +3,10 @@ import ExperienceSection from '../sections/ExperienceSection';
 
 export default function ExperiencePage() {
     return (
-        <PageTransitionWrapper title="Experience">
-            <ExperienceSection />
-        </PageTransitionWrapper>
+        <div className="bg-transparent min-h-screen">
+            <PageTransitionWrapper title="Experience">
+                <ExperienceSection />
+            </PageTransitionWrapper>
+        </div>
     );
 }

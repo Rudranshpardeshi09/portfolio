@@ -78,8 +78,8 @@ export default function ProjectsSection() {
                                     key={project.id}
                                     onClick={() => setSelectedProject(project.id)}
                                     className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-300 cursor-pointer ${selectedProject === project.id
-                                            ? 'text-white scale-105'
-                                            : 'text-gray-500 hover:text-gray-300'
+                                        ? 'text-white scale-105'
+                                        : 'text-gray-500 hover:text-gray-300'
                                         }`}
                                     style={
                                         selectedProject === project.id

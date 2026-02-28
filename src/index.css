@@ -60,6 +60,10 @@ body {
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 0.6rem;
+  /* Added internal padding */
+  margin: 0.6rem;
+  /* Added margin */
 }
 
 .glass-strong {
@@ -67,6 +71,10 @@ body {
   backdrop-filter: blur(30px);
   -webkit-backdrop-filter: blur(30px);
   border: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 2.5rem;
+  /* Increased internal padding */
+  margin: 1rem;
+  /* Added margin */
 }
 
 .glass-accent {
@@ -74,6 +82,10 @@ body {
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border: 1px solid rgba(var(--color-primary-rgb), 0.2);
+  padding: 1.5rem;
+  /* Added internal padding */
+  margin: 0.5rem;
+  /* Added margin */
 }
 
 /* ===== Theme Transition ===== */
@@ -118,17 +130,43 @@ body {
 /* ===== Section Styling ===== */
 .section-container {
   min-height: 100vh;
-  padding: 6rem 2rem;
+  padding: 6rem 1rem;
+  /* Base vertical padding */
   position: relative;
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  overflow: hidden;
+}
+
+.section-inner {
+  max-width: 1400px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  /* Horizontal safety gap */
+  display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
 }
 
-.section-inner {
-  max-width: 1200px;
-  width: 100%;
-  margin: 0 auto;
+@media (min-width: 768px) {
+  .section-container {
+    padding: 8rem 2rem;
+  }
+
+  .section-inner {
+    padding: 0 4rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  .section-inner {
+    padding: 0 8rem;
+  }
 }
 
 .section-title {
@@ -229,9 +267,29 @@ body {
 }
 
 /* ===== Responsive ===== */
+@media (max-width: 1024px) {
+  .section-container {
+    padding: 8rem 1.5rem;
+  }
+
+  .section-title {
+    font-size: 2.5rem;
+  }
+}
+
 @media (max-width: 768px) {
   .section-container {
-    padding: 4rem 1.25rem;
+    padding: 6rem 1.25rem;
+  }
+
+  .section-title {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .section-container {
+    padding: 4rem 1rem;
   }
 
   .section-title {

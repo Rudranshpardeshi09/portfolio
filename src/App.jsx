@@ -14,9 +14,16 @@ import ProjectsPage from './components/pages/ProjectsPage';
 import ExperiencePage from './components/pages/ExperiencePage';
 import ContactPage from './components/pages/ContactPage';
 
+import useThemeStore from './store/themeStore';
+
 export default function App() {
+  const { bikeSelected, getBackgroundStyle } = useThemeStore();
+
   return (
-    <div className="relative w-full h-full min-h-screen bg-black text-white overflow-hidden">
+    <div
+      className="relative w-full h-full min-h-screen theme-transition overflow-hidden"
+      style={bikeSelected ? getBackgroundStyle() : { backgroundColor: 'black' }}
+    >
       {/* Subtle noise overlay */}
       <div className="noise-overlay" />
 

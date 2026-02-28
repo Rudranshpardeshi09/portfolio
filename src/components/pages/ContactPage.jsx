@@ -3,8 +3,10 @@ import ContactSection from '../sections/ContactSection';
 
 export default function ContactPage() {
     return (
-        <PageTransitionWrapper title="Contact" isContact={true}>
-            <ContactSection />
-        </PageTransitionWrapper>
+        <div className="bg-transparent min-h-screen">
+            <PageTransitionWrapper title="Contact" isContact={true}>
+                <ContactSection />
+            </PageTransitionWrapper>
+        </div>
     );
 }
