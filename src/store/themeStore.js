@@ -4,12 +4,12 @@ const BIKE_THEMES = {
     ducati: {
         name: 'Ducati Panigale V4',
         key: 'ducati',
-        primary: '#D21F3C',
-        primaryRgb: '210, 31, 60',
-        secondary: '#8B1425',
-        gradientStart: '#D21F3C',
-        gradientEnd: '#8B1425',
-        glow: '#D21F3C',
+        primary: '#9B1B30', // Cherry Red (Pantone)
+        primaryRgb: '155, 27, 48',
+        secondary: '#7B1324',
+        gradientStart: '#9B1B30',
+        gradientEnd: '#7B1324',
+        glow: '#9B1B30',
         emoji: '🏍️',
         image: '/bike-sideways/duccati-icon.png',
         tagline: 'Italian Thunder',
@@ -107,7 +107,7 @@ const useThemeStore = create((set, get) => ({
     },
     getBackgroundStyle: () => {
         const theme = get().theme;
-        if (theme.key === 'ducati') return { backgroundColor: '#D1001C' }; // Pure Ducati Red
+        if (theme.key === 'ducati') return { backgroundColor: '#9B1B30' }; // Cherry Red
         if (theme.key === 'bmw') return { background: 'linear-gradient(135deg, #0066B1 0%, #FFFFFF 50%, #D21F3C 100%)' };
         if (theme.key === 'ninja') return { background: 'linear-gradient(135deg, #39FF14 0%, #00CC00 100%)' };
         if (theme.key === 'hayabusa') return { background: 'linear-gradient(135deg, #FFCC00 0%, #FF8800 100%)' };

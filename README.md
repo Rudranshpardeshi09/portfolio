@@ -78,4 +78,6 @@ do this for whole project :-
 3. the website should be responsive . it should automatically adjust with the size of the screen.
 now in about section:-
 1. in the animation of riders info ,the background color should match the bike that has been selected by the user and th e text should be white 
-2.remove the about me hover animation
+2.remove the about me hover animation\
+
+apply the sameparticle theme to all the themes . the common part will be the particle one 

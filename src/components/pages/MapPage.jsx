@@ -1,6 +1,6 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { MotionPathPlugin } from 'gsap/MotionPathPlugin';
@@ -16,6 +16,9 @@ export default function MapPage() {
     const containerRef = useRef(null);
     const mapContainerRef = useRef(null);
     const riderRef = useRef(null);
+
+    const [headlightLevel, setHeadlightLevel] = useState(0);
+    const isDucati = theme.key === 'ducati';
 
     // Checkpoints representing our 5 sections
     const checkpoints = [
@@ -35,7 +38,24 @@ export default function MapPage() {
         agusta: '/solo-bike-map-comp/agusta-img/placeholder.png', // Placeholder
     };
 
+    const bikeIcons = {
+        ducati: '/bike-sideways/duccati-icon.png',
+        bmw: '/bike-sideways/bmw-icon.png',
+        hayabusa: '/bike-sideways/busa-icon.png',
+        ninja: '/bike-sideways/ninja-icon.png',
+        agusta: '/bike-sideways/mv-augusta.png',
+    };
+
     const bikeImage = bikeImages[theme.key] || bikeImages.ducati;
+    const bikeIcon = bikeIcons[theme.key] || bikeIcons.ducati;
+
+    // Headlight sequence images (Ducati exclusive)
+    const headlightSequence = [
+        '/solo-bike-map-comp/ducati-img/headlight-level-0.png',
+        '/solo-bike-map-comp/ducati-img/headlight-level-1.png',
+        '/solo-bike-map-comp/ducati-img/headlight-level-2.png',
+        '/solo-bike-map-comp/ducati-img/headlight-level-3.png',
+    ];
 
     useEffect(() => {
         if (!containerRef.current || !mapContainerRef.current || !riderRef.current) return;
@@ -62,32 +82,46 @@ export default function MapPage() {
                 ease: "none"
             });
 
-            // Headlight Glow Animation
-            // Starts at About (0.1), Max at Contact (0.9), and turns off after Contact
-            gsap.to("#bike-headlight-glow", {
-                opacity: 1,
-                filter: "brightness(2) saturate(1.5)",
-                scrollTrigger: {
+            // Ducati Specific Scroll Logic
+            if (isDucati) {
+                ScrollTrigger.create({
                     trigger: containerRef.current,
-                    start: "10% top", // Near About
-                    end: "90% top",   // Near Contact
+                    start: "top top",
+                    end: "bottom bottom",
                     scrub: true,
-                    onLeave: () => {
-                        gsap.to("#bike-headlight-glow", { opacity: 0, duration: 0.5 });
-                    },
-                    onEnterBack: () => {
-                        gsap.to("#bike-headlight-glow", { opacity: 1, duration: 0.5 });
+                    onUpdate: (self) => {
+                        const progress = self.progress;
+                        let level = 0;
+                        if (progress >= 0.1 && progress < 0.3) level = 1;
+                        else if (progress >= 0.3 && progress < 0.6) level = 2;
+                        else if (progress >= 0.6) level = 3;
+                        setHeadlightLevel(level);
                     }
-                }
-            });
+                });
+            } else {
+                // Original Headlight Glow Animation for other themes
+                gsap.to("#bike-headlight-glow", {
+                    opacity: 1,
+                    filter: "brightness(2) saturate(1.5)",
+                    scrollTrigger: {
+                        trigger: containerRef.current,
+                        start: "10% top",
+                        end: "90% top",
+                        scrub: true,
+                        onLeave: () => {
+                            gsap.to("#bike-headlight-glow", { opacity: 0, duration: 0.5 });
+                        },
+                        onEnterBack: () => {
+                            gsap.to("#bike-headlight-glow", { opacity: 1, duration: 0.5 });
+                        }
+                    }
+                });
+            }
 
-            // Marker highlight animations (triggered at midpoint between sections)
+            // Marker highlight animations
             checkpoints.forEach((cp, index) => {
                 const prevCp = checkpoints[index - 1];
                 const nextCp = checkpoints[index + 1];
-
-                // Start trigger is halfway between previous and current
-                // End trigger is halfway between current and next
                 const startTrigger = prevCp ? (prevCp.fraction + cp.fraction) / 2 : 0;
                 const endTrigger = nextCp ? (cp.fraction + nextCp.fraction) / 2 : 1;
 
@@ -104,7 +138,7 @@ export default function MapPage() {
         }, containerRef);
 
         return () => ctx.revert();
-    }, []);
+    }, [theme.key]); // Re-run when theme changes
 
     const activateMarker = (index) => {
         gsap.to(`#marker-${index}`, { scale: 1.5, opacity: 1, duration: 0.3 });
@@ -117,10 +151,9 @@ export default function MapPage() {
     };
 
     const handleBackToStart = () => {
-        setBike(null); // Reset selection
+        setBike(null);
         navigate('/');
     };
-
 
     return (
         <motion.div
@@ -128,47 +161,53 @@ export default function MapPage() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0, scale: 0.9, filter: "blur(10px)" }}
             transition={{ duration: 0.6 }}
-            className="w-full relative bg-transparent"
+            className="w-full relative"
+            style={isDucati ? { backgroundColor: theme.primary } : {}}
             ref={containerRef}
         >
-            {/* Scrollable container to drive scroll trigger (500vh makes it scrollable) */}
             <div className="h-[400vh] w-full" />
 
-            {/* Sticky map container */}
             <div
                 ref={mapContainerRef}
-                className="fixed top-0 left-0 w-full h-screen flex items-center justify-center overflow-hidden"
+                className={`fixed top-0 left-0 w-full h-screen flex ${isDucati ? 'flex-col md:flex-row' : 'items-center'} justify-center overflow-hidden`}
             >
-                {/* Ambient glow - Subtler now that background is colored */}
-                <div
-                    className="absolute inset-0 opacity-5"
-                    style={{ background: `radial-gradient(circle at 50% 50%, #ffffff33, transparent 70%)` }}
-                />
+                {!isDucati && (
+                    <div
+                        className="absolute inset-0 opacity-5"
+                        style={{ background: `radial-gradient(circle at 50% 50%, #ffffff33, transparent 70%)` }}
+                    />
+                )}
 
-                {/* Top Nav */}
-                <div className="absolute top-0 left-0 w-full p-12 flex justify-between z-50">
+                <div className={`absolute top-0 left-0 w-full ${isDucati ? 'p-6 md:p-12' : 'p-12'} flex justify-between z-50`}>
                     <button
                         onClick={handleBackToStart}
-                        className="flex items-center gap-2 px-6 py-3 rounded-full glass hover:bg-white/10 transition-all group"
+                        className={`flex items-center gap-2 ${isDucati ? 'px-4 py-2 md:px-6 md:py-3' : 'px-6 py-3'} rounded-full glass hover:bg-white/10 transition-all group`}
                         style={{ border: `1px solid rgba(255, 255, 255, 0.3)` }}
                     >
                         <ArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform text-white" />
-                        <span className="font-medium text-sm tracking-wider uppercase text-white">Switch Machine</span>
+                        <span className={`font-medium ${isDucati ? 'text-xs md:text-sm' : 'text-sm'} tracking-wider uppercase text-white`}>Switch Machine</span>
                     </button>
 
-                    <div className="text-center bg-black/20 px-8 py-3 rounded-full glass backdrop-blur-md hidden sm:block">
-                        <span className="text-white text-sm tracking-[0.2em] font-medium uppercase">
+                    <div className={`text-center bg-black/20 ${isDucati ? 'px-4 py-2 md:px-8 md:py-3' : 'px-8 py-3'} rounded-full glass backdrop-blur-md hidden sm:block`}>
+                        <span className={`text-white ${isDucati ? 'text-[10px] md:text-sm' : 'text-sm'} tracking-[0.2em] font-medium uppercase`}>
                             Scroll to navigate the journey
                         </span>
                     </div>
                 </div>
 
-                <div className="w-full h-full flex items-center px-8 md:px-16">
-                    {/* Left: SVG Map */}
-                    <div className="w-1/2 relative z-10 pointer-events-none">
+                <div className={`w-full h-full flex ${isDucati ? 'flex-col md:flex-row' : 'items-center'} px-4 md:px-16`}>
+                    {/* Left/Map Section */}
+                    <div className={`${isDucati ? 'w-full h-full md:w-1/2' : 'w-1/2'} relative z-10 pointer-events-none flex items-center justify-center`}>
+                        {/* Background icon removed for mobile as per requirement */}
+                        {isDucati && (
+                            <div className="absolute inset-0 hidden md:flex items-center justify-center opacity-20 z-0">
+                                <img src={bikeIcon} alt="bike icon" className="w-full max-w-[80%] h-auto object-contain" />
+                            </div>
+                        )}
+
                         <svg
                             viewBox="0 0 1000 600"
-                            className="w-full h-auto drop-shadow-2xl"
+                            className={`w-full h-full drop-shadow-2xl relative z-10 ${isDucati ? 'rotate-90 md:rotate-0 scale-100 md:scale-100' : ''}`}
                             preserveAspectRatio="xMidYMid meet"
                         >
                             <defs>
@@ -177,112 +216,92 @@ export default function MapPage() {
                                     <stop offset="50%" stopColor="#ffffff" stopOpacity="1" />
                                     <stop offset="100%" stopColor="#ffffff" stopOpacity="0.4" />
                                 </linearGradient>
-
                                 <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
                                     <feGaussianBlur stdDeviation="8" result="blur" />
                                     <feComposite in="SourceGraphic" in2="blur" operator="over" />
                                 </filter>
                             </defs>
 
-                            {/* Winding Loop Path */}
                             <path
                                 id="journeyPath"
-                                d="M 100,500 C 50,500 50,100 200,100 C 400,100 400,500 600,500 C 800,500 900,450 900,300 C 900,100 700,50 500,200"
+                                d="M 100,500 C 50,500 50,100 200,100 C 400,100 400,500 600,500 C 800,500 900,450 900,300 C 900,100 700,500 500,200"
                                 fill="none"
                                 stroke="url(#pathGradient)"
-                                strokeWidth="4"
-                                strokeDasharray="10 10"
-                                className="opacity-80"
+                                strokeWidth={isDucati ? "8" : "4"}
+                                strokeDasharray={isDucati ? "15 15" : "10 10"}
+                                className={`opacity-80 ${isDucati ? 'sm:stroke-[4] sm:stroke-dasharray-[10_10]' : ''}`}
                             />
 
-                            {/* Solid underlying track */}
                             <path
-                                d="M 100,500 C 50,500 50,100 200,100 C 400,100 400,500 600,500 C 800,500 900,450 900,300 C 900,100 700,50 500,200"
+                                d="M 100,500 C 50,500 50,100 200,100 C 400,100 400,500 600,500 C 800,500 900,450 900,300 C 900,100 700,500 500,200"
                                 fill="none"
                                 stroke="#ffffff"
-                                strokeWidth="1"
+                                strokeWidth={isDucati ? "2" : "1"}
                                 strokeOpacity="0.2"
+                                className={isDucati ? "sm:stroke-[1]" : ""}
                             />
 
-                            {/* Rider Circle */}
                             <g ref={riderRef} className="z-50" style={{ transformOrigin: "center" }}>
-                                <circle cx="0" cy="0" r="12" fill="#ffffff" filter="url(#glow)" />
-                                {/* Inner core */}
-                                <circle cx="0" cy="0" r="4" fill={theme.primary} />
+                                <circle cx="0" cy="0" r={isDucati ? "15" : "12"} fill="#ffffff" filter="url(#glow)" className={isDucati ? "sm:r-[12]" : ""} />
+                                <circle cx="0" cy="0" r={isDucati ? "6" : "4"} fill={theme.primary} className={isDucati ? "sm:r-[4]" : ""} />
                             </g>
 
-                            {/* Checkpoint Markers */}
-                            {/* 1. About */}
-                            <g id="marker-group-0" transform="translate(100, 310)" className="pointer-events-auto cursor-pointer" onClick={() => navigate('/about')}>
-                                <circle id="marker-0" cx="0" cy="0" r="8" fill="#ffffff" className="opacity-80 transition-all cursor-pointer" />
-                                <circle cx="0" cy="0" r="16" fill="transparent" /> {/* Hitbox */}
-                                <text id="label-0" x="0" y="25" textAnchor="middle" fill="#fff" className="text-sm font-bold uppercase opacity-70 tracking-wider font-sans transition-all">About</text>
-                                <text x="0" y="40" textAnchor="middle" fill="#fff" className="text-xs font-bold uppercase opacity-90 cursor-pointer hover:underline">Click to Enter</text>
-                            </g>
-
-                            {/* 2. Skills */}
-                            <g id="marker-group-1" transform="translate(250, 170)" className="pointer-events-auto cursor-pointer" onClick={() => navigate('/skills')}>
-                                <circle id="marker-1" cx="0" cy="0" r="8" fill="#ffffff" className="opacity-80 transition-all cursor-pointer" />
-                                <circle cx="0" cy="0" r="16" fill="transparent" />
-                                <text id="label-1" x="0" y="-15" textAnchor="middle" fill="#fff" className="text-sm font-bold uppercase opacity-70 tracking-wider font-sans transition-all">Skills</text>
-                                <text x="0" y="-30" textAnchor="middle" fill="#fff" className="text-xs font-bold uppercase opacity-90 cursor-pointer hover:underline">Click to Enter</text>
-                            </g>
-
-                            {/* 3. Projects */}
-                            <g id="marker-group-2" transform="translate(480, 420)" className="pointer-events-auto cursor-pointer" onClick={() => navigate('/projects')}>
-                                <circle id="marker-2" cx="0" cy="0" r="8" fill="#ffffff" className="opacity-80 transition-all cursor-pointer" />
-                                <circle cx="0" cy="0" r="16" fill="transparent" />
-                                <text id="label-2" x="0" y="25" textAnchor="middle" fill="#fff" className="text-sm font-bold uppercase opacity-70 tracking-wider font-sans transition-all">Projects</text>
-                                <text x="0" y="40" textAnchor="middle" fill="#fff" className="text-xs font-bold uppercase opacity-90 cursor-pointer hover:underline">Click to Enter</text>
-                            </g>
-
-                            {/* 4. Experience */}
-                            <g id="marker-group-3" transform="translate(790, 480)" className="pointer-events-auto cursor-pointer" onClick={() => navigate('/experience')}>
-                                <circle id="marker-3" cx="0" cy="0" r="8" fill="#ffffff" className="opacity-80 transition-all cursor-pointer" />
-                                <circle cx="0" cy="0" r="16" fill="transparent" />
-                                <text id="label-3" x="0" y="25" textAnchor="middle" fill="#fff" className="text-sm font-bold uppercase opacity-70 tracking-wider font-sans transition-all">Experience</text>
-                                <text x="0" y="40" textAnchor="middle" fill="#fff" className="text-xs font-bold uppercase opacity-90 cursor-pointer hover:underline">Click to Enter</text>
-                            </g>
-
-                            {/* 5. Contact */}
-                            <g id="marker-group-4" transform="translate(680, 100)" className="pointer-events-auto cursor-pointer" onClick={() => navigate('/contact')}>
-                                <circle id="marker-4" cx="0" cy="0" r="8" fill="#ffffff" className="opacity-80 transition-all cursor-pointer" />
-                                <circle cx="0" cy="0" r="16" fill="transparent" />
-                                <text id="label-4" x="0" y="-15" textAnchor="middle" fill="#fff" className="text-sm font-bold uppercase opacity-70 tracking-wider font-sans transition-all">Contact</text>
-                                <text x="0" y="-30" textAnchor="middle" fill="#fff" className="text-xs font-bold uppercase opacity-90 cursor-pointer hover:underline">Complete Journey</text>
-                            </g>
+                            {checkpoints.map((cp, idx) => {
+                                const coords = [
+                                    { x: 100, y: 310 }, { x: 250, y: 170 }, { x: 480, y: 420 }, { x: 790, y: 480 }, { x: 680, y: 100 },
+                                ];
+                                const { x, y } = coords[idx];
+                                return (
+                                    <g key={cp.id} id={`marker-group-${idx}`} transform={`translate(${x}, ${y})`} className="pointer-events-auto cursor-pointer" onClick={() => navigate(cp.id)}>
+                                        <g className={isDucati ? 'rotate-[-90deg] md:rotate-0' : ''}>
+                                            <circle id={`marker-${idx}`} cx="0" cy="0" r={isDucati ? "12" : "8"} fill="#ffffff" className="opacity-80 transition-all cursor-pointer sm:r-[8]" />
+                                            <circle cx="0" cy="0" r="24" fill="transparent" />
+                                            <text id={`label-${idx}`} x="0" y={idx % 2 === 0 ? 35 : -25} textAnchor="middle" fill="#fff" className={`${isDucati ? 'text-xl sm:text-sm' : 'text-sm'} font-bold uppercase opacity-70 tracking-wider font-sans transition-all`}>{cp.label}</text>
+                                            <text x="0" y={idx % 2 === 0 ? 55 : -45} textAnchor="middle" fill="#fff" className="text-xs font-bold uppercase opacity-90 cursor-pointer hover:underline hidden sm:block">Click to Enter</text>
+                                        </g>
+                                    </g>
+                                );
+                            })}
                         </svg>
                     </div>
 
-                    {/* Right: Bike Image & Headlight Animation */}
-                    <div className="w-1/2 h-full flex items-center justify-center relative">
-                        <div className="relative max-w-lg w-full">
-                            {/* Base Bike Image (Headlight OFF) */}
-                            <img
-                                src={bikeImage}
-                                alt={theme.name}
-                                className="w-full h-auto object-contain brightness-50 contrast-125 grayscale-[0.5]"
-                            />
-                            {/* Glow Overlay (Headlight ON - Animated) */}
-                            <div
-                                id="bike-headlight-glow"
-                                className="absolute inset-0 opacity-0 pointer-events-none"
-                                style={{
-                                    backgroundImage: `url(${bikeImage})`,
-                                    backgroundSize: 'contain',
-                                    backgroundRepeat: 'no-repeat',
-                                    backgroundPosition: 'center',
-                                    filter: 'brightness(1.5) drop-shadow(0 0 30px rgba(255,255,255,0.8))'
-                                }}
-                            />
+                    {/* Right/Headlight Section */}
+                    <div className={`${isDucati ? 'hidden md:flex md:w-1/2 md:h-full' : 'w-1/2 h-full'} flex items-center justify-center relative`}>
+                        <div className="relative max-w-lg w-full px-4 md:px-0">
+                            {isDucati ? (
+                                <AnimatePresence mode="wait">
+                                    <motion.img
+                                        key={headlightLevel}
+                                        src={headlightSequence[headlightLevel]}
+                                        alt={`${theme.name} level ${headlightLevel}`}
+                                        initial={{ opacity: 0, scale: 0.95 }}
+                                        animate={{ opacity: 1, scale: 1 }}
+                                        exit={{ opacity: 0, scale: 1.05 }}
+                                        transition={{ duration: 0.8, ease: "easeInOut" }}
+                                        className="w-full h-auto object-contain brightness-100 contrast-100"
+                                    />
+                                </AnimatePresence>
+                            ) : (
+                                <>
+                                    <img src={bikeImage} alt={theme.name} className="w-full h-auto object-contain brightness-50 contrast-125 grayscale-[0.5]" />
+                                    <div
+                                        id="bike-headlight-glow"
+                                        className="absolute inset-0 opacity-0 pointer-events-none"
+                                        style={{
+                                            backgroundImage: `url(${bikeImage})`,
+                                            backgroundSize: 'contain', backgroundRepeat: 'no-repeat', backgroundPosition: 'center',
+                                            filter: 'brightness(1.5) drop-shadow(0 0 30px rgba(255,255,255,0.8))'
+                                        }}
+                                    />
+                                </>
+                            )}
                         </div>
                     </div>
                 </div>
 
-                {/* Scroll Indicator helper */}
-                <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-50 animate-pulse">
-                    <span className="uppercase tracking-[0.2em] text-[10px] text-white">Scroll Down</span>
-                    <div className="w-[1px] h-12 bg-gradient-to-b from-white to-transparent" />
+                <div className="absolute bottom-4 md:bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 md:gap-2 opacity-50 animate-pulse">
+                    <span className="uppercase tracking-[0.2em] text-[8px] md:text-[10px] text-white">Scroll Down</span>
+                    <div className="w-[1px] h-8 md:h-12 bg-gradient-to-b from-white to-transparent" />
                 </div>
             </div>
         </motion.div>
