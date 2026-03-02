@@ -35,7 +35,8 @@ html {
 body {
   font-family: var(--font-body);
   background-color: var(--color-bg-deep);
-  color: var(--color-text-primary);
+  color: #ffffff;
+  /* Universal white text for professional look */
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

@@ -4,6 +4,7 @@ import { AnimatePresence } from 'framer-motion';
 
 import ProtectedRoute from './components/ui/ProtectedRoute';
 import GlassmorphicToast from './components/ui/GlassmorphicToast';
+import ParticleBackground from './components/ui/ParticleBackground';
 
 // Pages
 import BikeSelectionPage from './components/pages/BikeSelectionPage';
@@ -24,8 +25,12 @@ export default function App() {
       className="relative w-full h-full min-h-screen theme-transition overflow-hidden"
       style={bikeSelected ? getBackgroundStyle() : { backgroundColor: 'black' }}
     >
-      {/* Subtle noise overlay */}
       <div className="noise-overlay" />
+
+      {/* Background Particles - Global across all themes */}
+      <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
+        <ParticleBackground />
+      </div>
 
       {/* Toast notifications */}
       <GlassmorphicToast />

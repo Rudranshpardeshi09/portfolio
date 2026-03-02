@@ -16,17 +16,19 @@ export default function MapPage() {
     const containerRef = useRef(null);
     const mapContainerRef = useRef(null);
     const riderRef = useRef(null);
+    const pathRef = useRef(null);
+    const [markerCoords, setMarkerCoords] = useState([]);
 
     const [headlightLevel, setHeadlightLevel] = useState(0);
     const isDucati = theme.key === 'ducati';
 
     // Checkpoints representing our 5 sections
     const checkpoints = [
-        { id: '/about', label: 'About', fraction: 0.1 },
-        { id: '/skills', label: 'Skills', fraction: 0.3 },
-        { id: '/projects', label: 'Projects', fraction: 0.5 },
-        { id: '/experience', label: 'Experience', fraction: 0.7 },
-        { id: '/contact', label: 'Contact', fraction: 0.9 },
+        { id: '/about', label: 'About', fraction: 0.15 },
+        { id: '/skills', label: 'Skills', fraction: 0.35 },
+        { id: '/projects', label: 'Projects', fraction: 0.55 },
+        { id: '/experience', label: 'Experience', fraction: 0.75 },
+        { id: '/contact', label: 'Contact', fraction: 1.0 },
     ];
 
     // Map themes to images
@@ -56,6 +58,20 @@ export default function MapPage() {
         '/solo-bike-map-comp/ducati-img/headlight-level-2.png',
         '/solo-bike-map-comp/ducati-img/headlight-level-3.png',
     ];
+
+    useEffect(() => {
+        if (!pathRef.current) return;
+
+        const path = pathRef.current;
+        const length = path.getTotalLength();
+
+        const newCoords = checkpoints.map(cp => {
+            const point = path.getPointAtLength(cp.fraction * length);
+            return { x: point.x, y: point.y };
+        });
+
+        setMarkerCoords(newCoords);
+    }, [theme.key]); // Recalculate if path changes (though currently constant)
 
     useEffect(() => {
         if (!containerRef.current || !mapContainerRef.current || !riderRef.current) return;
@@ -123,7 +139,9 @@ export default function MapPage() {
                 const prevCp = checkpoints[index - 1];
                 const nextCp = checkpoints[index + 1];
                 const startTrigger = prevCp ? (prevCp.fraction + cp.fraction) / 2 : 0;
-                const endTrigger = nextCp ? (cp.fraction + nextCp.fraction) / 2 : 1;
+
+                // For the last marker, we want it to stay highlighted until the very end
+                const endTrigger = nextCp ? (cp.fraction + nextCp.fraction) / 2 : 1.1; // 1.1 ensures it doesn't "leave" at the bottom
 
                 ScrollTrigger.create({
                     trigger: containerRef.current,
@@ -131,7 +149,10 @@ export default function MapPage() {
                     end: `${endTrigger * 100}% top`,
                     onEnter: () => activateMarker(index),
                     onEnterBack: () => activateMarker(index),
-                    onLeave: () => deactivateMarker(index),
+                    onLeave: () => {
+                        // Only deactivate if there's a next marker to move to
+                        if (index < checkpoints.length - 1) deactivateMarker(index);
+                    },
                     onLeaveBack: () => deactivateMarker(index),
                 });
             });
@@ -162,52 +183,45 @@ export default function MapPage() {
             exit={{ opacity: 0, scale: 0.9, filter: "blur(10px)" }}
             transition={{ duration: 0.6 }}
             className="w-full relative"
-            style={isDucati ? { backgroundColor: theme.primary } : {}}
             ref={containerRef}
         >
             <div className="h-[400vh] w-full" />
 
             <div
                 ref={mapContainerRef}
-                className={`fixed top-0 left-0 w-full h-screen flex ${isDucati ? 'flex-col md:flex-row' : 'items-center'} justify-center overflow-hidden`}
+                className="fixed top-0 left-0 w-full h-screen flex flex-col md:flex-row justify-center overflow-hidden"
             >
-                {!isDucati && (
-                    <div
-                        className="absolute inset-0 opacity-5"
-                        style={{ background: `radial-gradient(circle at 50% 50%, #ffffff33, transparent 70%)` }}
-                    />
-                )}
+                <div
+                    className="absolute inset-0 opacity-5"
+                    style={{ background: `radial-gradient(circle at 50% 50%, #ffffff33, transparent 70%)` }}
+                />
 
-                <div className={`absolute top-0 left-0 w-full ${isDucati ? 'p-6 md:p-12' : 'p-12'} flex justify-between z-50`}>
+                <div className="absolute top-0 left-0 w-full p-6 md:p-12 flex justify-between z-50">
                     <button
                         onClick={handleBackToStart}
-                        className={`flex items-center gap-2 ${isDucati ? 'px-4 py-2 md:px-6 md:py-3' : 'px-6 py-3'} rounded-full glass hover:bg-white/10 transition-all group`}
+                        className="flex items-center gap-2 px-4 py-2 md:px-6 md:py-3 rounded-full glass hover:bg-white/10 transition-all group"
                         style={{ border: `1px solid rgba(255, 255, 255, 0.3)` }}
                     >
                         <ArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform text-white" />
-                        <span className={`font-medium ${isDucati ? 'text-xs md:text-sm' : 'text-sm'} tracking-wider uppercase text-white`}>Switch Machine</span>
+                        <span className="font-medium text-xs md:text-sm tracking-wider uppercase text-white">Switch Machine</span>
                     </button>
 
-                    <div className={`text-center bg-black/20 ${isDucati ? 'px-4 py-2 md:px-8 md:py-3' : 'px-8 py-3'} rounded-full glass backdrop-blur-md hidden sm:block`}>
-                        <span className={`text-white ${isDucati ? 'text-[10px] md:text-sm' : 'text-sm'} tracking-[0.2em] font-medium uppercase`}>
+                    <div className="text-center bg-black/20 px-4 py-2 md:px-8 md:py-3 rounded-full glass backdrop-blur-md hidden sm:block">
+                        <span className="text-white text-[10px] md:text-sm tracking-[0.2em] font-medium uppercase">
                             Scroll to navigate the journey
                         </span>
                     </div>
                 </div>
 
-                <div className={`w-full h-full flex ${isDucati ? 'flex-col md:flex-row' : 'items-center'} px-4 md:px-16`}>
+                <div className="w-full h-full flex flex-col md:flex-row px-4 md:px-16">
                     {/* Left/Map Section */}
-                    <div className={`${isDucati ? 'w-full h-full md:w-1/2' : 'w-1/2'} relative z-10 pointer-events-none flex items-center justify-center`}>
+                    <div className="w-full h-full md:w-1/2 relative z-10 pointer-events-none flex items-center justify-center">
                         {/* Background icon removed for mobile as per requirement */}
-                        {isDucati && (
-                            <div className="absolute inset-0 hidden md:flex items-center justify-center opacity-20 z-0">
-                                <img src={bikeIcon} alt="bike icon" className="w-full max-w-[80%] h-auto object-contain" />
-                            </div>
-                        )}
+
 
                         <svg
                             viewBox="0 0 1000 600"
-                            className={`w-full h-full drop-shadow-2xl relative z-10 ${isDucati ? 'rotate-90 md:rotate-0 scale-100 md:scale-100' : ''}`}
+                            className="w-full h-full drop-shadow-2xl relative z-10 rotate-90 md:rotate-0 scale-100 md:scale-100"
                             preserveAspectRatio="xMidYMid meet"
                         >
                             <defs>
@@ -224,39 +238,37 @@ export default function MapPage() {
 
                             <path
                                 id="journeyPath"
-                                d="M 100,500 C 50,500 50,100 200,100 C 400,100 400,500 600,500 C 800,500 900,450 900,300 C 900,100 700,500 500,200"
+                                ref={pathRef}
+                                d="M 100,500 C 50,400 50,150 150,120 C 300,80 400,250 450,450 C 500,650 750,550 850,450 C 950,350 900,150 750,120 C 650,100 550,250 680,100"
                                 fill="none"
                                 stroke="url(#pathGradient)"
-                                strokeWidth={isDucati ? "8" : "4"}
-                                strokeDasharray={isDucati ? "15 15" : "10 10"}
-                                className={`opacity-80 ${isDucati ? 'sm:stroke-[4] sm:stroke-dasharray-[10_10]' : ''}`}
+                                strokeWidth="8"
+                                strokeDasharray="15 15"
+                                className="opacity-80 sm:stroke-[4] sm:stroke-dasharray-[10_10]"
                             />
 
                             <path
-                                d="M 100,500 C 50,500 50,100 200,100 C 400,100 400,500 600,500 C 800,500 900,450 900,300 C 900,100 700,500 500,200"
+                                d="M 100,500 C 50,400 50,150 150,120 C 300,80 400,250 450,450 C 500,650 750,550 850,450 C 950,350 900,150 750,120 C 650,100 550,250 680,100"
                                 fill="none"
                                 stroke="#ffffff"
-                                strokeWidth={isDucati ? "2" : "1"}
+                                strokeWidth="2"
                                 strokeOpacity="0.2"
-                                className={isDucati ? "sm:stroke-[1]" : ""}
+                                className="sm:stroke-[1]"
                             />
 
                             <g ref={riderRef} className="z-50" style={{ transformOrigin: "center" }}>
-                                <circle cx="0" cy="0" r={isDucati ? "15" : "12"} fill="#ffffff" filter="url(#glow)" className={isDucati ? "sm:r-[12]" : ""} />
-                                <circle cx="0" cy="0" r={isDucati ? "6" : "4"} fill={theme.primary} className={isDucati ? "sm:r-[4]" : ""} />
+                                <circle cx="0" cy="0" r="15" fill="#ffffff" filter="url(#glow)" className="sm:r-[12]" />
+                                <circle cx="0" cy="0" r="6" fill={theme.primary} className="sm:r-[4]" />
                             </g>
 
-                            {checkpoints.map((cp, idx) => {
-                                const coords = [
-                                    { x: 100, y: 310 }, { x: 250, y: 170 }, { x: 480, y: 420 }, { x: 790, y: 480 }, { x: 680, y: 100 },
-                                ];
-                                const { x, y } = coords[idx];
+                            {markerCoords.length > 0 && checkpoints.map((cp, idx) => {
+                                const { x, y } = markerCoords[idx];
                                 return (
                                     <g key={cp.id} id={`marker-group-${idx}`} transform={`translate(${x}, ${y})`} className="pointer-events-auto cursor-pointer" onClick={() => navigate(cp.id)}>
-                                        <g className={isDucati ? 'rotate-[-90deg] md:rotate-0' : ''}>
-                                            <circle id={`marker-${idx}`} cx="0" cy="0" r={isDucati ? "12" : "8"} fill="#ffffff" className="opacity-80 transition-all cursor-pointer sm:r-[8]" />
+                                        <g className="rotate-[-90deg] md:rotate-0">
+                                            <circle id={`marker-${idx}`} cx="0" cy="0" r="12" fill="#ffffff" className="opacity-80 transition-all cursor-pointer sm:r-[8]" />
                                             <circle cx="0" cy="0" r="24" fill="transparent" />
-                                            <text id={`label-${idx}`} x="0" y={idx % 2 === 0 ? 35 : -25} textAnchor="middle" fill="#fff" className={`${isDucati ? 'text-xl sm:text-sm' : 'text-sm'} font-bold uppercase opacity-70 tracking-wider font-sans transition-all`}>{cp.label}</text>
+                                            <text id={`label-${idx}`} x="0" y={idx % 2 === 0 ? 35 : -25} textAnchor="middle" fill="#fff" className="text-xl sm:text-sm font-bold uppercase opacity-70 tracking-wider font-sans transition-all">{cp.label}</text>
                                             <text x="0" y={idx % 2 === 0 ? 55 : -45} textAnchor="middle" fill="#fff" className="text-xs font-bold uppercase opacity-90 cursor-pointer hover:underline hidden sm:block">Click to Enter</text>
                                         </g>
                                     </g>
@@ -266,7 +278,7 @@ export default function MapPage() {
                     </div>
 
                     {/* Right/Headlight Section */}
-                    <div className={`${isDucati ? 'hidden md:flex md:w-1/2 md:h-full' : 'w-1/2 h-full'} flex items-center justify-center relative`}>
+                    <div className="hidden md:flex md:w-1/2 md:h-full flex items-center justify-center relative">
                         <div className="relative max-w-lg w-full px-4 md:px-0">
                             {isDucati ? (
                                 <AnimatePresence mode="wait">

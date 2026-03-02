@@ -49,9 +49,6 @@ export default function ProjectsSection() {
             id="projects"
             ref={sectionRef}
             className="section-container relative"
-            style={{
-                background: `radial-gradient(ellipse at 50% 50%, rgba(${theme.primaryRgb}, 0.04) 0%, #0a0a0a 70%)`,
-            }}
         >
             <div className="section-inner">
                 {/* Title */}

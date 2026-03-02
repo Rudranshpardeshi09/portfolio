@@ -84,11 +84,11 @@ export default function AboutSection() {
                                     }}>
                                     About Me
                                 </h2>
-                                <h2 className="absolute top-0 left-0 text-5xl lg:text-7xl font-black uppercase tracking-tighter text-white"
-                                    style={{ clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0% 100%)' }}>
+                                <h2 className="absolute top-0 left-0 text-5xl lg:text-7xl font-black uppercase tracking-tighter"
+                                    style={{ clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0% 100%)', color: 'var(--color-primary)' }}>
                                     About Me
                                 </h2>
-                                <div className="h-1 w-20 bg-white mt-2"></div>
+                                <div className="h-1 w-20 mt-2" style={{ background: 'var(--color-primary)' }}></div>
                             </div>
 
                             <h3 className="text-3xl sm:text-4xl font-black mb-8 text-white leading-tight font-display tracking-tight"

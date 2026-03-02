@@ -105,10 +105,9 @@ export default function HeroSection() {
                     </p>
                     <h1
                         className="text-5xl sm:text-7xl lg:text-8xl font-black tracking-wider mb-4"
-                        style={{ fontFamily: 'var(--font-display)' }}
+                        style={{ fontFamily: 'var(--font-display)', color: hoveredBike ? BIKE_THEMES[hoveredBike].primary : 'var(--color-primary)' }}
                     >
-                        THE{' '}
-                        <span className="text-gradient">GARAGE</span>
+                        THE GARAGE
                     </h1>
                     <p className="text-gray-400 text-lg sm:text-xl tracking-wide">
                         Pick your ride to begin the journey
@@ -228,7 +227,7 @@ export default function HeroSection() {
                 >
                     <span className="text-white">RUDRANSH'S</span>
                     <br />
-                    <span className="text-gradient">GARAGE</span>
+                    <span style={{ color: 'var(--color-primary)' }}>GARAGE</span>
                 </h1>
 
                 {/* Subtitle */}
