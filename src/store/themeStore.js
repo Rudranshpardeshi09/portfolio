@@ -89,7 +89,7 @@ if (typeof window !== 'undefined') {
 const useThemeStore = create((set, get) => ({
     selectedBike: initialBike,
     theme: BIKE_THEMES[initialBike],
-    bikeSelected: !!savedBike,
+    bikeSelected: true, // Always true — no selection page needed
     allThemes: BIKE_THEMES,
 
     setBike: (bikeKey) => {

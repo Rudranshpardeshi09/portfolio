@@ -12,13 +12,13 @@ export default function ScrollMap() {
     const mapRef = useRef(null);
     const riderRef = useRef(null);
     const pathRef = useRef(null);
+    const trailRef = useRef(null);
     const [activeSection, setActiveSection] = useState('');
     const [visible, setVisible] = useState(false);
 
     useEffect(() => {
-        // Show map after hero section
         const handleScroll = () => {
-            setVisible(window.scrollY > window.innerHeight * 0.8);
+            setVisible(window.scrollY > window.innerHeight * 0.5);
         };
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
@@ -44,6 +44,22 @@ export default function ScrollMap() {
                 },
                 ease: 'none',
             });
+
+            // Draw trail path on scroll
+            if (trailRef.current) {
+                const length = trailRef.current.getTotalLength();
+                gsap.set(trailRef.current, { strokeDasharray: length, strokeDashoffset: length });
+                gsap.to(trailRef.current, {
+                    strokeDashoffset: 0,
+                    ease: 'none',
+                    scrollTrigger: {
+                        trigger: 'body',
+                        start: 'top top',
+                        end: 'bottom bottom',
+                        scrub: 1,
+                    },
+                });
+            }
         });
 
         return () => ctx.revert();
@@ -74,7 +90,7 @@ export default function ScrollMap() {
         if (el) el.scrollIntoView({ behavior: 'smooth' });
     };
 
-    // Map positions for 5 sections along the path
+    // Map positions along S-curve
     const sectionPositions = [
         { x: 30, y: 40 },
         { x: 50, y: 110 },
@@ -83,10 +99,12 @@ export default function ScrollMap() {
         { x: 30, y: 320 },
     ];
 
+    const pathD = "M 30 20 Q 60 75 50 110 Q 20 145 30 180 Q 60 215 50 250 Q 20 285 30 320 L 30 340";
+
     return (
         <div
             ref={mapRef}
-            className={`fixed right-4 top-1/2 -translate-y-1/2 z-40 transition-all duration-700 ${visible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-20'
+            className={`fixed right-4 top-1/2 -translate-y-1/2 z-40 transition-all duration-700 hidden md:block ${visible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-20'
                 }`}
             style={{ width: '80px', height: '360px' }}
         >
@@ -97,24 +115,25 @@ export default function ScrollMap() {
                 fill="none"
                 className="drop-shadow-lg"
             >
-                {/* Road path */}
+                {/* Base road path */}
                 <path
                     ref={pathRef}
-                    d="M 30 20 Q 60 75 50 110 Q 20 145 30 180 Q 60 215 50 250 Q 20 285 30 320 L 30 340"
-                    stroke={`rgba(${theme.primaryRgb}, 0.2)`}
+                    d={pathD}
+                    stroke={`rgba(${theme.primaryRgb}, 0.15)`}
                     strokeWidth="3"
                     strokeDasharray="6 4"
                     fill="none"
                 />
 
-                {/* Active path overlay */}
+                {/* Animated trail that draws on scroll */}
                 <path
-                    d="M 30 20 Q 60 75 50 110 Q 20 145 30 180 Q 60 215 50 250 Q 20 285 30 320 L 30 340"
+                    ref={trailRef}
+                    d={pathD}
                     stroke={theme.primary}
                     strokeWidth="2"
-                    strokeDasharray="6 4"
                     fill="none"
-                    opacity="0.4"
+                    opacity="0.6"
+                    strokeLinecap="round"
                 />
 
                 {/* Section markers */}

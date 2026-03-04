@@ -3,7 +3,6 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import useThemeStore from '../../store/themeStore';
 import { PROJECTS_DATA } from '../../data/portfolioData';
-import TireModel from '../3d/TireModel';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -11,18 +10,20 @@ export default function ProjectsSection() {
     const { theme } = useThemeStore();
     const sectionRef = useRef(null);
     const titleRef = useRef(null);
-    const detailRef = useRef(null);
+    const carouselRef = useRef(null);
+    const cardsRef = useRef([]);
     const [selectedProject, setSelectedProject] = useState(null);
 
     const selected = PROJECTS_DATA.find((p) => p.id === selectedProject);
 
     useEffect(() => {
         const ctx = gsap.context(() => {
-            gsap.fromTo(
-                titleRef.current,
-                { opacity: 0, y: 40 },
+            // Title cinematic entry
+            gsap.fromTo(titleRef.current,
+                { opacity: 0, y: 60, scale: 0.8, filter: 'blur(10px)' },
                 {
-                    opacity: 1, y: 0, duration: 0.8, ease: 'power3.out',
+                    opacity: 1, y: 0, scale: 1, filter: 'blur(0px)',
+                    duration: 1, ease: 'expo.out',
                     scrollTrigger: {
                         trigger: sectionRef.current,
                         start: 'top 75%',
@@ -30,98 +31,162 @@ export default function ProjectsSection() {
                     },
                 }
             );
+
+            // Horizontal scroll carousel driven by vertical scroll
+            if (carouselRef.current) {
+                const cards = carouselRef.current;
+                const totalScroll = cards.scrollWidth - cards.clientWidth;
+
+                gsap.to(cards, {
+                    scrollLeft: totalScroll,
+                    ease: 'none',
+                    scrollTrigger: {
+                        trigger: sectionRef.current,
+                        start: 'top 20%',
+                        end: 'bottom 80%',
+                        scrub: 1,
+                    },
+                });
+            }
+
+            // Cards stagger entry with 3D tilt
+            cardsRef.current.forEach((card, i) => {
+                if (!card) return;
+                gsap.fromTo(card,
+                    {
+                        opacity: 0,
+                        x: 100,
+                        rotateY: -25,
+                        scale: 0.85,
+                    },
+                    {
+                        opacity: 1,
+                        x: 0,
+                        rotateY: 0,
+                        scale: 1,
+                        duration: 0.8,
+                        ease: 'power3.out',
+                        delay: i * 0.1,
+                        scrollTrigger: {
+                            trigger: card,
+                            start: 'top 90%',
+                            toggleActions: 'play none none reverse',
+                        },
+                    }
+                );
+            });
         }, sectionRef);
         return () => ctx.revert();
     }, []);
 
-    useEffect(() => {
-        if (selected && detailRef.current) {
-            gsap.fromTo(
-                detailRef.current,
-                { opacity: 0, x: 40, scale: 0.95 },
-                { opacity: 1, x: 0, scale: 1, duration: 0.5, ease: 'back.out(1.2)' }
-            );
-        }
-    }, [selectedProject]);
+    // 3D tilt on mouse move for cards
+    const handleMouseMove = (e, cardEl) => {
+        if (!cardEl) return;
+        const rect = cardEl.getBoundingClientRect();
+        const x = (e.clientX - rect.left) / rect.width - 0.5;
+        const y = (e.clientY - rect.top) / rect.height - 0.5;
+
+        gsap.to(cardEl, {
+            rotateY: x * 20,
+            rotateX: -y * 15,
+            duration: 0.3,
+            ease: 'power2.out',
+        });
+    };
+
+    const handleMouseLeave = (cardEl) => {
+        if (!cardEl) return;
+        gsap.to(cardEl, {
+            rotateY: 0,
+            rotateX: 0,
+            duration: 0.6,
+            ease: 'elastic.out(1, 0.5)',
+        });
+    };
 
     return (
         <section
             id="projects"
             ref={sectionRef}
             className="section-container relative"
+            style={{ perspective: '1200px' }}
         >
-            <div className="section-inner">
+            <div className="section-inner" style={{ maxWidth: '100%' }}>
                 {/* Title */}
-                <div ref={titleRef} className="text-center mb-8">
+                <div ref={titleRef} className="text-center mb-12">
                     <h2 className="section-title text-gradient mx-auto">Projects</h2>
                     <p className="text-gray-500 mt-6 text-sm">
-                        Click a spoke node on the tire to explore a project
+                        Scroll through or click to explore project details
                     </p>
                 </div>
 
-                <div className="flex flex-col lg:flex-row items-center gap-8">
-                    {/* 3D Tire */}
-                    <div className="w-full lg:w-1/2 h-[400px] sm:h-[500px] relative">
-                        <TireModel
-                            projects={PROJECTS_DATA}
-                            selectedProject={selectedProject}
-                            onSelectProject={setSelectedProject}
-                        />
-
-                        {/* Project labels floating near the canvas */}
-                        <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-2 flex-wrap px-4">
-                            {PROJECTS_DATA.map((project) => (
-                                <button
-                                    key={project.id}
-                                    onClick={() => setSelectedProject(project.id)}
-                                    className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-300 cursor-pointer ${selectedProject === project.id
-                                        ? 'text-white scale-105'
-                                        : 'text-gray-500 hover:text-gray-300'
-                                        }`}
-                                    style={
-                                        selectedProject === project.id
-                                            ? {
-                                                background: `rgba(${theme.primaryRgb}, 0.2)`,
-                                                border: `1px solid rgba(${theme.primaryRgb}, 0.3)`,
-                                                boxShadow: `0 0 15px rgba(${theme.primaryRgb}, 0.15)`,
-                                            }
-                                            : {
-                                                background: 'rgba(255,255,255,0.03)',
-                                                border: '1px solid rgba(255,255,255,0.06)',
-                                            }
-                                    }
-                                >
-                                    {project.title}
-                                </button>
-                            ))}
-                        </div>
-                    </div>
-
-                    {/* Project Detail Panel */}
-                    <div className="w-full lg:w-1/2">
-                        {selected ? (
+                {/* Horizontal scroll carousel */}
+                <div
+                    ref={carouselRef}
+                    className="flex gap-6 overflow-x-auto pb-8 snap-x snap-mandatory scrollbar-hide px-4"
+                    style={{
+                        scrollbarWidth: 'none',
+                        msOverflowStyle: 'none',
+                        perspective: '1000px',
+                    }}
+                >
+                    {PROJECTS_DATA.map((project, i) => (
+                        <div
+                            key={project.id}
+                            ref={(el) => (cardsRef.current[i] = el)}
+                            className={`flex-shrink-0 w-[300px] sm:w-[350px] md:w-[400px] snap-center cursor-pointer group transition-all duration-300 ${selectedProject === project.id ? 'scale-105' : 'hover:scale-[1.02]'
+                                }`}
+                            style={{
+                                transformStyle: 'preserve-3d',
+                            }}
+                            onClick={() => setSelectedProject(
+                                selectedProject === project.id ? null : project.id
+                            )}
+                            onMouseMove={(e) => handleMouseMove(e, cardsRef.current[i])}
+                            onMouseLeave={() => handleMouseLeave(cardsRef.current[i])}
+                        >
                             <div
-                                ref={detailRef}
-                                className="glass rounded-2xl p-8"
+                                className="glass rounded-2xl p-6 h-full relative overflow-hidden"
                                 style={{
-                                    borderColor: `rgba(${theme.primaryRgb}, 0.15)`,
-                                    boxShadow: `0 0 30px rgba(${theme.primaryRgb}, 0.05)`,
+                                    borderColor: selectedProject === project.id
+                                        ? `rgba(${theme.primaryRgb}, 0.4)`
+                                        : 'rgba(255,255,255,0.05)',
+                                    boxShadow: selectedProject === project.id
+                                        ? `0 0 40px rgba(${theme.primaryRgb}, 0.15), 0 20px 40px rgba(0,0,0,0.3)`
+                                        : '0 10px 30px rgba(0,0,0,0.2)',
                                 }}
                             >
-                                {/* Color bar */}
+                                {/* Top color bar */}
                                 <div
-                                    className="w-full h-1 rounded-full mb-6"
+                                    className="w-full h-1 rounded-full mb-5"
                                     style={{
-                                        background: `linear-gradient(90deg, ${selected.color}, transparent)`,
+                                        background: `linear-gradient(90deg, ${project.color}, transparent)`,
                                     }}
                                 />
 
-                                <h3 className="text-2xl font-bold text-white mb-3">{selected.title}</h3>
-                                <p className="text-gray-400 leading-relaxed mb-6">{selected.description}</p>
+                                {/* Project icon/number */}
+                                <div
+                                    className="w-14 h-14 rounded-xl flex items-center justify-center mb-5 text-2xl font-black"
+                                    style={{
+                                        background: `rgba(${theme.primaryRgb}, 0.1)`,
+                                        color: project.color,
+                                        border: `1px solid ${project.color}33`,
+                                        fontFamily: 'var(--font-display)',
+                                    }}
+                                >
+                                    {String(i + 1).padStart(2, '0')}
+                                </div>
+
+                                <h3 className="text-xl font-bold text-white mb-3 group-hover:text-gradient transition-all">
+                                    {project.title}
+                                </h3>
+                                <p className="text-gray-400 text-sm leading-relaxed mb-5">
+                                    {project.description}
+                                </p>
 
                                 {/* Tech stack */}
-                                <div className="flex flex-wrap gap-2 mb-6">
-                                    {selected.tech.map((t) => (
+                                <div className="flex flex-wrap gap-2 mb-5">
+                                    {project.tech.map((t) => (
                                         <span
                                             key={t}
                                             className="text-xs font-mono px-3 py-1.5 rounded-lg"
@@ -138,32 +203,32 @@ export default function ProjectsSection() {
 
                                 {/* View button */}
                                 <a
-                                    href={selected.link}
-                                    className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300 hover:scale-105"
+                                    href={project.link}
+                                    className="inline-flex items-center gap-2 px-5 py-2 rounded-xl text-sm font-semibold transition-all duration-300 hover:scale-105"
                                     style={{
                                         background: `linear-gradient(135deg, ${theme.gradientStart}, ${theme.gradientEnd})`,
                                         color: theme.key === 'bmw' ? '#000' : '#fff',
                                         boxShadow: `0 0 20px rgba(${theme.primaryRgb}, 0.25)`,
                                     }}
+                                    onClick={(e) => e.stopPropagation()}
                                 >
                                     View Project
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                                         <path d="M7 17L17 7M17 7H7M17 7v10" />
                                     </svg>
                                 </a>
+
+                                {/* 3D depth layer */}
+                                <div
+                                    className="absolute -bottom-2 -right-2 w-32 h-32 rounded-full opacity-10 pointer-events-none"
+                                    style={{
+                                        background: `radial-gradient(circle, ${project.color}, transparent)`,
+                                        filter: 'blur(30px)',
+                                    }}
+                                />
                             </div>
-                        ) : (
-                            <div className="text-center p-12 glass rounded-2xl" style={{ borderColor: 'rgba(255,255,255,0.05)' }}>
-                                <div className="text-5xl mb-4 animate-float">🔧</div>
-                                <p className="text-gray-500 text-lg">
-                                    Select a project from the tire
-                                </p>
-                                <p className="text-gray-700 text-sm mt-2">
-                                    Click a spoke or use the buttons below
-                                </p>
-                            </div>
-                        )}
-                    </div>
+                        </div>
+                    ))}
                 </div>
             </div>
         </section>
