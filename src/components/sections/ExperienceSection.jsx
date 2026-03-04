@@ -3,6 +3,7 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import useThemeStore from '../../store/themeStore';
 import { EXPERIENCE_DATA } from '../../data/portfolioData';
+import Cubes from '../reactbits/Cubes';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -106,15 +107,27 @@ export default function ExperienceSection() {
             style={{ perspective: '1200px' }}
         >
             <div className="section-inner">
-                <div ref={titleRef} className="text-center mb-16">
+                <div ref={titleRef} className="text-center mb-16 relative z-10">
                     <h2 className="section-title text-gradient mx-auto">Experience</h2>
                     <p className="text-gray-400 mt-4 max-w-lg mx-auto text-sm">
                         The road I've traveled in my dev journey
                     </p>
                 </div>
 
+                {/* Cubes 3D Background */}
+                <div className="absolute inset-0 z-0 opacity-[0.15] pointer-events-auto flex items-center justify-center overflow-hidden">
+                    <div className="w-[150%] h-[150%] max-w-[1200px] flex items-center justify-center origin-center rotate-[15deg]">
+                        <Cubes
+                            gridSize={12}
+                            faceColor={`rgba(${theme.primaryRgb}, 0.2)`}
+                            rippleColor={`rgba(${theme.primaryRgb}, 0.8)`}
+                            borderStyle={`1px solid rgba(${theme.primaryRgb}, 0.1)`}
+                        />
+                    </div>
+                </div>
+
                 {/* Timeline with SVG road */}
-                <div className="relative max-w-3xl mx-auto" style={{ transformStyle: 'preserve-3d' }}>
+                <div className="relative max-w-3xl mx-auto z-10" style={{ transformStyle: 'preserve-3d' }}>
                     {/* SVG Road Path */}
                     <svg
                         className="absolute left-6 md:left-1/2 md:-translate-x-1/2 top-0 bottom-0 h-full"

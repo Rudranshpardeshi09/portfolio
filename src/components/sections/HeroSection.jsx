@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import useThemeStore from '../../store/themeStore';
+import Ribbons from '../reactbits/Ribbons';
 
 export default function HeroSection() {
     const { theme } = useThemeStore();
@@ -80,6 +81,17 @@ export default function HeroSection() {
                         radial-gradient(ellipse at 70% 60%, rgba(${theme.primaryRgb}, 0.05) 0%, transparent 50%)`,
                 }}
             />
+
+            {/* Interactive 3D Ribbons */}
+            <div className="absolute inset-0 z-0 opacity-60 pointer-events-auto">
+                <Ribbons
+                    colors={[theme.primary, theme.secondary]}
+                    baseThickness={25}
+                    pointCount={50}
+                    enableFade={true}
+                    baseFriction={0.92}
+                />
+            </div>
 
             {/* Grid pattern overlay */}
             <div

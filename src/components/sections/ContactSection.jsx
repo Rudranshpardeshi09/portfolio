@@ -3,6 +3,7 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import useThemeStore from '../../store/themeStore';
 import { CONTACT_DATA } from '../../data/portfolioData';
+import MagicBento from '../reactbits/MagicBento';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -37,7 +38,7 @@ export default function ContactSection() {
                 );
             }
 
-            // Form card — spring bounce entry
+            // Form card container entry
             if (formRef.current) {
                 gsap.fromTo(formRef.current,
                     { opacity: 0, y: 100, scale: 0.9, rotateX: 15 },
@@ -117,6 +118,151 @@ export default function ContactSection() {
     const titleText = "Get In Touch";
     const titleChars = titleText.split('');
 
+    const bentoItems = [
+        {
+            className: "md:col-span-2 md:row-span-2",
+            content: (
+                <div className="h-full flex flex-col justify-center p-2 relative z-10 w-full" onClick={(e) => e.stopPropagation()}>
+                    <h3 className="text-2xl font-bold mb-6 text-white text-gradient inline-block">Drop a Message</h3>
+                    <form onSubmit={handleSubmit} className="space-y-4 w-full cursor-auto relative z-20">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div ref={(el) => (inputRefs.current[0] = el)}>
+                                <input
+                                    type="text"
+                                    value={formData.name}
+                                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                                    className="w-full px-4 py-3 rounded-xl bg-gray-900/50 border border-gray-700/50 text-white focus:outline-none transition-all duration-300 pointer-events-auto"
+                                    onFocus={(e) => {
+                                        e.target.style.borderColor = theme.primary;
+                                        e.target.style.boxShadow = `0 0 20px rgba(${theme.primaryRgb}, 0.2)`;
+                                    }}
+                                    onBlur={(e) => {
+                                        e.target.style.borderColor = 'rgba(55,65,81,0.5)';
+                                        e.target.style.boxShadow = 'none';
+                                    }}
+                                    placeholder="Your Name"
+                                    required
+                                />
+                            </div>
+                            <div ref={(el) => (inputRefs.current[1] = el)}>
+                                <input
+                                    type="email"
+                                    value={formData.email}
+                                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                                    className="w-full px-4 py-3 rounded-xl bg-gray-900/50 border border-gray-700/50 text-white focus:outline-none transition-all duration-300 pointer-events-auto"
+                                    onFocus={(e) => {
+                                        e.target.style.borderColor = theme.primary;
+                                        e.target.style.boxShadow = `0 0 20px rgba(${theme.primaryRgb}, 0.2)`;
+                                    }}
+                                    onBlur={(e) => {
+                                        e.target.style.borderColor = 'rgba(55,65,81,0.5)';
+                                        e.target.style.boxShadow = 'none';
+                                    }}
+                                    placeholder="your@email.com"
+                                    required
+                                />
+                            </div>
+                        </div>
+                        <div ref={(el) => (inputRefs.current[2] = el)}>
+                            <textarea
+                                value={formData.message}
+                                onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                                rows={4}
+                                className="w-full px-4 py-3 rounded-xl bg-gray-900/50 border border-gray-700/50 text-white focus:outline-none transition-all duration-300 resize-none pointer-events-auto relative z-20"
+                                onFocus={(e) => {
+                                    e.target.style.borderColor = theme.primary;
+                                    e.target.style.boxShadow = `0 0 20px rgba(${theme.primaryRgb}, 0.2)`;
+                                }}
+                                onBlur={(e) => {
+                                    e.target.style.borderColor = 'rgba(55,65,81,0.5)';
+                                    e.target.style.boxShadow = 'none';
+                                }}
+                                placeholder="Tell me about your project..."
+                                required
+                            />
+                        </div>
+                        <div ref={(el) => (inputRefs.current[3] = el)}>
+                            <button
+                                type="submit"
+                                className="w-full py-3 rounded-xl font-semibold text-sm tracking-wider uppercase transition-all duration-300 hover:scale-[1.02] cursor-pointer relative overflow-hidden group pointer-events-auto relative z-20"
+                                style={{
+                                    background: `linear-gradient(135deg, ${theme.gradientStart}, ${theme.gradientEnd})`,
+                                    boxShadow: `0 0 25px rgba(${theme.primaryRgb}, 0.25)`,
+                                    color: theme.key === 'bmw' ? '#000' : '#fff',
+                                }}
+                            >
+                                <span className="relative z-10">
+                                    {submitted ? '✓ Message Sent!' : 'Send Message'}
+                                </span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            )
+        },
+        {
+            className: "md:col-span-1 md:row-span-1 flex flex-col justify-center items-center group/email cursor-pointer",
+            content: (
+                <div className="h-full flex flex-col justify-center items-center text-center p-2 relative z-10 w-full pointer-events-none" onClick={(e) => { e.stopPropagation(); window.location.href = "mailto:hello@rudransh.dev"; }}>
+                    <div className="w-12 h-12 rounded-full flex items-center justify-center mb-4 transition-transform group-hover/email:scale-110" style={{ background: `rgba(${theme.primaryRgb}, 0.1)`, color: theme.primary }}>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                    </div>
+                    <h4 className="text-white font-bold mb-1">Direct Email</h4>
+                    <p className="text-gray-400 text-sm">hello@rudransh.dev</p>
+                </div>
+            )
+        },
+        {
+            className: "md:col-span-1 md:row-span-1 flex flex-col justify-center items-center",
+            content: (
+                <div className="h-full flex flex-col justify-center items-center text-center p-2 relative z-10 w-full">
+                    <h4 className="text-white font-bold mb-4">Connect Here</h4>
+                    <div className="flex gap-3 flex-wrap justify-center relative z-20 pointer-events-auto">
+                        {CONTACT_DATA.socials.map((social, i) => (
+                            <a
+                                key={social.name}
+                                ref={(el) => (socialRefs.current[i] = el)}
+                                href={social.url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="w-10 h-10 rounded-xl flex items-center justify-center text-lg transition-all duration-300 hover:scale-110 relative z-20 group/social pointer-events-auto"
+                                onClick={(e) => e.stopPropagation()}
+                                style={{
+                                    background: 'rgba(255,255,255,0.03)',
+                                    border: '1px solid rgba(255,255,255,0.06)',
+                                }}
+                                onMouseEnter={(e) => {
+                                    e.currentTarget.style.background = `rgba(${theme.primaryRgb}, 0.1)`;
+                                    e.currentTarget.style.borderColor = `rgba(${theme.primaryRgb}, 0.3)`;
+                                    e.currentTarget.style.boxShadow = `0 0 25px rgba(${theme.primaryRgb}, 0.2)`;
+                                }}
+                                onMouseLeave={(e) => {
+                                    e.currentTarget.style.background = 'rgba(255,255,255,0.03)';
+                                    e.currentTarget.style.borderColor = 'rgba(255,255,255,0.06)';
+                                    e.currentTarget.style.boxShadow = 'none';
+                                }}
+                                title={social.name}
+                            >
+                                {social.icon}
+                            </a>
+                        ))}
+                    </div>
+                </div>
+            )
+        },
+        {
+            className: "md:col-span-2 md:row-span-1",
+            content: (
+                <div className="h-full flex flex-col justify-center items-center text-center p-2 relative z-10 w-full pointer-events-none">
+                    <h4 className="text-white font-bold mb-2">Based In</h4>
+                    <p className="text-gray-400 text-sm mb-4">Pune, India 🇮🇳</p>
+                    <div className="w-full h-1 rounded-full" style={{ background: `linear-gradient(90deg, transparent, ${theme.primary}, transparent)` }} />
+                    <p className="mt-4 text-xs text-gray-500">Built with 🏍️ and ❤️ by Rudransh</p>
+                </div>
+            )
+        }
+    ];
+
     return (
         <section
             id="contact"
@@ -124,7 +270,7 @@ export default function ContactSection() {
             className="section-container"
             style={{ perspective: '1200px' }}
         >
-            <div className="section-inner">
+            <div className="section-inner relative z-10" style={{ maxWidth: '100%' }}>
                 <div className="text-center mb-12">
                     {/* Character-by-character animated title */}
                     <h2
@@ -152,142 +298,17 @@ export default function ContactSection() {
 
                 <div
                     ref={formRef}
-                    className="max-w-2xl mx-auto glass rounded-3xl p-8 sm:p-10"
-                    style={{
-                        borderColor: `rgba(${theme.primaryRgb}, 0.1)`,
-                        transformStyle: 'preserve-3d',
-                        boxShadow: '0 20px 50px rgba(0,0,0,0.3)',
-                    }}
+                    className="w-full flex justify-center"
+                    style={{ transformStyle: 'preserve-3d' }}
                 >
-                    <form onSubmit={handleSubmit} className="space-y-6">
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                            <div ref={(el) => (inputRefs.current[0] = el)}>
-                                <label className="block text-sm text-gray-400 mb-2">Name</label>
-                                <input
-                                    type="text"
-                                    value={formData.name}
-                                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                                    className="w-full px-4 py-3 rounded-xl bg-gray-900/50 border border-gray-700/50 text-white focus:outline-none transition-all duration-300"
-                                    onFocus={(e) => {
-                                        e.target.style.borderColor = theme.primary;
-                                        e.target.style.boxShadow = `0 0 20px rgba(${theme.primaryRgb}, 0.2)`;
-                                        gsap.to(e.target, { scale: 1.02, duration: 0.2 });
-                                    }}
-                                    onBlur={(e) => {
-                                        e.target.style.borderColor = 'rgba(55,65,81,0.5)';
-                                        e.target.style.boxShadow = 'none';
-                                        gsap.to(e.target, { scale: 1, duration: 0.2 });
-                                    }}
-                                    placeholder="Your Name"
-                                    required
-                                />
-                            </div>
-                            <div ref={(el) => (inputRefs.current[1] = el)}>
-                                <label className="block text-sm text-gray-400 mb-2">Email</label>
-                                <input
-                                    type="email"
-                                    value={formData.email}
-                                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                                    className="w-full px-4 py-3 rounded-xl bg-gray-900/50 border border-gray-700/50 text-white focus:outline-none transition-all duration-300"
-                                    onFocus={(e) => {
-                                        e.target.style.borderColor = theme.primary;
-                                        e.target.style.boxShadow = `0 0 20px rgba(${theme.primaryRgb}, 0.2)`;
-                                        gsap.to(e.target, { scale: 1.02, duration: 0.2 });
-                                    }}
-                                    onBlur={(e) => {
-                                        e.target.style.borderColor = 'rgba(55,65,81,0.5)';
-                                        e.target.style.boxShadow = 'none';
-                                        gsap.to(e.target, { scale: 1, duration: 0.2 });
-                                    }}
-                                    placeholder="your@email.com"
-                                    required
-                                />
-                            </div>
-                        </div>
-                        <div ref={(el) => (inputRefs.current[2] = el)}>
-                            <label className="block text-sm text-gray-400 mb-2">Message</label>
-                            <textarea
-                                value={formData.message}
-                                onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                                rows={5}
-                                className="w-full px-4 py-3 rounded-xl bg-gray-900/50 border border-gray-700/50 text-white focus:outline-none transition-all duration-300 resize-none"
-                                onFocus={(e) => {
-                                    e.target.style.borderColor = theme.primary;
-                                    e.target.style.boxShadow = `0 0 20px rgba(${theme.primaryRgb}, 0.2)`;
-                                }}
-                                onBlur={(e) => {
-                                    e.target.style.borderColor = 'rgba(55,65,81,0.5)';
-                                    e.target.style.boxShadow = 'none';
-                                }}
-                                placeholder="Tell me about your project or your favorite bike..."
-                                required
-                            />
-                        </div>
-                        <div ref={(el) => (inputRefs.current[3] = el)}>
-                            <button
-                                type="submit"
-                                className="w-full py-3.5 rounded-xl font-semibold text-sm tracking-wider uppercase transition-all duration-300 hover:scale-[1.02] cursor-pointer relative overflow-hidden group"
-                                style={{
-                                    background: `linear-gradient(135deg, ${theme.gradientStart}, ${theme.gradientEnd})`,
-                                    boxShadow: `0 0 25px rgba(${theme.primaryRgb}, 0.25)`,
-                                    color: theme.key === 'bmw' ? '#000' : '#fff',
-                                }}
-                            >
-                                {/* Neon pulse overlay */}
-                                <div
-                                    className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                                    style={{
-                                        background: `radial-gradient(circle at center, rgba(255,255,255,0.2), transparent 70%)`,
-                                    }}
-                                />
-                                <span className="relative z-10">
-                                    {submitted ? '✓ Message Sent!' : 'Send Message'}
-                                </span>
-                            </button>
-                        </div>
-                    </form>
-
-                    {/* Social Links */}
-                    <div className="mt-8 pt-6 border-t border-gray-800/50">
-                        <div className="flex justify-center gap-4">
-                            {CONTACT_DATA.socials.map((social, i) => (
-                                <a
-                                    key={social.name}
-                                    ref={(el) => (socialRefs.current[i] = el)}
-                                    href={social.url}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="w-12 h-12 rounded-xl flex items-center justify-center text-xl transition-all duration-300 hover:scale-110 group/social"
-                                    style={{
-                                        background: 'rgba(255,255,255,0.03)',
-                                        border: '1px solid rgba(255,255,255,0.06)',
-                                    }}
-                                    onMouseEnter={(e) => {
-                                        e.currentTarget.style.background = `rgba(${theme.primaryRgb}, 0.1)`;
-                                        e.currentTarget.style.borderColor = `rgba(${theme.primaryRgb}, 0.3)`;
-                                        e.currentTarget.style.boxShadow = `0 0 25px rgba(${theme.primaryRgb}, 0.2)`;
-                                    }}
-                                    onMouseLeave={(e) => {
-                                        e.currentTarget.style.background = 'rgba(255,255,255,0.03)';
-                                        e.currentTarget.style.borderColor = 'rgba(255,255,255,0.06)';
-                                        e.currentTarget.style.boxShadow = 'none';
-                                    }}
-                                    title={social.name}
-                                >
-                                    {social.icon}
-                                </a>
-                            ))}
-                        </div>
-                    </div>
-                </div>
-
-                {/* Footer */}
-                <div className="text-center mt-16 text-gray-600 text-sm">
-                    <p>
-                        Built with 🏍️ and ❤️ by{' '}
-                        <span style={{ color: theme.primary }}>Rudransh</span>
-                    </p>
-                    <p className="mt-1 text-xs text-gray-700">© 2026 All rights reserved.</p>
+                    <MagicBento
+                        bentoData={bentoItems}
+                        glowColor={theme.primaryRgb}
+                        particleCount={15}
+                        enableTilt={true}
+                        clickEffect={true}
+                        enableMagnetism={false} // Disable magnetism as it interferes with form input
+                    />
                 </div>
             </div>
         </section>

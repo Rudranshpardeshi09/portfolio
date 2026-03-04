@@ -3,6 +3,8 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import useThemeStore from '../../store/themeStore';
 import { ABOUT_DATA } from '../../data/portfolioData';
+import DecayCard from '../reactbits/DecayCard';
+import ModelViewer from '../reactbits/ModelViewer';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -86,24 +88,22 @@ export default function AboutSection() {
                     >
                         <div className="relative group">
                             <div
-                                className="w-64 h-64 sm:w-80 sm:h-80 lg:w-[480px] lg:h-[480px] rounded-full p-4 mx-auto flex items-center justify-center transition-all duration-700"
+                                className="w-[300px] h-[400px] sm:w-[350px] sm:h-[450px] lg:w-[450px] lg:h-[550px] rounded-3xl p-4 mx-auto flex items-center justify-center transition-all duration-700"
                                 style={{
-                                    background: `conic-gradient(from 180deg, rgba(255,255,255,0.2), #1a1a1a, rgba(255,255,255,0.2), #1a1a1a, rgba(255,255,255,0.2))`,
+                                    background: `conic-gradient(from 180deg, rgba(255,255,255,0.1), rgba(0,0,0,0.5), rgba(255,255,255,0.1), rgba(0,0,0,0.5), rgba(255,255,255,0.1))`,
                                     boxShadow: `0 30px 60px rgba(0,0,0,0.5), 0 0 40px rgba(var(--color-primary-rgb), 0.1)`,
+                                    transformStyle: 'preserve-3d'
                                 }}
                             >
-                                <div className="w-full h-full rounded-full bg-slate-900 overflow-hidden border-[12px] border-gray-800 animate-float relative shadow-inner">
-                                    <img
-                                        src="/my-pfp/pfp.jpg"
-                                        alt="Rudransh"
-                                        className="w-full h-full object-cover object-[center_10%] opacity-100 transition-all duration-1000"
-                                    />
+                                <div className="w-full h-full rounded-2xl overflow-hidden border-[8px] border-gray-800 animate-float relative shadow-inner">
+                                    <DecayCard width="100%" height="100%" image="/my-pfp/pfp.jpg">
+                                    </DecayCard>
                                     <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
                                 </div>
                             </div>
-                            {/* Decorative ring */}
+                            {/* Decorative framing */}
                             <div
-                                className="absolute -inset-8 rounded-full border border-white/20 opacity-50 animate-[spin_40s_linear_infinite]"
+                                className="absolute -inset-4 rounded-3xl border border-white/20 opacity-50"
                                 style={{ borderStyle: 'double', borderWidth: '4px' }}
                             />
                             {/* Depth glow behind image */}
