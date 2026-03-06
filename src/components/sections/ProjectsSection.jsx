@@ -1,7 +1,8 @@
 import { useState, useRef } from 'react';
 import useThemeStore from '../../store/themeStore';
-import { PROJECTS_DATA } from '../../data/portfolioData';
+import { PROJECTS_DATA, SKILLS_DATA } from '../../data/portfolioData';
 import ScrollStack, { ScrollStackItem } from '../reactbits/ScrollStack';
+import LogoLoop from '../reactbits/LogoLoop';
 
 export default function ProjectsSection() {
     const { theme } = useThemeStore();

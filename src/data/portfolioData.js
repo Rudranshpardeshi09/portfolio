@@ -7,49 +7,65 @@ export const SECTIONS = [
 ];
 
 export const ABOUT_DATA = {
-    title: "Full-Stack Developer & Bike Enthusiast",
-    bio: "Hey there! I'm Rudransh. I started my journey writing simple code, and along the way, I fell in love with both the precision of building seamless web applications and the thrill of super-bikes. When I'm not debugging or optimizing backend APIs, you'll probably find me dreaming about hitting the apex on a track day.",
-    bio2: "I believe that writing code is a lot like tuning a high-performance machine — every component matters, and efficiency is everything. Let's build something fast, reliable, and beautifully designed together.",
+    title: "MCA Candidate & Full-Stack Developer",
+    bio: "Motivated MCA candidate with expertise in Full Stack Development and Artificial Intelligence, supported by hands-on experience building responsive web applications using React.js and Django. Experience integrating advanced technologies such as Computer Vision and Retrieval-Augmented Generation (RAG) architectures.",
+    bio2: "Certified by NVIDIA and Red Hat, with practical exposure to workflow automation and delivery of scalable software solutions during internships. Strong analytical thinking, problem-solving abilities, and a collaborative mindset suited for dynamic engineering teams.",
     stats: [
-        { label: 'Projects Completed', value: '30+' },
-        { label: 'Years Experience', value: '4+' },
-        { label: 'Technologies', value: '20+' },
-        { label: 'Cups of Chai', value: '∞' },
+        { label: 'Projects', value: '10+' },
+        { label: 'Certifications', value: '3' },
+        { label: 'Technologies', value: '15+' },
+        { label: 'Learning Mindset', value: '100%' },
     ],
 };
 
 export const SKILLS_DATA = [
     {
-        category: 'Frontend',
-        icon: '🎨',
+        category: 'Programming Languages',
+        icon: '💻',
         skills: [
-            { name: 'React / Next.js', level: 92 },
-            { name: 'Three.js / R3F', level: 78 },
-            { name: 'GSAP / Framer Motion', level: 85 },
-            { name: 'Tailwind CSS', level: 95 },
-            { name: 'TypeScript', level: 88 },
+            { name: 'Python', level: 90 },
+            { name: 'C++', level: 85 },
+            { name: 'JavaScript', level: 88 },
         ],
     },
     {
-        category: 'Backend',
-        icon: '⚙️',
+        category: 'AI/ML & Data',
+        icon: '🤖',
         skills: [
-            { name: 'Node.js / Express', level: 90 },
-            { name: 'Python / FastAPI', level: 82 },
-            { name: 'PostgreSQL / MongoDB', level: 85 },
-            { name: 'REST & GraphQL APIs', level: 88 },
-            { name: 'Docker / AWS', level: 75 },
+            { name: 'Scikit-learn', level: 82 },
+            { name: 'TensorFlow', level: 75 },
+            { name: 'OpenCV', level: 80 },
+            { name: 'NumPy', level: 85 },
+            { name: 'Pandas', level: 85 },
+            { name: 'LangChain', level: 78 },
         ],
     },
     {
-        category: 'Tools & More',
+        category: 'Web Frameworks',
+        icon: '🌐',
+        skills: [
+            { name: 'Django', level: 88 },
+            { name: 'FastAPI', level: 82 },
+            { name: 'React.js', level: 90 },
+        ],
+    },
+    {
+        category: 'Databases',
+        icon: '🗄️',
+        skills: [
+            { name: 'PostgreSQL', level: 80 },
+            { name: 'MySQL', level: 82 },
+        ],
+    },
+    {
+        category: 'Tools & Platforms',
         icon: '🛠️',
         skills: [
-            { name: 'Git / GitHub', level: 94 },
-            { name: 'CI/CD Pipelines', level: 80 },
-            { name: 'Figma / UI Design', level: 78 },
-            { name: 'Linux / Shell', level: 82 },
-            { name: 'AI/ML Integration', level: 72 },
+            { name: 'Git', level: 90 },
+            { name: 'GitHub', level: 92 },
+            { name: 'Postman', level: 85 },
+            { name: 'Jira', level: 75 },
+            { name: 'Jupyter Notebook', level: 80 },
         ],
     },
 ];
@@ -57,84 +73,61 @@ export const SKILLS_DATA = [
 export const PROJECTS_DATA = [
     {
         id: 1,
-        title: 'AI Video Detector',
-        description: 'A deepfake detection platform using advanced ML models to identify AI-generated video content with real-time analysis.',
-        tech: ['Python', 'TensorFlow', 'React', 'FastAPI'],
+        title: 'Study-Mind-AI (RAG Architecture)',
+        description: 'Developed a Retrieval-Augmented Generation (RAG) system integrating LangChain pipelines and Google Gemini API, improving contextual answer relevance by 35%. Engineered semantic search workflows enabling multi-document PDF ingestion and precise page-level citation mapping.',
+        tech: ['Python', 'LangChain', 'Gemini API', 'React'],
         color: '#FF6B6B',
         link: '#',
     },
     {
         id: 2,
-        title: 'Smart Attendance',
-        description: 'Facial recognition-based attendance system with WebSocket real-time updates and admin dashboard.',
-        tech: ['Node.js', 'OpenCV', 'React', 'WebSocket'],
+        title: 'Auto-Attendance System',
+        description: 'Constructed an AI-powered attendance tracking system using FastAPI, React, and OpenCV, increasing attendance automation efficiency by 80%. Executed deep learning-based facial recognition with real-time liveness detection to prevent spoofing attempts.',
+        tech: ['FastAPI', 'React', 'OpenCV'],
         color: '#4ECDC4',
-        link: '#',
-    },
-    {
-        id: 3,
-        title: 'Garage Portfolio',
-        description: 'This very portfolio — a 3D scrollytelling experience with dynamic bike themes and interactive navigation.',
-        tech: ['React', 'Three.js', 'GSAP', 'Tailwind'],
-        color: '#FFE66D',
-        link: '#',
-    },
-    {
-        id: 4,
-        title: 'E-Commerce Platform',
-        description: 'Full-stack e-commerce solution with payment integration, inventory management, and analytics dashboard.',
-        tech: ['Next.js', 'Stripe', 'PostgreSQL', 'Redis'],
-        color: '#A78BFA',
-        link: '#',
-    },
-    {
-        id: 5,
-        title: 'Real-Time Chat App',
-        description: 'End-to-end encrypted messaging platform with file sharing, group chats, and video calls.',
-        tech: ['React', 'Socket.io', 'WebRTC', 'MongoDB'],
-        color: '#F97316',
-        link: '#',
-    },
-    {
-        id: 6,
-        title: 'DevOps Dashboard',
-        description: 'Unified monitoring dashboard for CI/CD pipelines, server health, and deployment analytics.',
-        tech: ['Vue.js', 'Docker', 'Grafana', 'Go'],
-        color: '#06B6D4',
         link: '#',
     },
 ];
 
 export const EXPERIENCE_DATA = [
     {
-        role: 'Full-Stack Developer',
-        company: 'Freelance',
-        period: '2023 — Present',
-        description: 'Building high-performance web applications for clients worldwide. Specializing in React/Next.js frontends with Node.js backends.',
-        highlights: ['Led 10+ client projects', 'Built real-time systems', '99.9% uptime record'],
+        role: 'AI/ML Intern',
+        company: 'Robomaniax',
+        period: '08/2025 — 01/2026',
+        description: 'Increased sales forecast accuracy by 18-22% by applying regression and ensemble learning models using Python and Scikit-learn. Engineered a Django-based Inventory Management System that reduced manual data entry errors by 40% and improved stock tracking efficiency by 30%. Developed interactive data visualization dashboards, decreasing reporting time by 30%.',
+        highlights: ['Sales Forecasting', 'Inventory Management', 'Data Dashboards'],
     },
     {
-        role: 'Frontend Developer Intern',
-        company: 'Tech Startup',
-        period: '2022 — 2023',
-        description: 'Developed responsive UIs and integrated REST APIs. Improved page load times by 40% through optimization.',
-        highlights: ['React & TypeScript', 'Performance optimization', 'Agile workflow'],
+        role: 'Web Development Intern',
+        company: 'IPS-DRIV',
+        period: '06/2025 — 07/2025',
+        description: 'Built and deployed a full-stack Certificate Generator platform used for university events, automating bulk certificate distribution for 500+ participants. Decreased administrative processing time by 90% by developing automated CSV-to-template mapping and validation workflows.',
+        highlights: ['Certificate Generator', 'Workflow Automation', 'Full-stack Dev'],
+    },
+];
+
+export const CERTIFICATIONS_DATA = [
+    {
+        name: 'Applications of AI for Anomaly Detection',
+        issuer: 'NVIDIA',
+        date: 'Feb 2026',
     },
     {
-        role: 'Open Source Contributor',
-        company: 'Various Projects',
-        period: '2021 — Present',
-        description: 'Active contributor to open-source projects in the React and Node.js ecosystems.',
-        highlights: ['50+ contributions', 'Documentation improvements', 'Bug fixes & features'],
+        name: 'Red Hat System Administration I (RH124)',
+        issuer: 'Red Hat',
+        date: 'June 2025',
+    },
+    {
+        name: 'Django Web Development',
+        issuer: 'GeeksforGeeks',
+        date: 'March 2024',
     },
 ];
 
 export const CONTACT_DATA = {
-    email: 'rudransh@example.com',
+    email: 'rudranshpardeshi12@gmail.com',
     socials: [
-        { name: 'GitHub', url: 'https://github.com', icon: '🐙' },
-        { name: 'LinkedIn', url: 'https://linkedin.com', icon: '💼' },
-        { name: 'Twitter', url: 'https://twitter.com', icon: '🐦' },
-        { name: 'Instagram', url: 'https://instagram.com', icon: '📸' },
+        { name: 'LinkedIn', url: 'https://linkedin.com/in/rudransh-pardeshi-', icon: '💼' },
+        { name: 'GitHub', url: 'https://github.com/Rudranshpardeshi09', icon: '🐙' },
     ],
 };

@@ -6,7 +6,7 @@ export default function AboutIntro({ onComplete }) {
     const { getBackgroundStyle } = useThemeStore();
     const containerRef = useRef(null);
     const textRef = useRef(null);
-    const text = "rider's info";
+    const text = "Rudransh Pardeshi";
 
     useEffect(() => {
         const chars = textRef.current.querySelectorAll('.char');

@@ -1,61 +1,46 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import useThemeStore, { BIKE_THEMES } from '../../store/themeStore';
 
 const bikeKeys = Object.keys(BIKE_THEMES);
 
 export default function FloatingBikes() {
-    const { selectedBike, setBike } = useThemeStore();
+    const { selectedBike, setBike, theme } = useThemeStore();
     const containerRef = useRef(null);
     const bikeRefs = useRef([]);
-
-    // S-curve positions: bikes arranged in an S-shape from top to bottom
-    // Each bike gets a vertical position + horizontal offset via sin wave
-    const getBikePosition = (index, total) => {
-        const verticalSpacing = 64; // px between bikes
-        const amplitude = 30; // horizontal S wave amplitude
-        const yOffset = index * verticalSpacing;
-        const xOffset = Math.sin((index / (total - 1)) * Math.PI * 2) * amplitude;
-        return { x: xOffset, y: yOffset };
-    };
 
     useEffect(() => {
         if (!containerRef.current) return;
 
         const ctx = gsap.context(() => {
-            // Entry animation — bikes fly in from right
+            // Initial animation for the column
             bikeRefs.current.forEach((el, i) => {
                 if (!el) return;
-                gsap.fromTo(el,
-                    { opacity: 0, x: 100, rotateY: -180 },
-                    {
-                        opacity: 1, x: 0, rotateY: 0,
-                        duration: 1.2,
-                        delay: 0.8 + i * 0.15,
-                        ease: 'back.out(1.4)',
-                    }
-                );
-            });
-
-            // Continuous floating + Y-axis rotation for each bike
-            bikeRefs.current.forEach((el, i) => {
-                if (!el) return;
-                // Floating motion
+                gsap.set(el, { opacity: 0, x: -50, scale: 0.8 });
                 gsap.to(el, {
-                    y: `+=${8 + i * 2}`,
-                    duration: 2 + i * 0.3,
-                    ease: 'sine.inOut',
-                    yoyo: true,
-                    repeat: -1,
-                    delay: i * 0.2,
+                    opacity: 1,
+                    x: 0,
+                    scale: 1,
+                    duration: 0.8,
+                    delay: i * 0.1,
+                    ease: 'power3.out'
                 });
 
-                // Y-axis rotation
+                // Floating effect
+                gsap.to(el, {
+                    y: '+=10',
+                    duration: 2 + i * 0.3,
+                    yoyo: true,
+                    repeat: -1,
+                    ease: 'sine.inOut'
+                });
+
+                // Periodic 3D rotation of the icons
                 const imgEl = el.querySelector('.bike-img-3d');
                 if (imgEl) {
                     gsap.to(imgEl, {
                         rotateY: 360,
-                        duration: 4 + i * 0.5,
+                        duration: 8,
                         ease: 'none',
                         repeat: -1,
                     });
@@ -69,12 +54,11 @@ export default function FloatingBikes() {
     return (
         <div
             ref={containerRef}
-            className="fixed bottom-4 right-4 md:bottom-8 md:right-8 z-40 flex flex-col items-center"
-            style={{ perspective: '800px' }}
+            className="fixed bottom-10 left-6 md:left-10 z-[100] flex flex-col gap-6"
+            style={{ perspective: '1000px' }}
         >
             {bikeKeys.map((key, i) => {
                 const bike = BIKE_THEMES[key];
-                const pos = getBikePosition(i, bikeKeys.length);
                 const isActive = selectedBike === key;
 
                 return (
@@ -82,62 +66,45 @@ export default function FloatingBikes() {
                         key={key}
                         ref={(el) => (bikeRefs.current[i] = el)}
                         onClick={() => setBike(key)}
-                        className="absolute cursor-pointer group"
-                        style={{
-                            bottom: `${pos.y}px`,
-                            right: `${pos.x + 10}px`,
-                            transformStyle: 'preserve-3d',
-                            zIndex: isActive ? 10 : 5 - i,
-                        }}
-                        title={bike.name}
+                        className="relative cursor-pointer group"
+                        style={{ transformStyle: 'preserve-3d' }}
                     >
-                        {/* Glow ring behind active bike */}
                         <div
-                            className="absolute inset-0 rounded-full transition-all duration-500"
-                            style={{
-                                background: isActive
-                                    ? `radial-gradient(circle, rgba(${bike.primaryRgb}, 0.4), transparent 70%)`
-                                    : 'none',
-                                transform: 'scale(1.8)',
-                                filter: isActive ? 'blur(8px)' : 'none',
-                            }}
-                        />
-
-                        {/* Bike image with 3D rotation */}
-                        <div
-                            className="bike-img-3d relative w-10 h-10 md:w-14 md:h-14 rounded-full flex items-center justify-center transition-all duration-300"
+                            className="bike-img-3d w-14 h-14 md:w-16 md:h-16 rounded-full flex items-center justify-center transition-all duration-300 relative shadow-2xl"
                             style={{
                                 transformStyle: 'preserve-3d',
                                 background: isActive
                                     ? `linear-gradient(135deg, ${bike.gradientStart}, ${bike.gradientEnd})`
-                                    : 'rgba(255,255,255,0.08)',
+                                    : 'rgba(20,20,20,0.85)',
                                 border: isActive
-                                    ? `2px solid rgba(${bike.primaryRgb}, 0.6)`
+                                    ? `2px solid ${bike.primary}`
                                     : '1px solid rgba(255,255,255,0.1)',
                                 boxShadow: isActive
-                                    ? `0 0 20px rgba(${bike.primaryRgb}, 0.4), 0 0 40px rgba(${bike.primaryRgb}, 0.2)`
-                                    : '0 4px 12px rgba(0,0,0,0.3)',
+                                    ? `0 0 30px rgba(${bike.primaryRgb}, 0.5)`
+                                    : '0 10px 30px rgba(0,0,0,0.4)',
+                                backdropFilter: 'blur(10px)'
                             }}
                         >
                             <img
                                 src={bike.image}
                                 alt={bike.name}
-                                className="w-[85%] h-[85%] object-contain pointer-events-none drop-shadow-lg"
-                                style={{ backfaceVisibility: 'hidden' }}
+                                className="w-[85%] h-[85%] object-contain pointer-events-none drop-shadow-2xl transition-transform duration-300 group-hover:scale-110"
                             />
+
+                            {/* Active Indicator Dot */}
+                            {isActive && (
+                                <div className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-white flex items-center justify-center shadow-lg border-2 border-white animate-pulse">
+                                    <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: bike.primary }} />
+                                </div>
+                            )}
                         </div>
 
-                        {/* Name tooltip on hover */}
+                        {/* Label Tooltip */}
                         <div
-                            className="absolute right-full mr-3 top-1/2 -translate-y-1/2 whitespace-nowrap px-2 py-1 rounded-md text-[10px] md:text-xs font-medium opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none"
-                            style={{
-                                background: 'rgba(0,0,0,0.8)',
-                                color: isActive ? bike.primary : '#ccc',
-                                border: `1px solid rgba(${bike.primaryRgb}, 0.3)`,
-                                backdropFilter: 'blur(10px)',
-                            }}
+                            className="absolute left-full ml-4 top-1/2 -translate-y-1/2 px-4 py-2 rounded-xl bg-black/90 border border-white/10 text-sm font-bold text-white opacity-0 group-hover:opacity-100 transition-all duration-300 backdrop-blur-xl whitespace-nowrap pointer-events-none translate-x-2 group-hover:translate-x-0"
+                            style={{ boxShadow: isActive ? `0 0 20px rgba(${bike.primaryRgb}, 0.2)` : 'none' }}
                         >
-                            {bike.name.split(' ').slice(-1)}
+                            {bike.name}
                         </div>
                     </div>
                 );

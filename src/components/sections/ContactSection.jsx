@@ -123,7 +123,7 @@ export default function ContactSection() {
             className: "md:col-span-2 md:row-span-2",
             content: (
                 <div className="h-full flex flex-col justify-center p-2 relative z-10 w-full" onClick={(e) => e.stopPropagation()}>
-                    <h3 className="text-2xl font-bold mb-6 text-white text-gradient inline-block">Drop a Message</h3>
+                    <h3 className="text-2xl font-bold mb-6" style={{ color: theme.primary }}>Drop a Message</h3>
                     <form onSubmit={handleSubmit} className="space-y-4 w-full cursor-auto relative z-20">
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div ref={(el) => (inputRefs.current[0] = el)}>
@@ -275,8 +275,8 @@ export default function ContactSection() {
                     {/* Character-by-character animated title */}
                     <h2
                         ref={titleRef}
-                        className="section-title text-gradient mx-auto inline-flex flex-wrap justify-center"
-                        style={{ transformStyle: 'preserve-3d' }}
+                        className="section-title mx-auto inline-flex flex-wrap justify-center"
+                        style={{ color: theme.primary, transformStyle: 'preserve-3d' }}
                     >
                         {titleChars.map((char, i) => (
                             <span

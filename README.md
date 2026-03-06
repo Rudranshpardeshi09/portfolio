@@ -26,5 +26,7 @@ also,
 make the bike selection at the left at bottom , make it a button so that when the user clicks on it then it will show all the option in the same manner .
 
 use ribbon in cursor
-use Logo Loop in skills and asenal
-use Infinite Menu in infinite menu
+use infinite menu in skills and asenal
+use logo loop in project
+corect the color of get in touch heading
+make the bike selectionsfloating icons to the left of the page
