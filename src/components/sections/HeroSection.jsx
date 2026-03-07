@@ -170,7 +170,7 @@ export default function HeroSection() {
                         style={{
                             background: `linear-gradient(135deg, ${theme.gradientStart}, ${theme.gradientEnd})`,
                             boxShadow: `0 0 30px rgba(${theme.primaryRgb}, 0.3)`,
-                            color: theme.key === 'bmw' ? '#000' : '#fff',
+                            color: '#fff',
                         }}
                     >
                         Start the Ride
@@ -195,3 +195,4 @@ export default function HeroSection() {
         </section>
     );
 }
+

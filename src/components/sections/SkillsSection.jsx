@@ -1,4 +1,4 @@
-import { useEffect, useRef, useMemo, useCallback } from 'react';
+import { useEffect, useRef, useCallback } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import useThemeStore from '../../store/themeStore';
@@ -6,35 +6,61 @@ import LogoLoop from '../reactbits/LogoLoop';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const SKILL_TECH = [
-    { name: 'React', slug: 'react', short: 'RE' },
-    { name: 'Tailwind CSS', slug: 'tailwindcss', short: 'TW' },
-    { name: 'Vite', slug: 'vite', short: 'VI' },
-    { name: 'JavaScript', slug: 'javascript', short: 'JS' },
-    { name: 'HTML5', slug: 'html5', short: 'HT' },
-    { name: 'CSS3', slug: 'css3', short: 'CS' },
-    { name: 'Python', slug: 'python', short: 'PY' },
-    { name: 'C++', slug: 'cpp', short: 'C+' },
-    { name: 'FastAPI', slug: 'fastapi', short: 'FA' },
-    { name: 'Django', slug: 'django', short: 'DJ' },
-    { name: 'OpenCV', slug: 'opencv', short: 'CV' },
-    { name: 'NumPy', slug: 'numpy', short: 'NP' },
-    { name: 'Pandas', slug: 'pandas', short: 'PD' },
-    { name: 'Matplotlib', slug: 'matplotlib', short: 'MP' },
-    { name: 'LangChain', slug: 'langchain', short: 'LC' },
-    { name: 'Hugging Face', slug: 'huggingface', short: 'HF' },
-    { name: 'TensorFlow', slug: 'tensorflow', short: 'TF' },
-    { name: 'Scikit-learn', slug: 'scikitlearn', short: 'SK' }
-];
-
-const ARSENAL_TECH = [
-    { name: 'Postman', slug: 'postman', short: 'PM' },
-    { name: 'Git', slug: 'git', short: 'GT' },
-    { name: 'GitHub', slug: 'github', short: 'GH' },
-    { name: 'Jira', slug: 'jira', short: 'JR' },
-    { name: 'PostgreSQL', slug: 'postgresql', short: 'PG' },
-    { name: 'MySQL', slug: 'mysql', short: 'MY' },
-    { name: 'Jupyter Notebook', slug: 'jupyternotebook', short: 'JP' }
+const TECH_ROWS = [
+    {
+        category: 'Frontend',
+        speed: 52,
+        direction: 'left',
+        logos: [
+            { name: 'React', src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg' },
+            { name: 'Tailwind CSS', src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg' },
+            { name: 'Vite', src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vite/vite-original.svg' },
+            { name: 'JavaScript', src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg' },
+            { name: 'HTML5', src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg' },
+            { name: 'CSS3', src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg' }
+        ]
+    },
+    {
+        category: 'Backend',
+        speed: 48,
+        direction: 'right',
+        logos: [
+            { name: 'FastAPI', src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/fastapi/fastapi-original.svg' },
+            { name: 'Django', src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/django/django-plain.svg' },
+            { name: 'Python', src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg' },
+            { name: 'C++', src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cplusplus/cplusplus-original.svg' },
+            { name: 'Node.js', src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg' },
+            { name: 'Express', src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original.svg' }
+        ]
+    },
+    {
+        category: 'AI / ML',
+        speed: 46,
+        direction: 'left',
+        logos: [
+            { name: 'OpenCV', src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/opencv/opencv-original.svg' },
+            { name: 'NumPy', src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/numpy/numpy-original.svg' },
+            { name: 'Pandas', src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/pandas/pandas-original.svg' },
+            { name: 'Matplotlib', src: 'https://cdn.simpleicons.org/matplotlib/11557C' },
+            { name: 'TensorFlow', src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tensorflow/tensorflow-original.svg' },
+            { name: 'Scikit-learn', src: 'https://cdn.simpleicons.org/scikitlearn/F7931E' },
+            { name: 'LangChain', src: 'https://cdn.simpleicons.org/langchain/1C3C3C' },
+            { name: 'Hugging Face', src: 'https://cdn.simpleicons.org/huggingface/FF9D00' }
+        ]
+    },
+    {
+        category: 'Database & Tools',
+        speed: 44,
+        direction: 'right',
+        logos: [
+            { name: 'PostgreSQL', src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg' },
+            { name: 'MySQL', src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg' },
+            { name: 'Git', src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg' },
+            { name: 'GitHub', src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg' },
+            { name: 'Postman', src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postman/postman-original.svg' },
+            { name: 'Jira', src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jira/jira-original.svg' }
+        ]
+    }
 ];
 
 export default function SkillsSection() {
@@ -46,7 +72,7 @@ export default function SkillsSection() {
         const ctx = gsap.context(() => {
             gsap.fromTo(
                 titleRef.current,
-                { opacity: 0, y: 40, filter: 'blur(10px)' },
+                { opacity: 0, y: 40, filter: 'blur(8px)' },
                 {
                     opacity: 1,
                     y: 0,
@@ -64,109 +90,68 @@ export default function SkillsSection() {
         return () => ctx.revert();
     }, []);
 
-    const skillsLogos = useMemo(
-        () =>
-            SKILL_TECH.map(item => ({
-                src: `/tech-logos/${item.slug}.svg`,
-                alt: item.name,
-                title: item.name,
-                short: item.short
-            })),
-        []
-    );
-
-    const arsenalLogos = useMemo(
-        () =>
-            ARSENAL_TECH.map(item => ({
-                src: `/tech-logos/${item.slug}.svg`,
-                alt: item.name,
-                title: item.name,
-                short: item.short
-            })),
-        []
-    );
-
-    const renderLoopItem = useCallback((item, key) => (
+    const renderLogoItem = useCallback((item, key) => (
         <div key={key} className="flex flex-col items-center gap-2 px-1">
-            <div
-                className="w-14 h-14 md:w-16 md:h-16 rounded-2xl overflow-hidden border border-white/15 bg-black/30 flex items-center justify-center"
-                style={{ boxShadow: `0 0 16px rgba(${theme.primaryRgb}, 0.15)` }}
-            >
+            <div className="w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-white border border-neutral-900 p-2 flex items-center justify-center shadow-[0_10px_24px_rgba(0,0,0,0.3)]">
                 <img
                     src={item.src}
                     alt={item.alt}
-                    className="w-full h-full object-cover"
+                    title={item.title}
+                    className="w-full h-full object-contain"
                     loading="lazy"
+                    referrerPolicy="no-referrer"
                     onError={(e) => {
-                        e.currentTarget.style.display = 'none';
-                        const fallback = e.currentTarget.nextElementSibling;
-                        if (fallback) fallback.style.display = 'flex';
+                        e.currentTarget.src = '/tech-logos/react.svg';
                     }}
                 />
-                <span className="hidden w-full h-full items-center justify-center text-xs font-bold text-white">
-                    {item.short}
-                </span>
             </div>
-            <span className="text-[11px] text-white/80 whitespace-nowrap leading-none">{item.title}</span>
+            <span className="text-[11px] text-white/85 whitespace-nowrap leading-none">{item.title}</span>
         </div>
-    ), [theme.primaryRgb]);
+    ), []);
 
     return (
         <section id="skills" ref={sectionRef} className="section-container relative z-10 overflow-hidden">
             <div className="section-inner pt-8 md:pt-12">
-                <div ref={titleRef} className="text-center mb-6 md:mb-8 relative z-20">
+                <div ref={titleRef} className="text-center mb-4 md:mb-6 relative z-20">
                     <h2 className="section-title text-gradient inline-block" style={{ color: theme.primary }}>
                         Skills & Arsenal
                     </h2>
                     <p className="text-gray-400 mt-3 max-w-2xl mx-auto text-sm md:text-base">
-                        A curated collection of technologies I use to build high-performance applications.
+                        Smooth category-based logo loops inspired by ReactBits.
                     </p>
                 </div>
 
                 <div className="w-full relative z-10">
                     <div
-                        className="absolute inset-0 opacity-15 pointer-events-none"
+                        className="absolute inset-0 opacity-10 pointer-events-none"
                         style={{ background: `radial-gradient(circle at 50% 50%, ${theme.primary}, transparent 70%)` }}
                     />
-
-                    <div className="relative z-10 grid gap-5 md:gap-7">
-                        <div className="glass rounded-[22px] p-4 md:p-6 overflow-hidden">
-                            <h3 className="text-white text-lg md:text-2xl font-bold mb-4" style={{ color: theme.primary }}>
-                                Skill Loop
-                            </h3>
-                            <LogoLoop
-                                logos={skillsLogos}
-                                speed={62}
-                                direction="left"
-                                logoHeight={84}
-                                gap={24}
-                                fadeOut
-                                pauseOnHover
-                                scaleOnHover
-                                fadeOutColor="rgba(12,12,12,0.95)"
-                                ariaLabel="Skills logo loop"
-                                renderItem={renderLoopItem}
-                            />
-                        </div>
-
-                        <div className="glass rounded-[22px] p-4 md:p-6 overflow-hidden">
-                            <h3 className="text-white text-lg md:text-2xl font-bold mb-4" style={{ color: theme.primary }}>
-                                Arsenal Loop
-                            </h3>
-                            <LogoLoop
-                                logos={arsenalLogos}
-                                speed={56}
-                                direction="right"
-                                logoHeight={84}
-                                gap={24}
-                                fadeOut
-                                pauseOnHover
-                                scaleOnHover
-                                fadeOutColor="rgba(12,12,12,0.95)"
-                                ariaLabel="Arsenal logo loop"
-                                renderItem={renderLoopItem}
-                            />
-                        </div>
+                    <div className="relative z-10 grid gap-4 md:gap-5">
+                        {TECH_ROWS.map((row) => (
+                            <div key={row.category} className="glass rounded-[20px] p-3 md:p-4 overflow-hidden">
+                                <h3 className="text-white text-sm md:text-base font-semibold tracking-wide mb-3" style={{ color: theme.primary }}>
+                                    {row.category}
+                                </h3>
+                                <LogoLoop
+                                    logos={row.logos.map((logo) => ({
+                                        src: logo.src,
+                                        alt: logo.name,
+                                        title: logo.name
+                                    }))}
+                                    speed={row.speed}
+                                    direction={row.direction}
+                                    logoHeight={84}
+                                    gap={20}
+                                    fadeOut
+                                    pauseOnHover
+                                    hoverSpeed={0}
+                                    scaleOnHover
+                                    fadeOutColor="rgba(12,12,12,0.92)"
+                                    ariaLabel={`${row.category} logo loop`}
+                                    renderItem={renderLogoItem}
+                                />
+                            </div>
+                        ))}
                     </div>
                 </div>
             </div>

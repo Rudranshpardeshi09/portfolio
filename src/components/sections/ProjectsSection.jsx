@@ -26,12 +26,12 @@ export default function ProjectsSection() {
                 {/* Vertical Scroll Stack */}
                 <ScrollStack
                     useWindowScroll={true}
-                    itemDistance={50} // Margin between cards when unstacked
-                    itemStackDistance={60} // Distance when stacked
-                    baseScale={0.88} // Base scale of the cards underneath
-                    stackPosition="15%" // Viewport Y pos where they pin
-                    scaleEndPosition="5%" // Viewport Y pos where scales calculate
-                    blurAmount={1.5} // Blur effect for background cards
+                    itemDistance={36}
+                    itemStackDistance={46}
+                    baseScale={0.92}
+                    stackPosition="18%"
+                    scaleEndPosition="10%"
+                    blurAmount={0.6}
                 >
                     {PROJECTS_DATA.map((project, i) => (
                         <ScrollStackItem
@@ -108,7 +108,7 @@ export default function ProjectsSection() {
                                             className="inline-flex items-center justify-center gap-3 px-8 py-4 rounded-2xl text-lg font-semibold transition-all duration-300 hover:scale-105 group/btn"
                                             style={{
                                                 background: `linear-gradient(135deg, ${theme.gradientStart}, ${theme.gradientEnd})`,
-                                                color: theme.key === 'bmw' ? '#000' : '#fff',
+                                                color: '#fff',
                                                 boxShadow: `0 0 30px rgba(${theme.primaryRgb}, 0.3)`,
                                             }}
                                             onClick={(e) => e.stopPropagation()}
@@ -137,3 +137,4 @@ export default function ProjectsSection() {
         </section>
     );
 }
+

@@ -17,12 +17,12 @@ const BIKE_THEMES = {
     bmw: {
         name: 'BMW S1000RR',
         key: 'bmw',
-        primary: '#FFFFFF',
-        primaryRgb: '255, 255, 255',
-        secondary: '#0066B1',
-        gradientStart: '#FFFFFF',
-        gradientEnd: '#0066B1',
-        glow: '#FFFFFF',
+        primary: '#0057B8',
+        primaryRgb: '0, 87, 184',
+        secondary: '#D90429',
+        gradientStart: '#D90429',
+        gradientEnd: '#0057B8',
+        glow: '#0057B8',
         emoji: '🏍️',
         image: '/bike-sideways/bmw-icon.png',
         tagline: 'Bavarian Precision',
@@ -112,3 +112,4 @@ const useThemeStore = create((set, get) => ({
 
 export { BIKE_THEMES };
 export default useThemeStore;
+
