@@ -107,7 +107,7 @@ export default function ExperienceSection() {
             style={{ perspective: '1200px' }}
         >
             <div className="section-inner">
-                <div ref={titleRef} className="text-center mb-16 relative z-10">
+                <div ref={titleRef} className="text-center mb-8 md:mb-14 relative z-10">
                     <h2 className="section-title text-gradient mx-auto">Experience</h2>
                     <p className="text-gray-400 mt-4 max-w-lg mx-auto text-sm">
                         The road I've traveled in my dev journey
@@ -155,7 +155,7 @@ export default function ExperienceSection() {
                         />
                     </svg>
 
-                    <div className="space-y-16">
+                    <div className="space-y-10 md:space-y-14">
                         {EXPERIENCE_DATA.map((exp, i) => (
                             <div
                                 key={i}
@@ -185,7 +185,7 @@ export default function ExperienceSection() {
                                 {/* Content Card */}
                                 <div
                                     ref={(el) => (cardsRef.current[i] = el)}
-                                    className={`ml-14 md:ml-0 md:w-[calc(50%-2rem)] glass rounded-2xl p-6 transition-all duration-500 hover:scale-[1.03] group ${i % 2 === 0 ? 'md:mr-auto' : 'md:ml-auto'
+                                    className={`ml-12 md:ml-0 md:w-[calc(50%-2rem)] glass rounded-2xl p-4 md:p-6 transition-all duration-500 hover:scale-[1.02] group ${i % 2 === 0 ? 'md:mr-auto' : 'md:ml-auto'
                                         }`}
                                     style={{
                                         borderColor: `rgba(${theme.primaryRgb}, 0.1)`,

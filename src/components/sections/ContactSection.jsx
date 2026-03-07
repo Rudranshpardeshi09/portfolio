@@ -270,8 +270,8 @@ export default function ContactSection() {
             className="section-container"
             style={{ perspective: '1200px' }}
         >
-            <div className="section-inner relative z-10" style={{ maxWidth: '100%' }}>
-                <div className="text-center mb-12">
+            <div className="section-inner relative z-10 w-full">
+                <div className="text-center mb-8 md:mb-12">
                     {/* Character-by-character animated title */}
                     <h2
                         ref={titleRef}
@@ -291,7 +291,7 @@ export default function ContactSection() {
                             </span>
                         ))}
                     </h2>
-                    <p className="text-gray-400 mt-6 max-w-lg mx-auto">
+                    <p className="text-gray-400 mt-4 md:mt-6 max-w-lg mx-auto text-sm md:text-base">
                         Have a project in mind or just want to chat about bikes? Drop me a line.
                     </p>
                 </div>

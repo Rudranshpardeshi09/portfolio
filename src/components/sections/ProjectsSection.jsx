@@ -1,8 +1,7 @@
 import { useState, useRef } from 'react';
 import useThemeStore from '../../store/themeStore';
-import { PROJECTS_DATA, SKILLS_DATA } from '../../data/portfolioData';
+import { PROJECTS_DATA } from '../../data/portfolioData';
 import ScrollStack, { ScrollStackItem } from '../reactbits/ScrollStack';
-import LogoLoop from '../reactbits/LogoLoop';
 
 export default function ProjectsSection() {
     const { theme } = useThemeStore();
@@ -15,9 +14,9 @@ export default function ProjectsSection() {
             ref={sectionRef}
             className="section-container relative"
         >
-            <div className="section-inner" style={{ maxWidth: '100%' }}>
+            <div className="section-inner w-full">
                 {/* Title */}
-                <div className="text-center mb-12">
+                <div className="text-center mb-8 md:mb-12">
                     <h2 className="section-title text-gradient mx-auto">Projects</h2>
                     <p className="text-gray-500 mt-6 text-sm">
                         Keep scrolling to stack the projects
@@ -37,10 +36,10 @@ export default function ProjectsSection() {
                     {PROJECTS_DATA.map((project, i) => (
                         <ScrollStackItem
                             key={project.id}
-                            itemClassName={`transition-all duration-300 w-full max-w-4xl mx-auto h-[400px] cursor-pointer ${selectedProject === project.id ? 'scale-105' : ''}`}
+                            itemClassName={`transition-all duration-300 w-full max-w-4xl mx-auto min-h-[420px] md:h-[420px] cursor-pointer ${selectedProject === project.id ? 'scale-[1.02]' : ''}`}
                         >
                             <div
-                                className="glass rounded-[30px] p-8 h-full relative overflow-hidden"
+                                className="glass rounded-[24px] p-5 md:p-8 h-full relative overflow-hidden"
                                 style={{
                                     borderColor: selectedProject === project.id
                                         ? `rgba(${theme.primaryRgb}, 0.5)`
@@ -63,10 +62,10 @@ export default function ProjectsSection() {
                                     }}
                                 />
 
-                                <div className="flex flex-col md:flex-row h-full gap-8 mt-2">
-                                    <div className="flex-1 flex flex-col justify-center">
+                                <div className="flex flex-col md:flex-row h-full gap-5 md:gap-8 mt-2">
+                                    <div className="flex-1 flex flex-col justify-center text-left">
                                         <div
-                                            className="w-16 h-16 rounded-2xl flex items-center justify-center mb-6 text-3xl font-black shadow-lg"
+                                            className="w-14 h-14 md:w-16 md:h-16 rounded-2xl flex items-center justify-center mb-4 md:mb-6 text-2xl md:text-3xl font-black shadow-lg"
                                             style={{
                                                 background: `rgba(${theme.primaryRgb}, 0.1)`,
                                                 color: project.color,
@@ -77,15 +76,15 @@ export default function ProjectsSection() {
                                             {String(i + 1).padStart(2, '0')}
                                         </div>
 
-                                        <h3 className="text-3xl font-bold text-white mb-4 transition-all">
+                                        <h3 className="text-2xl md:text-3xl font-bold text-white mb-3 md:mb-4 transition-all">
                                             {project.title}
                                         </h3>
-                                        <p className="text-gray-300 text-lg leading-relaxed mb-8 max-w-lg">
+                                        <p className="text-gray-300 text-base md:text-lg leading-relaxed mb-6 md:mb-8 max-w-lg">
                                             {project.description}
                                         </p>
 
                                         {/* Tech stack */}
-                                        <div className="flex flex-wrap gap-2 mb-8">
+                                        <div className="flex flex-wrap gap-2 mb-2 md:mb-8">
                                             {project.tech.map((t) => (
                                                 <span
                                                     key={t}

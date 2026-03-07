@@ -77,7 +77,7 @@ export default function AboutSection() {
         >
             <div className="section-inner">
                 <div
-                    className="flex flex-col lg:flex-row items-center gap-10 lg:gap-0 py-16 min-h-screen px-4 md:px-0"
+                    className="flex flex-col lg:flex-row items-center gap-8 lg:gap-12 py-6 md:py-10 w-full"
                     style={{ transformStyle: 'preserve-3d' }}
                 >
                     {/* Image Left */}
@@ -88,7 +88,7 @@ export default function AboutSection() {
                     >
                         <div className="relative group">
                             <div
-                                className="w-[300px] h-[400px] sm:w-[350px] sm:h-[450px] lg:w-[450px] lg:h-[550px] rounded-3xl p-4 mx-auto flex items-center justify-center transition-all duration-700"
+                                className="w-[280px] h-[360px] sm:w-[330px] sm:h-[430px] lg:w-[420px] lg:h-[520px] rounded-3xl p-4 mx-auto flex items-center justify-center transition-all duration-700"
                                 style={{
                                     background: `conic-gradient(from 180deg, rgba(255,255,255,0.1), rgba(0,0,0,0.5), rgba(255,255,255,0.1), rgba(0,0,0,0.5), rgba(255,255,255,0.1))`,
                                     boxShadow: `0 30px 60px rgba(0,0,0,0.5), 0 0 40px rgba(var(--color-primary-rgb), 0.1)`,
@@ -118,8 +118,8 @@ export default function AboutSection() {
                     </div>
 
                     {/* Text Right */}
-                    <div ref={textRef} className="lg:w-[55%] flex flex-col justify-center px-4 lg:px-8" style={{ transformStyle: 'preserve-3d' }}>
-                        <div className="w-full mt-4 mb-4 lg:mt-4 lg:mb-4 glass-strong p-10 lg:p-14 rounded-[40px] border-white/10 relative overflow-hidden group/card shadow-2xl transition-all duration-500 hover:shadow-white/5"
+                    <div ref={textRef} className="lg:w-[55%] flex flex-col justify-center" style={{ transformStyle: 'preserve-3d' }}>
+                        <div className="w-full glass-strong p-6 md:p-8 lg:p-10 rounded-[28px] md:rounded-[36px] border-white/10 relative overflow-hidden group/card shadow-2xl transition-all duration-500 hover:shadow-white/5"
                             style={{
                                 background: 'rgba(20, 20, 20, 0.75)',
                                 backdropFilter: 'blur(30px) saturate(150%)',
@@ -127,37 +127,37 @@ export default function AboutSection() {
                                 transformStyle: 'preserve-3d',
                             }}>
                             {/* Heading */}
-                            <div className="relative mb-10 inline-block">
-                                <h2 className="text-5xl lg:text-7xl font-black uppercase tracking-tighter"
+                            <div className="relative mb-7 md:mb-10 inline-block">
+                                <h2 className="text-4xl lg:text-6xl font-black uppercase tracking-tighter"
                                     style={{
                                         WebkitTextStroke: '1px rgba(255,255,255,0.3)',
                                         color: 'transparent',
                                     }}>
                                     About Me
                                 </h2>
-                                <h2 className="absolute top-0 left-0 text-5xl lg:text-7xl font-black uppercase tracking-tighter"
+                                <h2 className="absolute top-0 left-0 text-4xl lg:text-6xl font-black uppercase tracking-tighter"
                                     style={{ clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0% 100%)', color: 'var(--color-primary)' }}>
                                     About Me
                                 </h2>
                                 <div className="h-1 w-20 mt-2" style={{ background: 'var(--color-primary)' }} />
                             </div>
 
-                            <h3 className="text-3xl sm:text-4xl font-black mb-8 text-white leading-tight font-display tracking-tight"
+                            <h3 className="text-2xl sm:text-3xl lg:text-4xl font-black mb-6 md:mb-8 text-white leading-tight font-display tracking-tight"
                                 style={{ fontFamily: 'var(--font-display)' }}>
                                 {ABOUT_DATA.title}
                             </h3>
 
-                            <div className="space-y-6">
-                                <p className="text-white/90 text-xl leading-relaxed font-medium tracking-tight">
+                            <div className="space-y-5">
+                                <p className="text-white/90 text-base md:text-lg lg:text-xl leading-relaxed font-medium tracking-tight">
                                     {ABOUT_DATA.bio}
                                 </p>
-                                <p className="text-white/70 text-lg leading-relaxed font-light italic">
+                                <p className="text-white/70 text-sm md:text-base lg:text-lg leading-relaxed font-light italic">
                                     {ABOUT_DATA.bio2}
                                 </p>
                             </div>
 
                             {/* Stats */}
-                            <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 mt-12">
+                            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mt-8 md:mt-10">
                                 {ABOUT_DATA.stats.map((stat, i) => (
                                     <div
                                         key={stat.label}

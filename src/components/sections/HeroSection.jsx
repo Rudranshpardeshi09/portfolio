@@ -70,7 +70,7 @@ export default function HeroSection() {
     return (
         <section
             ref={containerRef}
-            className="h-screen flex items-center justify-center relative overflow-hidden"
+            className="min-h-[100svh] flex items-center justify-center relative overflow-hidden px-4 sm:px-6"
             style={{ perspective: '1200px' }}
         >
             {/* Atmospheric background glow */}
@@ -124,7 +124,7 @@ export default function HeroSection() {
 
             <div
                 ref={heroContentRef}
-                className="text-center relative z-10 px-4"
+                className="text-center relative z-10 w-full max-w-5xl mx-auto"
                 style={{ transformStyle: 'preserve-3d' }}
             >
                 {/* Bike badge */}
@@ -145,7 +145,7 @@ export default function HeroSection() {
                 {/* Main title */}
                 <h1
                     ref={titleRef}
-                    className="text-5xl sm:text-7xl lg:text-9xl font-black tracking-wider mb-6"
+                    className="text-4xl sm:text-6xl lg:text-8xl xl:text-9xl font-black tracking-wider mb-5 md:mb-6"
                     style={{ fontFamily: 'var(--font-display)', transformStyle: 'preserve-3d' }}
                 >
                     <span className="text-white">RUDRANSH'S</span>
@@ -154,7 +154,7 @@ export default function HeroSection() {
                 </h1>
 
                 {/* Subtitle */}
-                <p className="hero-stagger text-gray-400 text-lg sm:text-xl max-w-2xl mx-auto mb-8 leading-relaxed">
+                <p className="hero-stagger text-gray-400 text-base sm:text-lg lg:text-xl max-w-2xl mx-auto mb-7 md:mb-8 leading-relaxed">
                     Full-Stack Developer crafting high-octane digital experiences.
                     <br className="hidden sm:block" />
                     Scroll down to explore the journey.

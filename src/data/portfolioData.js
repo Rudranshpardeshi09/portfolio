@@ -26,6 +26,8 @@ export const SKILLS_DATA = [
             { name: 'Python', level: 90 },
             { name: 'C++', level: 85 },
             { name: 'JavaScript', level: 88 },
+            { name: 'HTML5', level: 90 },
+            { name: 'CSS3', level: 88 },
         ],
     },
     {
@@ -37,7 +39,9 @@ export const SKILLS_DATA = [
             { name: 'OpenCV', level: 80 },
             { name: 'NumPy', level: 85 },
             { name: 'Pandas', level: 85 },
+            { name: 'Matplotlib', level: 82 },
             { name: 'LangChain', level: 78 },
+            { name: 'Hugging Face', level: 76 },
         ],
     },
     {
@@ -46,7 +50,9 @@ export const SKILLS_DATA = [
         skills: [
             { name: 'Django', level: 88 },
             { name: 'FastAPI', level: 82 },
-            { name: 'React.js', level: 90 },
+            { name: 'React', level: 90 },
+            { name: 'Tailwind CSS', level: 88 },
+            { name: 'Vite', level: 86 },
         ],
     },
     {
@@ -92,14 +98,14 @@ export const PROJECTS_DATA = [
 export const EXPERIENCE_DATA = [
     {
         role: 'AI/ML Intern',
-        company: 'Robomaniax',
+        company: 'Robotronix',
         period: '08/2025 — 01/2026',
         description: 'Increased sales forecast accuracy by 18-22% by applying regression and ensemble learning models using Python and Scikit-learn. Engineered a Django-based Inventory Management System that reduced manual data entry errors by 40% and improved stock tracking efficiency by 30%. Developed interactive data visualization dashboards, decreasing reporting time by 30%.',
         highlights: ['Sales Forecasting', 'Inventory Management', 'Data Dashboards'],
     },
     {
         role: 'Web Development Intern',
-        company: 'IPS-DRIV',
+        company: 'IIPS-DAVV',
         period: '06/2025 — 07/2025',
         description: 'Built and deployed a full-stack Certificate Generator platform used for university events, automating bulk certificate distribution for 500+ participants. Decreased administrative processing time by 90% by developing automated CSV-to-template mapping and validation workflows.',
         highlights: ['Certificate Generator', 'Workflow Automation', 'Full-stack Dev'],
@@ -131,3 +137,4 @@ export const CONTACT_DATA = {
         { name: 'GitHub', url: 'https://github.com/Rudranshpardeshi09', icon: '🐙' },
     ],
 };
+
