@@ -92,26 +92,26 @@ export default function ScrollMap() {
 
     // Map positions along S-curve
     const sectionPositions = [
-        { x: 30, y: 40 },
-        { x: 50, y: 110 },
-        { x: 30, y: 180 },
-        { x: 50, y: 250 },
-        { x: 30, y: 320 },
+        { x: 36, y: 50 },
+        { x: 62, y: 135 },
+        { x: 36, y: 220 },
+        { x: 62, y: 305 },
+        { x: 36, y: 390 },
     ];
 
-    const pathD = "M 30 20 Q 60 75 50 110 Q 20 145 30 180 Q 60 215 50 250 Q 20 285 30 320 L 30 340";
+    const pathD = "M 36 26 Q 72 82 62 135 Q 24 180 36 220 Q 72 265 62 305 Q 24 350 36 390 L 36 420";
 
     return (
         <div
             ref={mapRef}
             className={`fixed right-4 top-1/2 -translate-y-1/2 z-40 transition-all duration-700 hidden md:block ${visible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-20'
                 }`}
-            style={{ width: '80px', height: '360px' }}
+            style={{ width: '100px', height: '440px' }}
         >
             <svg
-                width="80"
-                height="360"
-                viewBox="0 0 80 360"
+                width="100"
+                height="440"
+                viewBox="0 0 100 440"
                 fill="none"
                 className="drop-shadow-lg"
             >

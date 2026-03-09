@@ -67,6 +67,7 @@ export default function SkillsSection() {
     const { theme } = useThemeStore();
     const sectionRef = useRef(null);
     const titleRef = useRef(null);
+    const rowRefs = useRef([]);
 
     useEffect(() => {
         const ctx = gsap.context(() => {
@@ -86,6 +87,27 @@ export default function SkillsSection() {
                     }
                 }
             );
+
+            rowRefs.current.forEach((row, i) => {
+                if (!row) return;
+                gsap.fromTo(
+                    row,
+                    { opacity: 0, y: 30, rotateX: 10 },
+                    {
+                        opacity: 1,
+                        y: 0,
+                        rotateX: 0,
+                        duration: 0.9,
+                        delay: 0.18 + i * 0.08,
+                        ease: 'power3.out',
+                        scrollTrigger: {
+                            trigger: row,
+                            start: 'top 85%',
+                            toggleActions: 'play none none reverse'
+                        }
+                    }
+                );
+            });
         }, sectionRef);
         return () => ctx.revert();
     }, []);
@@ -126,9 +148,20 @@ export default function SkillsSection() {
                         className="absolute inset-0 opacity-10 pointer-events-none"
                         style={{ background: `radial-gradient(circle at 50% 50%, ${theme.primary}, transparent 70%)` }}
                     />
-                    <div className="relative z-10 grid gap-4 md:gap-5">
-                        {TECH_ROWS.map((row) => (
-                            <div key={row.category} className="glass rounded-[20px] p-3 md:p-4 overflow-hidden">
+                    <div className="relative z-10 grid gap-4 md:gap-5 [transform-style:preserve-3d]">
+                        {TECH_ROWS.map((row, idx) => (
+                            <div
+                                key={row.category}
+                                ref={(el) => (rowRefs.current[idx] = el)}
+                                className="glass rounded-[20px] p-3 md:p-4 overflow-hidden relative"
+                                style={{
+                                    boxShadow: `0 16px 35px rgba(0,0,0,0.35), 0 0 25px rgba(${theme.primaryRgb}, 0.08)`
+                                }}
+                            >
+                                <div
+                                    className="absolute -inset-x-10 top-0 h-12 opacity-40 pointer-events-none"
+                                    style={{ background: `linear-gradient(90deg, transparent, rgba(${theme.primaryRgb},0.35), transparent)` }}
+                                />
                                 <h3 className="text-white text-sm md:text-base font-semibold tracking-wide mb-3" style={{ color: theme.primary }}>
                                     {row.category}
                                 </h3>
