@@ -4,7 +4,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import useThemeStore from '../../store/themeStore';
 import { ABOUT_DATA } from '../../data/portfolioData';
 import DecayCard from '../reactbits/DecayCard';
-import ModelViewer from '../reactbits/ModelViewer';
+import TiltedCard from '../reactbits/TiltedCard';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -87,20 +87,26 @@ export default function AboutSection() {
                         style={{ transformStyle: 'preserve-3d' }}
                     >
                         <div className="relative group">
-                            <div
+                            <TiltedCard
+                                maxRotateX={28}
+                                maxRotateY={28}
+                                scaleOnHover={1.1}
                                 className="w-[280px] h-[360px] sm:w-[330px] sm:h-[430px] lg:w-[420px] lg:h-[520px] rounded-3xl p-4 mx-auto flex items-center justify-center transition-all duration-700"
-                                style={{
-                                    background: `conic-gradient(from 180deg, rgba(255,255,255,0.1), rgba(0,0,0,0.5), rgba(255,255,255,0.1), rgba(0,0,0,0.5), rgba(255,255,255,0.1))`,
-                                    boxShadow: `0 30px 60px rgba(0,0,0,0.5), 0 0 40px rgba(var(--color-primary-rgb), 0.1)`,
-                                    transformStyle: 'preserve-3d'
-                                }}
                             >
-                                <div className="w-full h-full rounded-2xl overflow-hidden border-[8px] border-gray-800 animate-float relative shadow-inner">
-                                    <DecayCard width="100%" height="100%" image="/my-pfp/pfp.jpg">
-                                    </DecayCard>
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
+                                <div
+                                    className="w-full h-full rounded-3xl p-4"
+                                    style={{
+                                        background: `conic-gradient(from 180deg, rgba(255,255,255,0.1), rgba(0,0,0,0.5), rgba(255,255,255,0.1), rgba(0,0,0,0.5), rgba(255,255,255,0.1))`,
+                                        boxShadow: `0 30px 60px rgba(0,0,0,0.5), 0 0 40px rgba(var(--color-primary-rgb), 0.1)`,
+                                        transformStyle: 'preserve-3d'
+                                    }}
+                                >
+                                    <div className="w-full h-full rounded-2xl overflow-hidden border-[8px] border-gray-800 animate-float relative shadow-inner">
+                                        <DecayCard width="100%" height="100%" image="/my-pfp/pfp.jpg" />
+                                        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
+                                    </div>
                                 </div>
-                            </div>
+                            </TiltedCard>
                             {/* Decorative framing */}
                             <div
                                 className="absolute -inset-4 rounded-3xl border border-white/20 opacity-50"

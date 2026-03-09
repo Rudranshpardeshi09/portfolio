@@ -12,12 +12,12 @@ const TECH_ROWS = [
         speed: 52,
         direction: 'left',
         logos: [
-            { name: 'React', src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg' },
-            { name: 'Tailwind CSS', src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg' },
-            { name: 'Vite', src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vite/vite-original.svg' },
-            { name: 'JavaScript', src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg' },
-            { name: 'HTML5', src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg' },
-            { name: 'CSS3', src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg' }
+            { name: 'React', src: '/tech-logos/react.svg' },
+            { name: 'Tailwind CSS', src: '/tech-logos/tailwindcss.svg' },
+            { name: 'Vite', src: '/tech-logos/vite.svg' },
+            { name: 'JavaScript', src: '/tech-logos/javascript.svg' },
+            { name: 'HTML5', src: '/tech-logos/html5.svg' },
+            { name: 'CSS3', src: '/tech-logos/css3.svg' }
         ]
     },
     {
@@ -25,12 +25,10 @@ const TECH_ROWS = [
         speed: 48,
         direction: 'right',
         logos: [
-            { name: 'FastAPI', src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/fastapi/fastapi-original.svg' },
-            { name: 'Django', src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/django/django-plain.svg' },
-            { name: 'Python', src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg' },
-            { name: 'C++', src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cplusplus/cplusplus-original.svg' },
-            { name: 'Node.js', src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg' },
-            { name: 'Express', src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original.svg' }
+            { name: 'FastAPI', src: '/tech-logos/fastapi.svg' },
+            { name: 'Django', src: '/tech-logos/django.svg' },
+            { name: 'Python', src: '/tech-logos/python.svg' },
+            { name: 'C++', src: '/tech-logos/cpp.svg' }
         ]
     },
     {
@@ -38,14 +36,14 @@ const TECH_ROWS = [
         speed: 46,
         direction: 'left',
         logos: [
-            { name: 'OpenCV', src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/opencv/opencv-original.svg' },
-            { name: 'NumPy', src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/numpy/numpy-original.svg' },
-            { name: 'Pandas', src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/pandas/pandas-original.svg' },
-            { name: 'Matplotlib', src: 'https://cdn.simpleicons.org/matplotlib/11557C' },
-            { name: 'TensorFlow', src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tensorflow/tensorflow-original.svg' },
-            { name: 'Scikit-learn', src: 'https://cdn.simpleicons.org/scikitlearn/F7931E' },
-            { name: 'LangChain', src: 'https://cdn.simpleicons.org/langchain/1C3C3C' },
-            { name: 'Hugging Face', src: 'https://cdn.simpleicons.org/huggingface/FF9D00' }
+            { name: 'OpenCV', src: '/tech-logos/opencv.svg' },
+            { name: 'NumPy', src: '/tech-logos/numpy.svg' },
+            { name: 'Pandas', src: '/tech-logos/pandas.svg' },
+            { name: 'Matplotlib', src: '/tech-logos/matplotlib.svg' },
+            { name: 'TensorFlow', src: '/tech-logos/tensorflow.svg' },
+            { name: 'Scikit-learn', src: '/tech-logos/scikitlearn.svg' },
+            { name: 'LangChain', src: '/tech-logos/langchain.svg' },
+            { name: 'Hugging Face', src: '/tech-logos/huggingface.svg' }
         ]
     },
     {
@@ -53,12 +51,12 @@ const TECH_ROWS = [
         speed: 44,
         direction: 'right',
         logos: [
-            { name: 'PostgreSQL', src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg' },
-            { name: 'MySQL', src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg' },
-            { name: 'Git', src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg' },
-            { name: 'GitHub', src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg' },
-            { name: 'Postman', src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postman/postman-original.svg' },
-            { name: 'Jira', src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jira/jira-original.svg' }
+            { name: 'PostgreSQL', src: '/tech-logos/postgresql.svg' },
+            { name: 'MySQL', src: '/tech-logos/mysql.svg' },
+            { name: 'Git', src: '/tech-logos/git.svg' },
+            { name: 'GitHub', src: '/tech-logos/github.svg' },
+            { name: 'Postman', src: '/tech-logos/postman.svg' },
+            { name: 'Jira', src: '/tech-logos/jira.svg' }
         ]
     }
 ];
@@ -120,7 +118,7 @@ export default function SkillsSection() {
                     alt={item.alt}
                     title={item.title}
                     className="w-full h-full object-contain"
-                    loading="lazy"
+                    loading="eager"
                     referrerPolicy="no-referrer"
                     onError={(e) => {
                         e.currentTarget.src = '/tech-logos/react.svg';
