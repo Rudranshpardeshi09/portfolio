@@ -9,6 +9,7 @@ import ScrollMap from './components/ui/ScrollMap';
 import FloatingBikes from './components/ui/FloatingBikes';
 import ClickSpark from './components/reactbits/ClickSpark';
 import RibbonCursor from './components/ui/RibbonCursor';
+import Footer from './components/ui/Footer';
 
 // Sections
 import HeroSection from './components/sections/HeroSection';
@@ -78,6 +79,7 @@ export default function App() {
           <ExperienceSection />
           <ContactSection />
         </main>
+        <Footer />
       </div>
     </ClickSpark>
   );

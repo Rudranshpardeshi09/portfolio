@@ -1,15 +1,15 @@
 import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import useThemeStore from '../../store/themeStore';
 import { ABOUT_DATA } from '../../data/portfolioData';
 import DecayCard from '../reactbits/DecayCard';
 import TiltedCard from '../reactbits/TiltedCard';
+import VariableProximity from '../reactbits/VariableProximity';
+import RotatingText from '../reactbits/RotatingText';
 
 gsap.registerPlugin(ScrollTrigger);
 
 export default function AboutSection() {
-    const { theme } = useThemeStore();
     const sectionRef = useRef(null);
     const imageRef = useRef(null);
     const textRef = useRef(null);
@@ -124,8 +124,8 @@ export default function AboutSection() {
                     </div>
 
                     {/* Text Right */}
-                    <div ref={textRef} className="lg:w-[55%] flex flex-col justify-center" style={{ transformStyle: 'preserve-3d' }}>
-                        <div className="w-full glass-strong p-6 md:p-8 lg:p-10 rounded-[28px] md:rounded-[36px] border-white/10 relative overflow-hidden group/card shadow-2xl transition-all duration-500 hover:shadow-white/5"
+                    <div ref={textRef} className="lg:w-[55%] flex flex-col justify-center px-4 sm:px-2 lg:px-0" style={{ transformStyle: 'preserve-3d' }}>
+                        <div className="w-full glass-strong px-4 py-8 sm:px-8 sm:py-8 md:px-10 md:py-10 lg:px-12 lg:py-12 xl:px-14 xl:py-14 rounded-[28px] md:rounded-[36px] border border-white/10 relative overflow-hidden group/card shadow-2xl transition-all duration-500 hover:shadow-white/5"
                             style={{
                                 background: 'rgba(20, 20, 20, 0.75)',
                                 backdropFilter: 'blur(30px) saturate(150%)',
@@ -133,7 +133,7 @@ export default function AboutSection() {
                                 transformStyle: 'preserve-3d',
                             }}>
                             {/* Heading */}
-                            <div className="relative mb-7 md:mb-10 inline-block">
+                            <div className="relative mb-12 md:mb-16 lg:mb-20 inline-block">
                                 <h2 className="text-4xl lg:text-6xl font-black uppercase tracking-tighter"
                                     style={{
                                         WebkitTextStroke: '1px rgba(255,255,255,0.3)',
@@ -145,33 +145,47 @@ export default function AboutSection() {
                                     style={{ clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0% 100%)', color: 'var(--color-primary)' }}>
                                     About Me
                                 </h2>
-                                <div className="h-1 w-20 mt-2" style={{ background: 'var(--color-primary)' }} />
+                                <div className="h-1 w-20 md:w-24 mt-3" style={{ background: 'var(--color-primary)' }} />
                             </div>
 
-                            <h3 className="text-2xl sm:text-3xl lg:text-4xl font-black mb-6 md:mb-8 text-white leading-tight font-display tracking-tight"
-                                style={{ fontFamily: 'var(--font-display)' }}>
-                                {ABOUT_DATA.title}
-                            </h3>
-
-                            <div className="space-y-5">
-                                <p className="text-white/90 text-base md:text-lg lg:text-xl leading-relaxed font-medium tracking-tight">
-                                    {ABOUT_DATA.bio}
+                            <div className="px-2 pt-8 pb-2 sm:px-4 sm:pt-4 sm:pb-3 md:px-6 md:pt-5 md:pb-4 lg:px-8 lg:pt-8 lg:pb-5 mb-8 md:mb-10">
+                                <p className="mb-4 md:mb-5 text-[0.7rem] font-semibold uppercase tracking-[0.35em] text-white/45 md:text-xs">
+                                    Intelligent Products. Full-Stack Delivery.
                                 </p>
-                                <p className="text-white/70 text-sm md:text-base lg:text-lg leading-relaxed font-light italic">
+                                <h3
+                                    className="text-2xl sm:text-3xl lg:text-4xl xl:text-[2.7rem] font-black text-white leading-tight md:leading-[1.15] font-display tracking-tight"
+                                    style={{ fontFamily: 'var(--font-display)' }}
+                                >
+                                    I build as an{' '}
+                                    <span className="text-white">
+                                        <RotatingText
+                                            texts={['Full Stack Developer', 'AI/ML Engineer', 'MCA Candidate']}
+                                        />
+                                    </span>
+                                </h3>
+                            </div>
+
+                            <div className="space-y-6 md:space-y-7 px-2 sm:px-4 md:px-6 lg:px-8">
+                                <VariableProximity
+                                    text={ABOUT_DATA.bio}
+                                    radius={190}
+                                    className="text-white/90 text-base md:text-lg lg:text-xl leading-8 md:leading-9 lg:leading-10 font-medium tracking-tight"
+                                />
+                                <p className="text-white/70 text-sm md:text-base lg:text-lg leading-7 md:leading-8 font-light italic">
                                     {ABOUT_DATA.bio2}
                                 </p>
                             </div>
 
                             {/* Stats */}
-                            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mt-8 md:mt-10">
+                            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 lg:gap-7 mt-10 md:mt-12 px-2 sm:px-4 md:px-6">
                                 {ABOUT_DATA.stats.map((stat, i) => (
                                     <div
                                         key={stat.label}
                                         ref={(el) => (statsRef.current[i] = el)}
-                                        className="p-4 text-center border-l border-white/10 hover:border-white transition-all duration-300 group/stat"
+                                        className="px-3 py-4 md:px-4 md:py-5 text-center border-l border-white/10 hover:border-white transition-all duration-300 group/stat"
                                     >
                                         <div
-                                            className="text-3xl font-black mb-1 text-white group-hover/stat:text-gradient transition-all"
+                                            className="text-3xl md:text-[2rem] font-black mb-1.5 text-white group-hover/stat:text-gradient transition-all"
                                             style={{ fontFamily: 'var(--font-display)', letterSpacing: '-0.05em' }}
                                         >
                                             {stat.value}
