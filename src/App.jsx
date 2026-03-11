@@ -1,4 +1,5 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import useThemeStore from './store/themeStore';
 import Lenis from 'lenis';
 
@@ -21,6 +22,16 @@ import ContactSection from './components/sections/ContactSection';
 
 export default function App() {
   const { getBackgroundStyle, theme } = useThemeStore();
+  const [isNavOpen, setIsNavOpen] = useState(false);
+
+  useEffect(() => {
+    const handleNavToggle = (e) => {
+      setIsNavOpen(e.detail.isOpen);
+    };
+
+    window.addEventListener('navToggle', handleNavToggle);
+    return () => window.removeEventListener('navToggle', handleNavToggle);
+  }, []);
 
   useEffect(() => {
     const lenis = new Lenis({
@@ -36,11 +47,17 @@ export default function App() {
     }
     const rafId = requestAnimationFrame(raf);
 
+    if (isNavOpen) {
+      lenis.stop();
+    } else {
+      lenis.start();
+    }
+
     return () => {
       cancelAnimationFrame(rafId);
       lenis.destroy();
     };
-  }, []);
+  }, [isNavOpen]);
 
   return (
     <ClickSpark
@@ -51,7 +68,7 @@ export default function App() {
       duration={400}
     >
       <div
-        className="relative w-full min-h-screen theme-transition"
+        className="relative w-full min-h-screen theme-transition perspective-2000 overflow-x-hidden"
         style={getBackgroundStyle()}
       >
         <div className="noise-overlay" />
@@ -64,22 +81,44 @@ export default function App() {
         {/* Toast notifications */}
         <GlassmorphicToast />
 
-        {/* Fixed UI elements */}
+        {/* Fixed UI elements - Navbar stays on top */}
         <Navbar />
-        <ScrollMap />
-        <FloatingBikes />
-        <RibbonCursor />
 
-        {/* Single-page sections */}
-        <main className="relative z-10 w-full">
-          <HeroSection />
-          <AboutSection />
-          <SkillsSection />
-          <ProjectsSection />
-          <ExperienceSection />
-          <ContactSection />
-        </main>
-        <Footer />
+        {/* Content Wrapper with 3D Transfrom */}
+        <motion.div
+           animate={{
+             scale: isNavOpen ? 0.8 : 1,
+             rotateY: isNavOpen ? -15 : 0,
+             x: isNavOpen ? '60%' : '0%',
+             borderRadius: isNavOpen ? '40px' : '0px',
+           }}
+           transition={{
+             type: "spring",
+             damping: 25,
+             stiffness: 120
+           }}
+           className="relative z-10 w-full min-h-screen shadow-2xl origin-left transform-gpu"
+           style={{
+             overflow: isNavOpen ? 'hidden' : 'visible',
+             pointerEvents: isNavOpen ? 'none' : 'auto',
+             background: getBackgroundStyle().background // Ensure inner background matches
+           }}
+        >
+          <ScrollMap />
+          <FloatingBikes />
+          <RibbonCursor />
+
+          {/* Single-page sections */}
+          <main className="relative w-full">
+            <HeroSection />
+            <AboutSection />
+            <SkillsSection />
+            <ProjectsSection />
+            <ExperienceSection />
+            <ContactSection />
+          </main>
+          <Footer />
+        </motion.div>
       </div>
     </ClickSpark>
   );
