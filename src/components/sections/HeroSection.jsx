@@ -112,7 +112,7 @@ export default function HeroSection() {
 
             <div
                 ref={contentRef}
-                className="relative z-10 text-center w-full max-w-5xl mx-auto"
+                className="relative z-10 mx-auto flex w-full max-w-5xl flex-col items-center text-center"
                 style={{ transformStyle: 'preserve-3d' }}
             >
                 <div className="hero-reveal inline-flex items-center gap-3 px-4 py-2 rounded-full bg-black/45 border border-white/15 text-white/90 mb-6">
@@ -128,14 +128,14 @@ export default function HeroSection() {
                     <span style={{ color: theme.primary }}>BUILDS INTELLIGENCE</span>
                 </h1>
 
-                <p className="hero-reveal text-sm sm:text-base md:text-lg text-gray-300 max-w-2xl mx-auto mb-8 leading-relaxed">
+                <p className="hero-reveal mx-auto mb-10 max-w-3xl px-2 text-center text-sm leading-relaxed text-gray-300 sm:text-base md:text-lg">
                     I design and ship AI-first web products with production-grade MLOps, computer vision, and scalable full-stack architecture.
                 </p>
 
-                <div className="hero-reveal flex flex-wrap justify-center gap-3">
+                <div className="hero-reveal mt-4 flex flex-wrap items-center justify-center gap-4 sm:gap-5">
                     <button
                         onClick={() => document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })}
-                        className="px-7 py-3 rounded-xl text-sm font-semibold tracking-wider uppercase transition-all duration-300 hover:scale-105"
+                        className="min-w-[170px] px-7 py-3.5 sm:px-9 sm:py-4 rounded-xl text-sm font-semibold tracking-wider uppercase transition-all duration-300 hover:scale-105"
                         style={{
                             background: `linear-gradient(135deg, ${theme.gradientStart}, ${theme.gradientEnd})`,
                             color: '#fff',
@@ -146,7 +146,7 @@ export default function HeroSection() {
                     </button>
                     <button
                         onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
-                        className="px-7 py-3 rounded-xl text-sm font-semibold tracking-wider uppercase border border-white/20 bg-black/35 text-white transition-all duration-300 hover:bg-black/55"
+                        className="min-w-[170px] px-7 py-3.5 sm:px-9 sm:py-4 rounded-xl text-sm font-semibold tracking-wider uppercase border border-white/20 bg-black/35 text-white transition-all duration-300 hover:bg-black/55"
                     >
                         Contact Me
                     </button>

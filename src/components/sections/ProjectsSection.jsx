@@ -1,120 +1,156 @@
-import { useEffect, useRef } from 'react';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useRef } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import useThemeStore from '../../store/themeStore';
 import { PROJECTS_DATA } from '../../data/portfolioData';
 
-gsap.registerPlugin(ScrollTrigger);
+const MotionDiv = motion.div;
 
-export default function ProjectsSection() {
-    const { theme } = useThemeStore();
-    const sectionRef = useRef(null);
-    const cardRefs = useRef([]);
+const ORBIT_RADIUS_X = 360;
+const ORBIT_RADIUS_Y = 150;
+const PROJECTS_SECTION_HEIGHT = '155vh';
 
-    useEffect(() => {
-        const ctx = gsap.context(() => {
-            cardRefs.current.forEach((card, i) => {
-                if (!card) return;
-                gsap.fromTo(
-                    card,
-                    { rotateX: 8, rotateZ: i % 2 === 0 ? -2 : 2, y: 50, opacity: 0.35 },
-                    {
-                        rotateX: 0,
-                        rotateZ: 0,
-                        y: 0,
-                        opacity: 1,
-                        ease: 'none',
-                        scrollTrigger: {
-                            trigger: card,
-                            start: 'top 85%',
-                            end: 'top 20%',
-                            scrub: 1
-                        }
-                    }
-                );
-            });
-        }, sectionRef);
+function orbitPosition(angle) {
+    const radians = (angle * Math.PI) / 180;
 
-        return () => ctx.revert();
-    }, []);
+    return {
+        x: `${Math.cos(radians) * ORBIT_RADIUS_X}px`,
+        y: `${Math.sin(radians) * ORBIT_RADIUS_Y}px`,
+    };
+}
+
+function ProjectTech({ tech, theme }) {
+    return (
+        <span
+            className="rounded-full border px-3 py-1 text-[10px] uppercase tracking-[0.24em] text-white/80"
+            style={{
+                borderColor: `rgba(${theme.primaryRgb}, 0.28)`,
+                background: `rgba(${theme.primaryRgb}, 0.12)`,
+            }}
+        >
+            {tech}
+        </span>
+    );
+}
+
+function OrbitProjectCard({ project, index, progress, theme }) {
+    const orbitBaseRotation = useTransform(progress, [0, 1], [0, 360]);
+    const cardAngle = useTransform(orbitBaseRotation, (value) => value + index * (360 / PROJECTS_DATA.length));
+    const x = useTransform(cardAngle, (value) => orbitPosition(value).x);
+    const y = useTransform(cardAngle, (value) => orbitPosition(value).y);
+    const scale = useTransform(progress, [0, 0.5, 1], [0.86, 1, 0.86]);
+    const rotateZ = useTransform(cardAngle, (value) => `${Math.sin((value * Math.PI) / 180) * 7}deg`);
+    const rotateX = useTransform(cardAngle, (value) => `${8 - Math.abs(Math.cos((value * Math.PI) / 180)) * 10}deg`);
 
     return (
-        <section id="projects" ref={sectionRef} className="section-container relative">
-            <div className="section-inner w-full">
-                <div className="text-center mb-10 md:mb-14">
-                    <h2 className="section-title text-gradient mx-auto">Projects</h2>
-                    <p className="text-gray-400 mt-4 text-sm md:text-base">Scroll to stack and explore each build.</p>
+        <MotionDiv
+            className="absolute left-1/2 top-1/2"
+            style={{
+                x,
+                y,
+                scale,
+                rotateZ,
+                rotateX,
+                transformStyle: 'preserve-3d',
+            }}
+        >
+            <article
+                className="w-[320px] md:w-[350px] overflow-hidden rounded-[30px] border p-6 backdrop-blur-xl"
+                style={{
+                    borderColor: `${project.color}55`,
+                    background: 'rgba(15,15,15,0.76)',
+                    boxShadow: `0 18px 45px rgba(0,0,0,0.4), 0 0 28px ${project.color}28`,
+                }}
+            >
+                <div
+                    className="absolute inset-x-0 top-0 h-[3px]"
+                    style={{ background: `linear-gradient(90deg, transparent, ${project.color}, transparent)` }}
+                />
+
+                <p className="text-[10px] uppercase tracking-[0.32em]" style={{ color: project.color }}>
+                    {project.label}
+                </p>
+
+                <h3 className="mt-3 text-2xl font-black leading-tight text-white">
+                    {project.title}
+                </h3>
+
+                <p className="mt-4 text-sm leading-6 text-white/70">
+                    {project.overview}
+                </p>
+
+                <div className="mt-5 space-y-3">
+                    {project.outcomes.slice(0, 2).map((outcome) => (
+                        <div key={outcome} className="flex items-start gap-3">
+                            <span
+                                className="mt-2 h-2 w-2 shrink-0 rounded-full"
+                                style={{ backgroundColor: project.color }}
+                            />
+                            <p className="text-sm leading-6 text-white/78">{outcome}</p>
+                        </div>
+                    ))}
                 </div>
 
-                <div className="relative w-full pb-20">
-                    {PROJECTS_DATA.map((project, i) => (
-                        <article
-                            key={project.id}
-                            ref={(el) => (cardRefs.current[i] = el)}
-                            className="sticky top-[16vh] md:top-[18vh] mx-auto mb-8 md:mb-10 w-full max-w-5xl"
-                            style={{ zIndex: PROJECTS_DATA.length - i }}
-                        >
-                            <div
-                                className="glass rounded-[30px] p-5 md:p-8 lg:p-10 relative overflow-hidden"
-                                style={{
-                                    background: 'rgba(10,10,10,0.84)',
-                                    borderColor: `rgba(${theme.primaryRgb}, 0.16)`,
-                                    boxShadow: `0 22px 55px rgba(0,0,0,0.45), 0 0 26px rgba(${theme.primaryRgb},0.14)`
-                                }}
-                            >
-                                <div
-                                    className="absolute top-0 left-0 h-1.5 w-full"
-                                    style={{ background: `linear-gradient(90deg, ${project.color}, transparent)` }}
-                                />
-
-                                <div className="grid grid-cols-1 md:grid-cols-[1.3fr_0.7fr] gap-6 md:gap-8">
-                                    <div className="text-left">
-                                        <h3 className="text-2xl md:text-3xl font-black text-white mb-4">{project.title}</h3>
-                                        <p className="text-gray-300 leading-relaxed text-sm md:text-base mb-6">{project.description}</p>
-                                        <div className="flex flex-wrap gap-2.5">
-                                            {project.tech.map((tech) => (
-                                                <span
-                                                    key={`${project.id}-${tech}`}
-                                                    className="px-3 py-1.5 rounded-lg text-xs md:text-sm font-medium"
-                                                    style={{
-                                                        background: `rgba(${theme.primaryRgb}, 0.12)`,
-                                                        color: '#fff',
-                                                        border: `1px solid rgba(${theme.primaryRgb}, 0.22)`
-                                                    }}
-                                                >
-                                                    {tech}
-                                                </span>
-                                            ))}
-                                        </div>
-                                    </div>
-
-                                    <div className="flex flex-col items-start md:items-end justify-between">
-                                        <div
-                                            className="w-14 h-14 rounded-2xl flex items-center justify-center text-2xl font-black"
-                                            style={{
-                                                color: project.color,
-                                                background: `rgba(${theme.primaryRgb},0.1)`,
-                                                border: `1px solid ${project.color}44`
-                                            }}
-                                        >
-                                            {String(i + 1).padStart(2, '0')}
-                                        </div>
-                                        <a
-                                            href={project.link}
-                                            className="mt-6 inline-flex items-center gap-2 px-5 py-3 rounded-xl text-sm font-semibold transition-all duration-300 hover:scale-105"
-                                            style={{
-                                                background: `linear-gradient(135deg, ${theme.gradientStart}, ${theme.gradientEnd})`,
-                                                color: '#fff'
-                                            }}
-                                        >
-                                            View Project
-                                            <span aria-hidden>↗</span>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </article>
+                <div className="mt-5 flex flex-wrap gap-2">
+                    {project.tech.map((tech) => (
+                        <ProjectTech key={tech} tech={tech} theme={theme} />
                     ))}
+                </div>
+            </article>
+        </MotionDiv>
+    );
+}
+
+export default function ProjectsSection() {
+    const sectionRef = useRef(null);
+    const { theme } = useThemeStore();
+
+    const { scrollYProgress } = useScroll({
+        target: sectionRef,
+        offset: ['start start', 'end end'],
+    });
+
+    const stageRotate = useTransform(scrollYProgress, [0, 1], [0, 360]);
+
+    return (
+        <section id="projects" ref={sectionRef} className="relative w-full bg-transparent">
+            <div style={{ height: PROJECTS_SECTION_HEIGHT }}>
+                <div className="sticky top-0 flex h-screen items-center justify-center overflow-hidden">
+                    <div
+                        className="absolute inset-0 opacity-28"
+                        style={{ background: `radial-gradient(circle at center, rgba(${theme.primaryRgb},0.18), transparent 70%)` }}
+                    />
+
+                    <div
+                        className="absolute h-[170px] w-[170px] rounded-full blur-3xl"
+                        style={{ background: `radial-gradient(circle, ${theme.primary}, transparent)` }}
+                    />
+
+                    <div className="absolute left-1/2 top-1/2 z-30 w-full max-w-5xl -translate-x-1/2 -translate-y-[46%] px-4 text-center pointer-events-none">
+                        <p className="text-xs uppercase tracking-[0.42em] text-white/40">
+                            AI & Full Stack Builds
+                        </p>
+                        <h2 className="mt-4 text-5xl font-black text-white md:text-6xl">
+                            Project Galaxy
+                        </h2>
+                    </div>
+
+                    <MotionDiv
+                        className="relative h-[560px] w-[min(1000px,100vw)]"
+                        style={{
+                            rotate: stageRotate,
+                            transformStyle: 'preserve-3d',
+                        }}
+                    >
+                        {PROJECTS_DATA.map((project, index) => (
+                            <OrbitProjectCard
+                                key={project.id}
+                                project={project}
+                                index={index}
+                                progress={scrollYProgress}
+                                theme={theme}
+                            />
+                        ))}
+                    </MotionDiv>
                 </div>
             </div>
         </section>
