@@ -1,27 +1,14 @@
 import { useRef } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import useThemeStore from '../../store/themeStore';
 import { PROJECTS_DATA } from '../../data/portfolioData';
 
 const MotionDiv = motion.div;
 
-const ORBIT_RADIUS_X = 360;
-const ORBIT_RADIUS_Y = 150;
-const PROJECTS_SECTION_HEIGHT = '155vh';
-
-function orbitPosition(angle) {
-    const radians = (angle * Math.PI) / 180;
-
-    return {
-        x: `${Math.cos(radians) * ORBIT_RADIUS_X}px`,
-        y: `${Math.sin(radians) * ORBIT_RADIUS_Y}px`,
-    };
-}
-
 function ProjectTech({ tech, theme }) {
     return (
         <span
-            className="rounded-full border px-3 py-1 text-[10px] uppercase tracking-[0.24em] text-white/80"
+            className="rounded-full border px-3 py-1 text-[10px] sm:text-[11px] uppercase tracking-[0.2em] text-white/80 whitespace-nowrap"
             style={{
                 borderColor: `rgba(${theme.primaryRgb}, 0.28)`,
                 background: `rgba(${theme.primaryRgb}, 0.12)`,
@@ -32,126 +19,158 @@ function ProjectTech({ tech, theme }) {
     );
 }
 
-function OrbitProjectCard({ project, index, progress, theme }) {
-    const orbitBaseRotation = useTransform(progress, [0, 1], [0, 360]);
-    const cardAngle = useTransform(orbitBaseRotation, (value) => value + index * (360 / PROJECTS_DATA.length));
-    const x = useTransform(cardAngle, (value) => orbitPosition(value).x);
-    const y = useTransform(cardAngle, (value) => orbitPosition(value).y);
-    const scale = useTransform(progress, [0, 0.5, 1], [0.86, 1, 0.86]);
-    const rotateZ = useTransform(cardAngle, (value) => `${Math.sin((value * Math.PI) / 180) * 7}deg`);
-    const rotateX = useTransform(cardAngle, (value) => `${8 - Math.abs(Math.cos((value * Math.PI) / 180)) * 10}deg`);
+function TiltProjectCard({ project, theme, index }) {
+    const cardRef = useRef(null);
+
+    // Track mouse position relative to the center of the card
+    const x = useMotionValue(0);
+    const y = useMotionValue(0);
+
+    // Smooth physics for the mouse movement
+    const mouseXSpring = useSpring(x, { stiffness: 300, damping: 20 });
+    const mouseYSpring = useSpring(y, { stiffness: 300, damping: 20 });
+
+    // Map mouse position (-1 to 1) to rotation degrees
+    const rotateX = useTransform(mouseYSpring, [-1, 1], [15, -15]);
+    const rotateY = useTransform(mouseXSpring, [-1, 1], [-15, 15]);
+
+    const handleMouseMove = (e) => {
+        if (!cardRef.current) return;
+
+        const rect = cardRef.current.getBoundingClientRect();
+        const width = rect.width;
+        const height = rect.height;
+
+        // Mouse position relative to center (ranges from -1 to 1)
+        const mouseX = e.clientX - rect.left;
+        const mouseY = e.clientY - rect.top;
+
+        const xPct = (mouseX / width) * 2 - 1;
+        const yPct = (mouseY / height) * 2 - 1;
+
+        x.set(xPct);
+        y.set(yPct);
+    };
+
+    const handleMouseLeave = () => {
+        x.set(0);
+        y.set(0);
+    };
 
     return (
         <MotionDiv
-            className="absolute left-1/2 top-1/2"
+            ref={cardRef}
+            onMouseMove={handleMouseMove}
+            onMouseLeave={handleMouseLeave}
+            className="w-full flex"
+            initial={{ opacity: 0, y: 100, rotateX: 10 }}
+            whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
+            viewport={{ once: true, margin: "-10%" }}
+            transition={{ duration: 0.7, delay: index * 0.1, ease: 'easeOut' }}
             style={{
-                x,
-                y,
-                scale,
-                rotateZ,
-                rotateX,
-                transformStyle: 'preserve-3d',
+                perspective: 1200,
             }}
         >
-            <article
-                className="w-[320px] md:w-[350px] overflow-hidden rounded-[30px] border p-6 backdrop-blur-xl"
+            <motion.article
+                className="w-full h-full flex flex-col justify-between items-center text-center overflow-hidden rounded-[24px] sm:rounded-[30px] border p-8 sm:p-10 lg:p-12 backdrop-blur-xl shadow-lg relative group transition-colors duration-500"
                 style={{
-                    borderColor: `${project.color}55`,
-                    background: 'rgba(15,15,15,0.76)',
-                    boxShadow: `0 18px 45px rgba(0,0,0,0.4), 0 0 28px ${project.color}28`,
+                    borderColor: `${project.color}35`,
+                    background: 'rgba(15,15,15,0.7)',
+                    rotateX,
+                    rotateY,
+                    transformStyle: 'preserve-3d',
                 }}
             >
+                {/* Glow behind card on hover */}
                 <div
-                    className="absolute inset-x-0 top-0 h-[3px]"
+                    className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-3xl -z-10"
+                    style={{ background: `radial-gradient(circle at center, ${project.color}20, transparent 70%)` }}
+                />
+
+                <div
+                    className="absolute inset-x-0 top-0 h-[3px] sm:h-[4px]"
                     style={{ background: `linear-gradient(90deg, transparent, ${project.color}, transparent)` }}
                 />
 
-                <p className="text-[10px] uppercase tracking-[0.32em]" style={{ color: project.color }}>
-                    {project.label}
-                </p>
+                <div style={{ transform: 'translateZ(40px)' }} className="flex flex-col items-center">
+                    <p className="text-[10px] sm:text-xs uppercase tracking-[0.3em] font-medium" style={{ color: project.color }}>
+                        {project.label}
+                    </p>
 
-                <h3 className="mt-3 text-2xl font-black leading-tight text-white">
-                    {project.title}
-                </h3>
+                    <h3 className="mt-3 text-2xl sm:text-3xl font-black leading-tight text-white drop-shadow-md">
+                        {project.title}
+                    </h3>
 
-                <p className="mt-4 text-sm leading-6 text-white/70">
-                    {project.overview}
-                </p>
+                    <p className="mt-4 text-sm sm:text-[15px] leading-relaxed text-white/70 max-w-sm">
+                        {project.overview}
+                    </p>
+                </div>
 
-                <div className="mt-5 space-y-3">
-                    {project.outcomes.slice(0, 2).map((outcome) => (
-                        <div key={outcome} className="flex items-start gap-3">
+                <div className="mt-8 space-y-3 flex flex-col items-center" style={{ transform: 'translateZ(20px)' }}>
+                    {project.outcomes.slice(0, 2).map((outcome, i) => (
+                        <div key={i} className="flex items-center gap-3 max-w-xs sm:max-w-sm">
                             <span
-                                className="mt-2 h-2 w-2 shrink-0 rounded-full"
-                                style={{ backgroundColor: project.color }}
+                                className="h-1.5 w-1.5 sm:h-2 sm:w-2 shrink-0 rounded-full shadow-[0_0_8px_currentColor]"
+                                style={{ backgroundColor: project.color, color: project.color }}
                             />
-                            <p className="text-sm leading-6 text-white/78">{outcome}</p>
+                            <p className="text-[13px] sm:text-sm leading-relaxed text-white/80">{outcome}</p>
                         </div>
                     ))}
                 </div>
 
-                <div className="mt-5 flex flex-wrap gap-2">
+                <div className="mt-8 flex flex-wrap justify-center gap-2" style={{ transform: 'translateZ(30px)' }}>
                     {project.tech.map((tech) => (
                         <ProjectTech key={tech} tech={tech} theme={theme} />
                     ))}
                 </div>
-            </article>
+            </motion.article>
         </MotionDiv>
     );
 }
 
 export default function ProjectsSection() {
-    const sectionRef = useRef(null);
     const { theme } = useThemeStore();
 
-    const { scrollYProgress } = useScroll({
-        target: sectionRef,
-        offset: ['start start', 'end end'],
-    });
-
-    const stageRotate = useTransform(scrollYProgress, [0, 1], [0, 360]);
-
     return (
-        <section id="projects" ref={sectionRef} className="relative w-full bg-transparent">
-            <div style={{ height: PROJECTS_SECTION_HEIGHT }}>
-                <div className="sticky top-0 flex h-screen items-center justify-center overflow-hidden">
-                    <div
-                        className="absolute inset-0 opacity-28"
-                        style={{ background: `radial-gradient(circle at center, rgba(${theme.primaryRgb},0.18), transparent 70%)` }}
-                    />
+        <section id="projects" className="relative w-full bg-transparent py-24 sm:py-32 overflow-hidden flex flex-col items-center">
+            {/* Background ambient glows */}
+            <div className="absolute inset-0 pointer-events-none flex justify-center items-center">
+                <div
+                    className="absolute w-full h-full opacity-10"
+                    style={{ background: `radial-gradient(circle at top, rgba(${theme.primaryRgb},0.4), transparent 60%)` }}
+                />
+            </div>
 
-                    <div
-                        className="absolute h-[170px] w-[170px] rounded-full blur-3xl"
-                        style={{ background: `radial-gradient(circle, ${theme.primary}, transparent)` }}
-                    />
+            <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 max-w-7xl flex flex-col items-center">
+                
+                {/* Section Header */}
+                <motion.div
+                    className="text-center mb-16 sm:mb-24 flex flex-col items-center"
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6 }}
+                >
+                    <p className="text-[11px] sm:text-xs uppercase tracking-[0.4em] sm:tracking-[0.5em] text-white/60 mb-4">
+                        Innovation & Engineering
+                    </p>
+                    <h2 className="text-4xl sm:text-5xl md:text-7xl font-black text-white hover:text-white/90 transition-colors drop-shadow-2xl inline-block" style={{ textShadow: `0 0 40px rgba(${theme.primaryRgb}, 0.3)`}}>
+                        PROJECT CATALOG
+                    </h2>
+                </motion.div>
 
-                    <div className="absolute left-1/2 top-1/2 z-30 w-full max-w-5xl -translate-x-1/2 -translate-y-[46%] px-4 text-center pointer-events-none">
-                        <p className="text-xs uppercase tracking-[0.42em] text-white/40">
-                            AI & Full Stack Builds
-                        </p>
-                        <h2 className="mt-4 text-5xl font-black text-white md:text-6xl">
-                            Project Galaxy
-                        </h2>
-                    </div>
-
-                    <MotionDiv
-                        className="relative h-[560px] w-[min(1000px,100vw)]"
-                        style={{
-                            rotate: stageRotate,
-                            transformStyle: 'preserve-3d',
-                        }}
-                    >
-                        {PROJECTS_DATA.map((project, index) => (
-                            <OrbitProjectCard
-                                key={project.id}
-                                project={project}
-                                index={index}
-                                progress={scrollYProgress}
-                                theme={theme}
-                            />
-                        ))}
-                    </MotionDiv>
+                {/* Grid Layout */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 sm:gap-10 lg:gap-14 w-full place-items-center">
+                     {PROJECTS_DATA.map((project, index) => (
+                         <TiltProjectCard
+                             key={project.id}
+                             project={project}
+                             index={index}
+                             theme={theme}
+                         />
+                     ))}
                 </div>
+
             </div>
         </section>
     );
