@@ -53,7 +53,7 @@ export default function CertificateSection() {
     return (
         <section
             id="certificates"
-            className="w-full relative overflow-hidden py-32"
+            className="w-full relative overflow-hidden flex items-center justify-center py-20"
             style={{
                 // Dark rich gradient background
                 background: `linear-gradient(180deg, rgba(10,10,10,1) 0%, rgba(${theme.primaryRgb}, 0.08) 50%, rgba(10,10,10,1) 100%)`
@@ -68,7 +68,7 @@ export default function CertificateSection() {
                 />
             </div>
 
-            <div className="mx-auto max-w-7xl px-6 md:px-12 grid grid-cols-1 lg:grid-cols-12 gap-16 items-center relative z-10">
+            <div className="mx-8 my-8 px-4 py-4 max-w-7xl grid grid-cols-1 lg:grid-cols-12 gap-16 items-center relative z-10">
                 
                 {/* Left Side: Typography */}
                 <div className="lg:col-span-4 flex flex-col items-start text-left">
