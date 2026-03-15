@@ -1,120 +1,178 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { gsap } from 'gsap';
 import useThemeStore, { BIKE_THEMES } from '../../store/themeStore';
 
-const bikeKeys = Object.keys(BIKE_THEMES);
+const THEMES = Object.keys(BIKE_THEMES).map(key => ({
+    id: key,
+    ...BIKE_THEMES[key]
+}));
 
 export default function FloatingBikes() {
-    const { selectedBike, setBike, theme } = useThemeStore();
-    const [expanded, setExpanded] = useState(false);
+    const { theme, setBike } = useThemeStore();
+    const [isExpanded, setIsExpanded] = useState(false);
+
+    // Safety check - find matching theme or default to first
+    const selectedThemeObj = THEMES.find(t => t.id === theme.id) || THEMES[0];
+    const otherThemes = THEMES.filter(t => t.id !== theme.id);
+
     const containerRef = useRef(null);
     const bikeRefs = useRef([]);
-
-    const visibleKeys = useMemo(
-        () => (expanded ? bikeKeys : [selectedBike]),
-        [expanded, selectedBike]
-    );
+    const particlesRef = useRef(null);
+    const mainBtnRef = useRef(null);
 
     useEffect(() => {
         if (!containerRef.current) return;
 
-        const ctx = gsap.context(() => {
-            bikeRefs.current.forEach((el, i) => {
+        if (isExpanded) {
+            // S-Shape layout mapping
+            otherThemes.forEach((_, index) => {
+                const el = bikeRefs.current[index];
                 if (!el) return;
-                gsap.fromTo(
-                    el,
-                    { opacity: 0, x: -16, scale: 0.92 },
-                    { opacity: 1, x: 0, scale: 1, duration: 0.35, delay: i * 0.05, ease: 'power2.out' }
-                );
+
+                // Create an S-curve visually by oscillating X and increasing Y
+                const freq = 1.2;
+                const amp = 35;
+                const xOffset = Math.sin((index + 1) * freq) * amp - 10;
+                const yOffset = -((index + 1) * 65);
 
                 gsap.to(el, {
-                    y: '+=8',
-                    duration: 1.8 + i * 0.2,
-                    yoyo: true,
-                    repeat: -1,
-                    ease: 'sine.inOut'
+                    x: xOffset,
+                    y: yOffset,
+                    rotationZ: Math.cos((index + 1) * freq) * 15, // slight tilt
+                    scale: 1,
+                    opacity: 1,
+                    duration: 0.6,
+                    ease: "back.out(1.5)",
+                    delay: index * 0.05
                 });
             });
-        }, containerRef);
 
-        return () => ctx.revert();
-    }, [visibleKeys, expanded]);
+            // Subtle rotation on the main button
+            gsap.to(mainBtnRef.current, { rotation: -15, scale: 0.9, duration: 0.4 });
+
+        } else {
+            // Collapse
+            otherThemes.forEach((_, index) => {
+                const el = bikeRefs.current[index];
+                if (!el) return;
+                gsap.to(el, {
+                    x: 0,
+                    y: 0,
+                    rotationZ: 0,
+                    scale: 0.5,
+                    opacity: 0,
+                    duration: 0.4,
+                    ease: "power2.in"
+                });
+            });
+
+            gsap.to(mainBtnRef.current, { rotation: 0, scale: 1, duration: 0.4 });
+        }
+    }, [isExpanded, otherThemes.length]);
+
+    // Bobbing animation when NOT expanded
+    useEffect(() => {
+        if (isExpanded) return;
+
+        const bob = gsap.to(containerRef.current, {
+            y: "-=8",
+            duration: 1.5,
+            yoyo: true,
+            repeat: -1,
+            ease: "sine.inOut"
+        });
+
+        return () => bob.kill();
+    }, [isExpanded]);
+
+    const handleThemeSelect = (newTheme) => {
+        setBike(newTheme.id);
+        setIsExpanded(false);
+        triggerBurst(newTheme.primaryRgb);
+    };
+
+    const triggerBurst = (rgb) => {
+        if (!particlesRef.current) return;
+
+        const burstCount = 12;
+        const fragments = Array.from({ length: burstCount }).map(() => {
+            const el = document.createElement('div');
+            el.className = 'absolute w-2 h-2 rounded-full pointer-events-none';
+            el.style.backgroundColor = `rgb(${rgb})`;
+            el.style.left = '50%';
+            el.style.top = '50%';
+            particlesRef.current.appendChild(el);
+            return el;
+        });
+
+        fragments.forEach((frag, i) => {
+            const angle = (i / burstCount) * Math.PI * 2;
+            const distance = 40 + Math.random() * 40;
+
+            gsap.to(frag, {
+                x: Math.cos(angle) * distance,
+                y: Math.sin(angle) * distance,
+                opacity: 0,
+                scale: 0,
+                duration: 0.6 + Math.random() * 0.4,
+                ease: "power2.out",
+                onComplete: () => frag.remove()
+            });
+        });
+    };
 
     return (
         <div
-            ref={containerRef}
-            className="fixed bottom-8 left-4 md:left-8 z-[100] flex flex-col items-start gap-3"
-            style={{ perspective: '1000px' }}
+            className="fixed bottom-6 right-6 z-50 pointer-events-none"
+            style={{ width: '60px', height: '60px' }}
         >
-            <button
-                type="button"
-                onClick={() => setExpanded((prev) => !prev)}
-                className="w-12 h-12 rounded-full flex items-center justify-center border text-white transition-all duration-300"
-                style={{
-                    background: 'rgba(12, 12, 12, 0.85)',
-                    borderColor: `rgba(${theme.primaryRgb}, 0.45)`,
-                    boxShadow: `0 0 20px rgba(${theme.primaryRgb}, 0.2)`
-                }}
-                title={expanded ? 'Hide theme options' : 'Show theme options'}
-            >
-                <span className="text-lg leading-none">{expanded ? 'x' : '+'}</span>
-            </button>
+            <div ref={particlesRef} className="absolute inset-0 z-0 flex items-center justify-center" />
 
-            {visibleKeys.map((key, i) => {
-                const bike = BIKE_THEMES[key];
-                const isActive = selectedBike === key;
-                const sOffset = expanded ? Math.round(Math.sin((i / Math.max(visibleKeys.length - 1, 1)) * Math.PI * 2) * 12) : 0;
+            <div ref={containerRef} className="relative w-full h-full flex items-center justify-center">
 
-                return (
-                    <div
-                        key={key}
-                        ref={(el) => (bikeRefs.current[i] = el)}
-                        onClick={() => {
-                            setBike(key);
-                            if (!expanded) return;
+                {/* Available Options */}
+                {otherThemes.map((t, index) => (
+                    <button
+                        key={t.id}
+                        ref={el => bikeRefs.current[index] = el}
+                        onClick={() => handleThemeSelect(t)}
+                        className="absolute flex items-center justify-center w-12 h-12 rounded-full pointer-events-auto backdrop-blur-md transition-gpu shadow-lg hover:scale-110"
+                        style={{
+                            background: `linear-gradient(135deg, ${t.gradientStart}, ${t.gradientEnd})`,
+                            border: `2px solid ${t.primary}`,
+                            opacity: 0,
+                            scale: 0.5,
+                            zIndex: 40 - index
                         }}
-                        className="relative cursor-pointer group transition-transform duration-300"
-                        style={{ transform: `translateX(${sOffset}px)` }}
+                        title={t.name}
                     >
-                        <div
-                            className="w-14 h-14 md:w-16 md:h-16 rounded-full overflow-hidden flex items-center justify-center transition-all duration-300"
-                            style={{
-                                background: isActive
-                                    ? `linear-gradient(135deg, ${bike.gradientStart}, ${bike.gradientEnd})`
-                                    : 'rgba(20,20,20,0.92)',
-                                border: isActive
-                                    ? `2px solid ${bike.primary}`
-                                    : '1px solid rgba(255,255,255,0.15)',
-                                boxShadow: isActive
-                                    ? `0 0 24px rgba(${bike.primaryRgb}, 0.45)`
-                                    : '0 10px 24px rgba(0,0,0,0.45)',
-                                backdropFilter: 'blur(10px)'
-                            }}
-                        >
-                            <img
-                                src={bike.image}
-                                alt={bike.name}
-                                className="w-full h-full object-contain scale-[1.25] pointer-events-none transition-transform duration-300 group-hover:scale-[1.35]"
-                            />
-                        </div>
+                        <img
+                            src={t.image}
+                            alt={t.name}
+                            className="w-10 h-10 object-contain drop-shadow-md scale-[1.2] pointer-events-none"
+                        />
+                    </button>
+                ))}
 
-                        {isActive && (
-                            <div className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-white border border-white flex items-center justify-center shadow-md">
-                                <div className="w-2 h-2 rounded-full" style={{ backgroundColor: bike.primary }} />
-                            </div>
-                        )}
-
-                        {expanded && (
-                            <div
-                                className="absolute left-full ml-3 top-1/2 -translate-y-1/2 px-3 py-1.5 rounded-lg bg-black/90 border border-white/10 text-xs font-semibold text-white opacity-0 group-hover:opacity-100 transition-all duration-300 whitespace-nowrap pointer-events-none"
-                                style={{ boxShadow: `0 0 14px rgba(${bike.primaryRgb}, 0.15)` }}
-                            >
-                                {bike.name}
-                            </div>
-                        )}
-                    </div>
-                );
-            })}
+                {/* Main Toggle Button */}
+                <button
+                    ref={mainBtnRef}
+                    onClick={() => setIsExpanded(!isExpanded)}
+                    className="absolute z-50 w-16 h-16 rounded-full flex items-center justify-center pointer-events-auto backdrop-blur-md shadow-[0_10px_25px_rgba(0,0,0,0.5)] transition-all hover:scale-105 active:scale-95 group"
+                    style={{
+                        background: `linear-gradient(135deg, ${selectedThemeObj.gradientStart}, ${selectedThemeObj.gradientEnd})`,
+                        border: `2px solid ${selectedThemeObj.primary}`,
+                        boxShadow: `0 0 20px rgba(${selectedThemeObj.primaryRgb}, 0.5)`
+                    }}
+                    title={isExpanded ? 'Close Themes' : 'Change Theme'}
+                >
+                    <img 
+                        src={selectedThemeObj.image} 
+                        alt="Current Theme"
+                        className="w-12 h-12 object-contain scale-[1.3] pointer-events-none drop-shadow-xl group-hover:scale-[1.4] transition-transform"
+                    />
+                </button>
+            </div>
         </div>
     );
 }

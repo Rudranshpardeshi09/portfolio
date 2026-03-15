@@ -156,7 +156,7 @@ export default function ProjectsSection() {
                     </p>
                     <h2 className="text-4xl sm:text-5xl md:text-7xl font-black text-white hover:text-white/90 transition-colors drop-shadow-2xl inline-block" style={{ textShadow: `0 0 40px rgba(${theme.primaryRgb}, 0.3)`}}>
                         PROJECT CATALOG
-                    </h2>
+5                    </h2>
                 </motion.div>
 
                 {/* Grid Layout */}

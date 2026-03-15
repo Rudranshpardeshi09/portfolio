@@ -18,6 +18,7 @@ import AboutSection from './components/sections/AboutSection';
 import SkillsSection from './components/sections/SkillsSection';
 import ProjectsSection from './components/sections/ProjectsSection';
 import ExperienceSection from './components/sections/ExperienceSection';
+import CertificateSection from './components/sections/CertificateSection';
 import ContactSection from './components/sections/ContactSection';
 
 export default function App() {
@@ -86,23 +87,23 @@ export default function App() {
 
         {/* Content Wrapper with 3D Transfrom */}
         <motion.div
-           animate={{
-             scale: isNavOpen ? 0.8 : 1,
-             rotateY: isNavOpen ? -15 : 0,
-             x: isNavOpen ? '60%' : '0%',
-             borderRadius: isNavOpen ? '40px' : '0px',
-           }}
-           transition={{
-             type: "spring",
-             damping: 25,
-             stiffness: 120
-           }}
-           className="relative z-10 w-full min-h-screen shadow-2xl origin-left transform-gpu"
-           style={{
-             overflow: isNavOpen ? 'hidden' : 'visible',
-             pointerEvents: isNavOpen ? 'none' : 'auto',
-             background: getBackgroundStyle().background // Ensure inner background matches
-           }}
+          animate={{
+            scale: isNavOpen ? 0.8 : 1,
+            rotateY: isNavOpen ? -15 : 0,
+            x: isNavOpen ? '60%' : '0%',
+            borderRadius: isNavOpen ? '40px' : '0px',
+          }}
+          transition={{
+            type: "spring",
+            damping: 25,
+            stiffness: 120
+          }}
+          className="relative z-10 w-full min-h-screen shadow-2xl origin-left transform-gpu"
+          style={{
+            overflow: isNavOpen ? 'hidden' : 'visible',
+            pointerEvents: isNavOpen ? 'none' : 'auto',
+            background: getBackgroundStyle().background // Ensure inner background matches
+          }}
         >
           <ScrollMap />
           <FloatingBikes />
@@ -115,6 +116,7 @@ export default function App() {
             <SkillsSection />
             <ProjectsSection />
             <ExperienceSection />
+            <CertificateSection />
             <ContactSection />
           </main>
           <Footer />

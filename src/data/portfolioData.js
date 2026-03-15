@@ -3,6 +3,7 @@ export const SECTIONS = [
     { id: 'skills', label: 'Skills', icon: '⚡' },
     { id: 'projects', label: 'Projects', icon: '🔧' },
     { id: 'experience', label: 'Experience', icon: '🏆' },
+    { id: 'certificates', label: 'Certificates', icon: '📜' },
     { id: 'contact', label: 'Contact', icon: '📬' },
 ];
 

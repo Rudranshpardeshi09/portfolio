@@ -96,27 +96,27 @@ export default function NavOverlay({ isOpen, onClose, activeSection }) {
                         />
                     </div>
 
-                    <nav className="relative z-10 w-full max-w-5xl px-8 h-full flex flex-col justify-center">
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-4 md:gap-y-8">
+                    <nav className="relative z-10 w-full max-w-6xl px-8 h-full flex flex-col justify-center py-20">
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-12 gap-y-2 md:gap-y-6">
                             {menuItems.map((item, index) => {
                                 const isActive = activeSection === item.href;
                                 return (
                                     <motion.div
                                         key={item.id}
                                         variants={itemVariants}
-                                        whileHover={{ scale: 1.05, x: 10 }}
+                                        whileHover={{ scale: 1.02, x: 10 }}
                                         className="perspective-1000"
                                     >
                                         <button
                                             onClick={() => handleItemClick(item.id)}
-                                            className="group relative flex items-baseline gap-6 py-2 transition-all duration-300 transform-gpu"
+                                            className="group relative flex items-center gap-4 py-1 transition-all duration-300 transform-gpu"
                                         >
-                                            <span className="text-xl md:text-2xl font-mono opacity-20 group-hover:opacity-100 transition-opacity" style={{ color: theme.primary }}>
+                                            <span className="text-lg md:text-xl font-mono opacity-20 group-hover:opacity-100 transition-opacity" style={{ color: theme.primary }}>
                                                 0{index + 1}
                                             </span>
                                             <div className="relative overflow-hidden">
                                                 <span 
-                                                    className={`text-6xl md:text-8xl font-black uppercase tracking-tighter transition-all duration-500 block ${
+                                                    className={`text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black uppercase tracking-tighter transition-all duration-500 block ${
                                                         isActive ? 'opacity-100' : 'opacity-40 group-hover:opacity-100'
                                                     }`}
                                                     style={{ 
@@ -128,7 +128,7 @@ export default function NavOverlay({ isOpen, onClose, activeSection }) {
                                                 </span>
                                                 {/* Underline animation */}
                                                 <motion.div 
-                                                    className="absolute bottom-2 left-0 h-1 bg-white"
+                                                    className="absolute bottom-1 left-0 h-1 bg-white"
                                                     initial={{ width: 0 }}
                                                     whileHover={{ width: '100%' }}
                                                     transition={{ duration: 0.3 }}

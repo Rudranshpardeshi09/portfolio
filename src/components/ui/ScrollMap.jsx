@@ -97,21 +97,22 @@ export default function ScrollMap() {
         { x: 36, y: 220 },
         { x: 62, y: 305 },
         { x: 36, y: 390 },
+        { x: 62, y: 475 },
     ];
 
-    const pathD = "M 36 26 Q 72 82 62 135 Q 24 180 36 220 Q 72 265 62 305 Q 24 350 36 390 L 36 420";
+    const pathD = "M 36 26 Q 72 82 62 135 Q 24 180 36 220 Q 72 265 62 305 Q 24 350 36 390 Q 72 435 62 475 L 62 505";
 
     return (
         <div
             ref={mapRef}
             className={`fixed right-4 top-1/2 -translate-y-1/2 z-40 transition-all duration-700 hidden md:block ${visible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-20'
                 }`}
-            style={{ width: '100px', height: '440px' }}
+            style={{ width: '100px', height: '525px' }}
         >
             <svg
                 width="100"
-                height="440"
-                viewBox="0 0 100 440"
+                height="525"
+                viewBox="0 0 100 525"
                 fill="none"
                 className="drop-shadow-lg"
             >
