@@ -36,11 +36,13 @@ export default function Footer() {
     ];
 
     return (
-        <footer className="relative z-10 px-4 pb-12 pt-16 md:px-8 lg:px-12 bg-[#030303] border-t border-white/5">
-            <div className="mx-auto max-w-7xl flex flex-col items-center">
+        <footer className="relative z-10 pb-12 pt-16 bg-[#030303] border-t border-white/5 flex justify-center">
+            
+            {/* MAIN CONTAINER FIX */}
+            <div className="w-full max-w-7xl px-4 md:px-8 lg:px-12 flex flex-col items-center text-center">
                 
-                {/* Navigation Links */}
-                <nav className="mb-12 flex flex-wrap justify-center gap-6 sm:gap-10">
+                {/* Navigation Links FIX */}
+                <nav className="mb-12 w-full flex flex-wrap justify-center items-center gap-6 sm:gap-10 text-center">
                     {navLinks.map((link) => (
                         <button
                             key={link.name}
@@ -63,10 +65,11 @@ export default function Footer() {
                     </div>
                 </div>
 
-                {/* Bottom Bar: Copyright, Back to Top & Made with */}
-                <div className="w-full flex flex-col items-center pt-12 border-t border-white/10 relative">
+                {/* Bottom Bar FIX */}
+                <div className="w-full flex flex-col items-center justify-center pt-12 border-t border-white/10 relative text-center">
                     
-                    <div className="flex flex-col items-center gap-6">
+                    {/* Inner Content FIX */}
+                    <div className="flex flex-col items-center justify-center gap-6 text-center">
                         <AnimatePresence>
                             {showBackToTop && (
                                 <motion.button
