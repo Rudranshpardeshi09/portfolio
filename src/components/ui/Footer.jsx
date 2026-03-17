@@ -63,48 +63,55 @@ export default function Footer() {
                     </div>
                 </div>
 
-                {/* Bottom Bar: Copyright & Back to Top */}
-                <div className="w-full flex flex-col sm:flex-row items-center justify-between pt-8 border-t border-white/10 relative">
-                    <p className="text-xs text-white/40 tracking-widest uppercase mb-4 sm:mb-0">
-                        © 2026 Rudransh Pardeshi
-                    </p>
-
-                    <AnimatePresence>
-                        {showBackToTop && (
-                            <motion.button
-                                initial={{ opacity: 0, scale: 0.5, y: 20 }}
-                                animate={{ opacity: 1, scale: 1, y: 0 }}
-                                exit={{ opacity: 0, scale: 0.5, y: 20 }}
-                                onClick={scrollToTop}
-                                className="absolute left-1/2 -top-6 -translate-x-1/2 sm:static sm:translate-x-0 w-12 h-12 flex items-center justify-center rounded-full bg-white/5 border border-white/10 hover:bg-white/10 transition-all duration-300 group z-50 backdrop-blur-md hover:scale-110 active:scale-95"
-                                style={{ 
-                                    boxShadow: `0 0 0 rgba(${theme.primaryRgb}, 0)`
-                                }}
-                                whileHover={{ 
-                                    boxShadow: `0 0 20px rgba(${theme.primaryRgb}, 0.4)`
-                                }}
-                            >
-                                <svg 
-                                    xmlns="http://www.w3.org/2000/svg" 
-                                    className="h-5 w-5 text-white/70 group-hover:text-white transition-colors group-hover:-translate-y-1 duration-300" 
-                                    fill="none" 
-                                    viewBox="0 0 24 24" 
-                                    stroke="currentColor"
+                {/* Bottom Bar: Copyright, Back to Top & Made with */}
+                <div className="w-full flex flex-col items-center pt-12 border-t border-white/10 relative">
+                    
+                    <div className="flex flex-col items-center gap-6">
+                        <AnimatePresence>
+                            {showBackToTop && (
+                                <motion.button
+                                    initial={{ opacity: 0, scale: 0.5, y: 20 }}
+                                    animate={{ opacity: 1, scale: 1, y: 0 }}
+                                    exit={{ opacity: 0, scale: 0.5, y: 20 }}
+                                    onClick={scrollToTop}
+                                    className="w-14 h-14 flex items-center justify-center rounded-full bg-white/5 border border-white/10 hover:bg-white/10 transition-all duration-300 group z-50 backdrop-blur-md hover:scale-110 active:scale-95 mb-4"
+                                    style={{ 
+                                        boxShadow: `0 0 0 rgba(${theme.primaryRgb}, 0)`
+                                    }}
+                                    whileHover={{ 
+                                        boxShadow: `0 0 30px rgba(${theme.primaryRgb}, 0.3)`
+                                    }}
                                 >
-                                    <path 
-                                        strokeLinecap="round" 
-                                        strokeLinejoin="round" 
-                                        strokeWidth={2} 
-                                        d="M5 10l7-7m0 0l7 7m-7-7v18" 
-                                    />
-                                </svg>
-                            </motion.button>
-                        )}
-                    </AnimatePresence>
+                                    <svg 
+                                        xmlns="http://www.w3.org/2000/svg" 
+                                        className="h-6 w-6 text-white/50 group-hover:text-white transition-colors group-hover:-translate-y-1 duration-300" 
+                                        fill="none" 
+                                        viewBox="0 0 24 24" 
+                                        stroke="currentColor"
+                                    >
+                                        <path 
+                                            strokeLinecap="round" 
+                                            strokeLinejoin="round" 
+                                            strokeWidth={2} 
+                                            d="M5 10l7-7m0 0l7 7m-7-7v18" 
+                                        />
+                                    </svg>
+                                </motion.button>
+                            )}
+                        </AnimatePresence>
 
-                    <p className="text-xs text-white/40 tracking-widest uppercase hidden sm:block">
-                        Made with <span style={{ color: theme.primary }}>ReactBits</span>
-                    </p>
+                        <div className="flex flex-col items-center text-center space-y-4">
+                            <p className="text-xs text-white/30 tracking-[0.4em] uppercase font-bold">
+                                © 2026 Rudransh Pardeshi
+                            </p>
+                            
+                            <div className="w-10 h-[1px] bg-white/10" />
+
+                            <p className="text-[10px] text-white/20 tracking-[0.3em] uppercase font-mono">
+                                Orchestrated with <span className="text-white/40" style={{ color: theme.primary }}>ReactBits</span>
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </footer>

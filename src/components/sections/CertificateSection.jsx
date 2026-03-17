@@ -1,51 +1,121 @@
+import { motion } from 'framer-motion';
 import useThemeStore from '../../store/themeStore';
-import Masonry from '../reactbits/Masonry';
 
-// Helper to determine the image/URL based on the certificate data logic requested:
-// We will generate the items array from CERTIFICATIONS_DATA (or just a hardcoded list matching the certificates folder)
-// For this example, I'll use placeholders mapped to the structure you provided to ensure it looks good immediately.
-const certificateItems = [
+const CERTIFICATES = [
     {
         id: "1",
-        img: "/certificates/c1.jpg", // Replace with realistic paths, falling back to picsum if missing locally
-        url: "#",
-        height: 400,
+        title: "NVIDIA Deep Learning",
+        company: "NVIDIA",
+        img: "/certificates/My Learning _ NVIDIA_page-0001.jpg",
+        color: "#76B900" 
     },
     {
         id: "2",
-        img: "/certificates/c2.jpg",
-        url: "#",
-        height: 300,
+        title: "Red Hat System Admin",
+        company: "Red Hat",
+        img: "/certificates/Red Hat System Administration I (RH124 - RHA) - Ver. 9.3_page-0001.jpg",
+        color: "#EE0000"
     },
     {
         id: "3",
-        img: "/certificates/c3.jpg",
-        url: "#",
-        height: 450,
+        title: "Microsoft Azure Fundamentals",
+        company: "Microsoft",
+        img: "/certificates/certificate 2 microsoft_page-0001.jpg",
+        color: "#00A4EF"
     },
     {
         id: "4",
-        img: "/certificates/c4.jpg",
-        url: "#",
-        height: 280,
+        title: "Google Cybersecurity",
+        company: "Google",
+        img: "/certificates/google cert.png",
+        color: "#4285F4"
     },
     {
         id: "5",
-        img: "/certificates/c5.jpg",
-        url: "#",
-        height: 380,
+        title: "Django Development",
+        company: "GFG",
+        img: "/certificates/django gfg_page-0001.jpg",
+        color: "#2F8D46"
+    },
+    {
+        id: "6",
+        title: "Software Engineering Intern",
+        company: "Internship",
+        img: "/certificates/internship certificate_page-0001.jpg",
+        color: "#FFB800"
     }
 ];
 
-// Fallback items with more vibrant tech-oriented picsum images for the "WOW" effect
-const fallbackItems = [
-    { id: "1", img: "https://picsum.photos/id/1/600/900", url: "#", height: 400 }, // Tech
-    { id: "2", img: "https://picsum.photos/id/2/600/750", url: "#", height: 250 }, // Tech
-    { id: "3", img: "https://picsum.photos/id/119/600/800", url: "#", height: 600 }, // MacBook
-    { id: "4", img: "https://picsum.photos/id/160/600/500", url: "#", height: 350 }, // Phone
-    { id: "5", img: "https://picsum.photos/id/180/600/700", url: "#", height: 450 }, // Laptop
-    { id: "6", img: "https://picsum.photos/id/201/600/800", url: "#", height: 500 }, // Office
-];
+function Creative3DGallery() {
+    const { theme } = useThemeStore();
+
+    return (
+        <div className="relative w-full h-full flex items-center justify-center [perspective:1500px]">
+            {CERTIFICATES.map((cert, index) => {
+                const rotation = (index - (CERTIFICATES.length - 1) / 2) * 12; // Fan spread
+                const xOffset = (index - (CERTIFICATES.length - 1) / 2) * 45; // Staggered x
+                
+                return (
+                    <motion.div
+                        key={cert.id}
+                        initial={{ opacity: 0, y: 100, rotate: 0 }}
+                        whileInView={{ 
+                            opacity: 1, 
+                            y: 0, 
+                            rotate: rotation,
+                            x: xOffset,
+                            z: -index * 20
+                        }}
+                        viewport={{ once: true }}
+                        whileHover={{ 
+                            scale: 1.15, 
+                            rotate: 0, 
+                            z: 100,
+                            x: xOffset, // keep its x position but pop forward
+                            transition: { duration: 0.4, ease: "circOut" }
+                        }}
+                        transition={{ 
+                            type: "spring", 
+                            stiffness: 100, 
+                            damping: 20,
+                            delay: index * 0.1 
+                        }}
+                        className="absolute w-[240px] md:w-[320px] aspect-[4/3] rounded-2xl overflow-hidden border-2 border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.5)] cursor-pointer group bg-[#111]"
+                        style={{
+                            originY: "100%", // Rotate from bottom
+                        }}
+                    >
+                        {/* Certificate Image */}
+                        <img 
+                            src={cert.img} 
+                            alt={cert.title} 
+                            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                        />
+                        
+                        {/* Overlay Gradient */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                        
+                        {/* Company Tag */}
+                        <div 
+                            className="absolute top-4 right-4 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest text-white shadow-lg backdrop-blur-md"
+                            style={{ backgroundColor: `${cert.color}99`, border: `1px solid ${cert.color}` }}
+                        >
+                            {cert.company}
+                        </div>
+
+                        {/* Title Info on Hover */}
+                        <div className="absolute bottom-6 left-6 right-6 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
+                            <h3 className="text-white font-black text-lg leading-tight uppercase tracking-tight">
+                                {cert.title}
+                            </h3>
+                            <div className="w-8 h-1 mt-2 rounded-full" style={{ backgroundColor: cert.color }} />
+                        </div>
+                    </motion.div>
+                );
+            })}
+        </div>
+    );
+}
 
 export default function CertificateSection() {
     const { theme } = useThemeStore();
@@ -53,68 +123,67 @@ export default function CertificateSection() {
     return (
         <section
             id="certificates"
-            className="w-full relative overflow-hidden flex items-center justify-center py-20"
+            className="w-full relative overflow-hidden flex items-center justify-center py-32"
             style={{
-                // Dark rich gradient background
-                background: `linear-gradient(180deg, rgba(10,10,10,1) 0%, rgba(${theme.primaryRgb}, 0.08) 50%, rgba(10,10,10,1) 100%)`
+                background: `linear-gradient(180deg, rgba(10,10,10,1) 0%, rgba(${theme.primaryRgb}, 0.05) 50%, rgba(10,10,10,1) 100%)`
             }}
         >
             <div className="absolute inset-0 pointer-events-none">
                 <div
-                    className="absolute inset-0 opacity-20"
+                    className="absolute inset-0 opacity-10"
                     style={{
-                        background: `radial-gradient(circle at 70% 50%, rgba(${theme.primaryRgb}, 0.25) 0%, transparent 60%)`,
+                        background: `radial-gradient(circle at 50% 50%, rgba(${theme.primaryRgb}, 0.2) 0%, transparent 70%)`,
                     }}
                 />
             </div>
 
-            <div className="mx-8 my-8 px-4 py-4 max-w-7xl grid grid-cols-1 lg:grid-cols-12 gap-16 items-center relative z-10">
+            <div className="mx-auto w-full px-6 max-w-[1400px] flex flex-col items-center relative z-10">
                 
-                {/* Left Side: Typography */}
-                <div className="lg:col-span-4 flex flex-col items-start text-left">
-                    <p className="text-[10px] font-bold uppercase tracking-[0.45em] text-white/35 md:text-xs mb-4">
-                        Continuous Learning
-                    </p>
-                    <h2 className="text-4xl font-black uppercase tracking-tight text-white sm:text-5xl md:text-6xl drop-shadow-2xl leading-[0.9]">
-                        Verifiable<br/>
-                        <span style={{ color: theme.primary }}>Credentials</span>
-                    </h2>
-                    
-                    <div className="w-16 h-1 mt-8 mb-8 rounded-full" style={{ backgroundColor: theme.primary }} />
-
-                    <p className="text-sm leading-7 text-white/60 md:text-base mb-6">
-                        A curated collection of professional certifications from top-tier institutions, reflecting a deep commitment to technical excellence and lifelong learning.
-                    </p>
-                    <div className="flex flex-col gap-3">
-                        <div className="flex items-center gap-3 text-white/40 text-xs font-mono">
-                            <span className="w-2 h-2 rounded-full" style={{ backgroundColor: theme.primary }} />
-                            Industry Recognized
-                        </div>
-                        <div className="flex items-center gap-3 text-white/40 text-xs font-mono">
-                            <span className="w-2 h-2 rounded-full" style={{ backgroundColor: theme.primary }} />
-                            Verifiable PDF Access
-                        </div>
-                    </div>
-                </div>
-
-                {/* Right Side: Masonry Grid */}
-                <div className="lg:col-span-8 h-[750px] rounded-[2.5rem] overflow-hidden p-6 bg-white/[0.02] border border-white/[0.08] shadow-[0_30px_100px_rgba(0,0,0,0.8)] relative backdrop-blur-3xl">
-                    <Masonry
-                        items={fallbackItems}
-                        ease="sine.out"
-                        duration={1}
-                        stagger={0.1}
-                        animateFrom="bottom"
-                        scaleOnHover={true}
-                        hoverScale={1.03}
-                        blurToFocus={true}
-                        colorShiftOnHover={false}
+                {/* Header Section */}
+                <div className="w-full max-w-4xl text-center mb-24">
+                    <motion.p 
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        className="text-[10px] font-bold uppercase tracking-[0.6em] text-white/30 md:text-xs mb-6"
+                    >
+                        Verified Credentials & Lifelong Learning
+                    </motion.p>
+                    <motion.h2 
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: 0.1 }}
+                        className="text-5xl font-black uppercase tracking-tighter text-white sm:text-7xl md:text-8xl drop-shadow-2xl leading-[0.85]"
+                    >
+                        Professional<br/>
+                        <span style={{ color: theme.primary }}>Certifications</span>
+                    </motion.h2>
+                    <motion.div 
+                        initial={{ scaleX: 0 }}
+                        whileInView={{ scaleX: 1 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: 0.3, duration: 0.8 }}
+                        className="w-32 h-1.5 mx-auto mt-10 rounded-full" 
+                        style={{ backgroundColor: theme.primary }} 
                     />
-                    
-                    {/* Glass Overlay on bottom to fade into next section */}
-                    <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-black to-transparent pointer-events-none" />
+                </div>
+
+                {/* 3D Gallery Container */}
+                <div className="w-full h-[500px] md:h-[650px] relative mt-10">
+                    <Creative3DGallery />
                 </div>
                 
+                {/* Subtle Footer Note */}
+                <motion.p 
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 1 }}
+                    className="mt-20 text-[10px] font-mono tracking-widest text-white/20 uppercase"
+                >
+                    Hover to inspect original issuance documents
+                </motion.p>
             </div>
         </section>
     );
