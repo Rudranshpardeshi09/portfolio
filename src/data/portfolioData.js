@@ -198,6 +198,14 @@ export const EXPERIENCE_DATA = [
             'Reduced administrative processing time by 90% with CSV-to-template mapping and validation workflows.',
         ],
         highlights: ['Certificate Generator', 'Workflow Automation', 'Full-stack Dev'],
+        certificate: {
+            title: 'Software Engineering Intern',
+            issuer: 'Internship',
+            year: '2024',
+            category: 'Professional Experience',
+            image: '/certificates/internship certificate_page-0001.jpg',
+            color: '#FFB800',
+        },
     },
 ];
 

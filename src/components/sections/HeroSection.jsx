@@ -144,11 +144,24 @@ export default function HeroSection() {
                     >
                         View Projects
                     </button>
+                    
                     <button
                         onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
                         className="min-w-[170px] px-7 py-3.5 sm:px-9 sm:py-4 rounded-xl text-sm font-semibold tracking-wider uppercase border border-white/20 bg-black/35 text-white transition-all duration-300 hover:bg-black/55"
                     >
                         Contact Me
+                    </button>
+
+                    <button
+                        onClick={() => document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })}
+                        className="min-w-[170px] px-7 py-3.5 sm:px-9 sm:py-4 rounded-xl text-sm font-semibold tracking-wider uppercase transition-all duration-300 hover:scale-105"
+                        style={{
+                            background: `linear-gradient(135deg, ${theme.gradientStart}, ${theme.gradientEnd})`,
+                            color: '#fff',
+                            boxShadow: `0 0 28px rgba(${theme.primaryRgb},0.35)`
+                        }}
+                    >
+                        MY Resume
                     </button>
                 </div>
             </div>

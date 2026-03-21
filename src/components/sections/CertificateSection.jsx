@@ -48,15 +48,6 @@ const CERTIFICATES = [
         category: 'Backend Development',
         year: '2024',
     },
-    {
-        id: '6',
-        title: 'Software Engineering Intern',
-        company: 'Internship',
-        img: '/certificates/internship certificate_page-0001.jpg',
-        color: '#FFB800',
-        category: 'Professional Experience',
-        year: '2024',
-    },
 ];
 
 function CertificateCard({ cert, theme, onOpen }) {
