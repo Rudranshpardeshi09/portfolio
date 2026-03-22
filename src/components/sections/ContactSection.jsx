@@ -108,12 +108,12 @@ export default function ContactSection() {
             </div>
 
             <div className="section-inner relative z-10 w-full">
-                <div ref={titleRef} className="max-w-3xl mb-16 px-4 md:px-0">
+                <div ref={titleRef} className="mb-16 max-w-3xl px-4 text-left md:px-0">
                     <h2 className="text-4xl md:text-6xl font-black text-white mb-6 tracking-tight leading-none">
                         Let's build <span className="text-gradient"> something </span> <br />
                         extraordinary together.
                     </h2>
-                    <p className="text-white/60 text-lg md:text-xl max-w-xl leading-relaxed">
+                    <p className="max-w-2xl text-white/60 text-lg leading-relaxed md:text-xl">
                         Currently available for freelance projects and full-time opportunities. Send me a message and let's chat.
                     </p>
                 </div>

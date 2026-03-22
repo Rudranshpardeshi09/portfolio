@@ -171,7 +171,7 @@ export default function SkillsSection() {
                     <h2 className="mt-4 text-4xl font-black uppercase tracking-tight text-white sm:text-5xl md:text-6xl">
                         Engineering Vault
                     </h2>
-                    <p className="mx-auto mt-5 max-w-2xl text-sm leading-7 text-white/55 md:text-base">
+                    <p className="mx-auto mt-5 max-w-[44rem] text-center text-sm leading-7 text-white/55 md:text-base">
                         Each block is structured by capability and staged like a suspended module instead of another tilt card.
                     </p>
                 </div>

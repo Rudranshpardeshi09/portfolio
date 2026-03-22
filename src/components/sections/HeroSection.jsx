@@ -11,6 +11,7 @@ export default function HeroSection() {
     const containerRef = useRef(null);
     const contentRef = useRef(null);
     const ringsRef = useRef(null);
+    const resumeHref = '/resume/Rudransh Pardeshi resume.pdf';
 
     useEffect(() => {
         const container = containerRef.current;
@@ -152,9 +153,12 @@ export default function HeroSection() {
                         Contact Me
                     </button>
 
-                    <button
-                        onClick={() => document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })}
-                        className="min-w-[170px] px-7 py-3.5 sm:px-9 sm:py-4 rounded-xl text-sm font-semibold tracking-wider uppercase transition-all duration-300 hover:scale-105"
+                    <a
+                        href={resumeHref}
+                        download="Rudransh Pardeshi resume.pdf"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="inline-flex min-w-[170px] items-center justify-center px-7 py-3.5 sm:px-9 sm:py-4 rounded-xl text-sm font-semibold tracking-wider uppercase transition-all duration-300 hover:scale-105"
                         style={{
                             background: `linear-gradient(135deg, ${theme.gradientStart}, ${theme.gradientEnd})`,
                             color: '#fff',
@@ -162,7 +166,7 @@ export default function HeroSection() {
                         }}
                     >
                         MY Resume
-                    </button>
+                    </a>
                 </div>
             </div>
         </section>

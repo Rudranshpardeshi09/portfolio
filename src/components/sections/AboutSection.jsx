@@ -129,7 +129,7 @@ export default function AboutSection() {
                     <motion.div 
                         ref={textRef} 
                         style={{ translateZ: textTranslateZ, transformStyle: 'preserve-3d' }}
-                        className="lg:w-[55%] flex flex-col justify-center transform-gpu"
+                        className="lg:w-[60%] flex flex-col justify-center transform-gpu"
                     >
                         <div className="w-full glass-strong p-10 md:p-14 lg:p-16 rounded-[40px] border border-white/10 relative overflow-hidden group shadow-2xl transition-all duration-500"
                             style={{

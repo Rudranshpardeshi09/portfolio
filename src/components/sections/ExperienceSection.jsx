@@ -264,7 +264,7 @@ export default function ExperienceSection() {
                     <h2 className="mt-4 text-5xl font-black uppercase tracking-tighter text-white sm:text-6xl md:text-7xl leading-none">
                         Impact Timeline
                     </h2>
-                    <p className="mt-6 text-sm leading-7 text-white/50 md:text-base max-w-xl mx-auto">
+                    <p className="mx-auto mt-4 max-w-2xl text-center text-sm leading-7 text-white/50 md:text-base">
                         A dynamic chronicle of technical achievements, architectural leadership, and scalable solution delivery.
                     </p>
                 </div>
@@ -308,7 +308,7 @@ export default function ExperienceSection() {
                                         ref={(element) => {
                                             itemRefs.current[index] = element;
                                         }}
-                                        className="relative w-full overflow-hidden rounded-[44px] border p-12 text-left md:w-[47%] md:p-14 lg:w-[48%] lg:p-16 transition-all duration-500 hover:border-white/20"
+                                        className="relative w-full overflow-hidden rounded-[44px] border p-12 text-left md:w-[49%] md:p-14 lg:w-[50%] lg:p-16 transition-all duration-500 hover:border-white/20"
 
                                         style={{
                                             background: 'linear-gradient(165deg, rgba(20,20,20,0.95), rgba(40,40,40,0.4))',

@@ -1,4 +1,5 @@
 import { AnimatePresence, motion } from 'framer-motion';
+import { X } from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
 import useThemeStore from '../../store/themeStore';
 
@@ -137,7 +138,7 @@ function CertificateModal({ cert, onClose }) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[140] overflow-y-auto bg-[rgba(4,4,6,0.88)] p-4 backdrop-blur-2xl sm:p-6"
+            className="fixed inset-0 z-[140] overflow-y-auto bg-[rgba(4,4,6,0.9)] px-3 py-5 backdrop-blur-2xl sm:px-5 sm:py-6"
             onClick={onClose}
             aria-modal="true"
             role="dialog"
@@ -149,33 +150,33 @@ function CertificateModal({ cert, onClose }) {
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: 12, scale: 0.98 }}
                     transition={{ duration: 0.25, ease: 'easeOut' }}
-                    className="relative grid w-full max-w-7xl overflow-hidden rounded-[32px] border border-white/10 bg-[#09090c] shadow-[0_40px_120px_rgba(0,0,0,0.55)] lg:grid-cols-[340px_minmax(0,1fr)]"
+                    className="relative grid w-full max-w-[1280px] overflow-hidden rounded-[30px] border border-white/10 bg-[#09090c] shadow-[0_40px_120px_rgba(0,0,0,0.55)] lg:grid-cols-[300px_minmax(0,1fr)]"
                     onClick={(event) => event.stopPropagation()}
                 >
-                    <aside className="relative flex flex-col justify-between border-b border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.06),rgba(255,255,255,0.02))] p-6 sm:p-8 lg:border-b-0 lg:border-r">
-                        <div className="space-y-6">
+                    <aside className="relative flex flex-col justify-between border-b border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.06),rgba(255,255,255,0.02))] p-5 sm:p-6 lg:border-b-0 lg:border-r">
+                        <div className="space-y-5">
                             <div>
                                 <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-white/35">
                                     Certificate Preview
                                 </p>
-                                <h3 className="mt-3 pr-12 text-2xl font-semibold leading-tight text-white">
+                                <h3 className="mt-2 pr-10 text-[1.95rem] font-semibold leading-[1.05] text-white">
                                     {cert.title}
                                 </h3>
-                                <p className="mt-2 text-sm leading-relaxed text-white/55">
-                                    Clean full-size preview with responsive containment, so the document stays readable without overlapping surrounding UI.
+                                <p className="mt-3 text-sm leading-relaxed text-white/55">
+                                    Full certificate preview with a contained layout that keeps the document readable across screen sizes.
                                 </p>
                             </div>
 
-                            <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-2">
+                            <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-4 lg:grid-cols-2">
                                 {details.map((item) => (
                                     <div
                                         key={item.label}
-                                        className="rounded-2xl border border-white/8 bg-white/[0.03] p-4"
+                                        className="rounded-2xl border border-white/8 bg-white/[0.03] px-3 py-3.5"
                                     >
                                         <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-white/35">
                                             {item.label}
                                         </p>
-                                        <p className="mt-2 text-sm font-medium text-white/88">
+                                        <p className="mt-1.5 text-sm font-medium leading-snug text-white/88">
                                             {item.value}
                                         </p>
                                     </div>
@@ -184,7 +185,7 @@ function CertificateModal({ cert, onClose }) {
                         </div>
 
                         <div
-                            className="mt-8 rounded-[24px] border p-5"
+                            className="mt-6 rounded-[24px] border px-4 py-4"
                             style={{
                                 borderColor: `${cert.color}40`,
                                 background: `linear-gradient(180deg, ${cert.color}18, rgba(255,255,255,0.02))`,
@@ -200,27 +201,25 @@ function CertificateModal({ cert, onClose }) {
                                 </p>
                             </div>
                             <p className="mt-3 text-sm leading-relaxed text-white/60">
-                                The preview is contained inside the modal and can scroll independently on smaller screens, which prevents clipping and text collisions.
+                                Use the close button or press Escape to return to the certificates timeline.
                             </p>
                         </div>
                     </aside>
 
-                    <div className="relative bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.06),transparent_55%)] p-3 sm:p-5 lg:p-6">
-                        <div className="mb-4 flex items-center justify-end">
-                            <button
-                                type="button"
-                                onClick={onClose}
-                                className="inline-flex items-center justify-center rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-medium text-white/80 transition hover:bg-white hover:text-black"
-                                aria-label={`Close ${cert.title} certificate preview`}
-                            >
-                                Close
-                            </button>
-                        </div>
-                        <div className="flex max-h-[calc(100vh-3rem)] min-h-[420px] items-center justify-center overflow-auto rounded-[28px] border border-white/8 bg-[#050505] p-3 shadow-inner sm:min-h-[520px] sm:p-5">
+                    <div className="relative bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.06),transparent_55%)] p-2.5 sm:p-4 lg:p-5">
+                        <button
+                            type="button"
+                            onClick={onClose}
+                            className="absolute right-3 top-3 z-10 inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-black/45 text-white/75 transition hover:bg-white hover:text-black sm:right-4 sm:top-4"
+                            aria-label={`Close ${cert.title} certificate preview`}
+                        >
+                            <X size={16} strokeWidth={2.2} />
+                        </button>
+                        <div className="flex max-h-[calc(100vh-2.5rem)] min-h-[400px] items-center justify-center overflow-auto rounded-[26px] border border-white/8 bg-[#050505] p-1.5 shadow-inner sm:min-h-[500px] sm:p-2.5 lg:min-h-[540px]">
                             <img
                                 src={cert.img}
                                 alt={cert.title}
-                                className="block h-auto max-h-full w-auto max-w-full rounded-2xl bg-white object-contain shadow-[0_20px_60px_rgba(0,0,0,0.4)]"
+                                className="block h-auto max-h-full w-auto max-w-full rounded-[22px] bg-white object-contain shadow-[0_20px_60px_rgba(0,0,0,0.4)]"
                             />
                         </div>
                     </div>
@@ -283,7 +282,7 @@ export default function CertificateSection() {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ delay: 0.2 }}
-                        className="mt-6 max-w-2xl text-sm leading-relaxed text-white/55 sm:text-base"
+                        className="mt-4 max-w-2xl text-sm leading-relaxed text-white/55 sm:text-base"
                     >
                         A curated record of cloud, systems, cybersecurity, and software engineering credentials presented in a structured gallery with full-resolution previews.
                     </motion.p>
