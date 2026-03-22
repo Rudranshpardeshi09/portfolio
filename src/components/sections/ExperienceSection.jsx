@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { AnimatePresence, motion } from 'framer-motion';
+import { ArrowUpRight, CalendarRange, Sparkles, X } from 'lucide-react';
 import useThemeStore from '../../store/themeStore';
 import { EXPERIENCE_DATA } from '../../data/portfolioData';
 
@@ -42,7 +43,7 @@ function ExperienceCertificateModal({ cert, onClose }) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[140] overflow-y-auto bg-[rgba(4,4,6,0.88)] p-4 backdrop-blur-2xl sm:p-6"
+            className="fixed inset-0 z-[140] overflow-y-auto bg-[rgba(4,4,6,0.9)] px-3 py-5 backdrop-blur-2xl sm:px-5 sm:py-6"
             onClick={onClose}
             aria-modal="true"
             role="dialog"
@@ -54,33 +55,33 @@ function ExperienceCertificateModal({ cert, onClose }) {
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: 12, scale: 0.98 }}
                     transition={{ duration: 0.25, ease: 'easeOut' }}
-                    className="relative grid w-full max-w-6xl overflow-hidden rounded-[32px] border border-white/10 bg-[#09090c] shadow-[0_40px_120px_rgba(0,0,0,0.55)] lg:grid-cols-[320px_minmax(0,1fr)]"
+                    className="relative grid w-full max-w-[1240px] overflow-hidden rounded-[30px] border border-white/10 bg-[#09090c] shadow-[0_40px_120px_rgba(0,0,0,0.55)] lg:grid-cols-[300px_minmax(0,1fr)]"
                     onClick={(event) => event.stopPropagation()}
                 >
-                    <aside className="relative flex flex-col justify-between border-b border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.06),rgba(255,255,255,0.02))] p-6 sm:p-8 lg:border-b-0 lg:border-r">
-                        <div className="space-y-6">
+                    <aside className="relative flex flex-col justify-between border-b border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.06),rgba(255,255,255,0.02))] p-5 sm:p-6 lg:border-b-0 lg:border-r">
+                        <div className="space-y-5">
                             <div>
                                 <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-white/35">
                                     Certificate Review
                                 </p>
-                                <h3 className="mt-3 pr-12 text-2xl font-semibold leading-tight text-white">
+                                <h3 className="mt-2 pr-10 text-[1.95rem] font-semibold leading-[1.05] text-white">
                                     {cert.title}
                                 </h3>
-                                <p className="mt-2 text-sm leading-relaxed text-white/55">
+                                <p className="mt-3 text-sm leading-relaxed text-white/55">
                                     Full certificate preview for the internship credential attached to this experience entry.
                                 </p>
                             </div>
 
-                            <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-2">
+                            <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-4 lg:grid-cols-2">
                                 {details.map((item) => (
                                     <div
                                         key={item.label}
-                                        className="rounded-2xl border border-white/8 bg-white/[0.03] p-4"
+                                        className="rounded-2xl border border-white/8 bg-white/[0.03] px-3 py-3.5"
                                     >
                                         <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-white/35">
                                             {item.label}
                                         </p>
-                                        <p className="mt-2 text-sm font-medium text-white/88">
+                                        <p className="mt-1.5 text-sm font-medium leading-snug text-white/88">
                                             {item.value}
                                         </p>
                                     </div>
@@ -89,7 +90,7 @@ function ExperienceCertificateModal({ cert, onClose }) {
                         </div>
 
                         <div
-                            className="mt-8 rounded-[24px] border p-5"
+                            className="mt-6 rounded-[24px] border px-4 py-4"
                             style={{
                                 borderColor: `${cert.color}40`,
                                 background: `linear-gradient(180deg, ${cert.color}18, rgba(255,255,255,0.02))`,
@@ -104,21 +105,20 @@ function ExperienceCertificateModal({ cert, onClose }) {
                         </div>
                     </aside>
 
-                    <div className="relative bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.06),transparent_55%)] p-3 sm:p-5 lg:p-6">
-                        <div className="mb-4 flex items-center justify-end">
-                            <button
-                                type="button"
-                                onClick={onClose}
-                                className="inline-flex items-center justify-center rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-medium text-white/80 transition hover:bg-white hover:text-black"
-                            >
-                                Close
-                            </button>
-                        </div>
-                        <div className="flex max-h-[calc(100vh-3rem)] min-h-[420px] items-center justify-center overflow-auto rounded-[28px] border border-white/8 bg-[#050505] p-3 shadow-inner sm:min-h-[520px] sm:p-5">
+                    <div className="relative bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.06),transparent_55%)] p-2.5 sm:p-4 lg:p-5">
+                        <button
+                            type="button"
+                            onClick={onClose}
+                            className="absolute right-3 top-3 z-10 inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-black/45 text-white/75 transition hover:bg-white hover:text-black sm:right-4 sm:top-4"
+                            aria-label={`Close ${cert.title} certificate preview`}
+                        >
+                            <X size={16} strokeWidth={2.2} />
+                        </button>
+                        <div className="flex max-h-[calc(100vh-2.5rem)] min-h-[400px] items-center justify-center overflow-auto rounded-[26px] border border-white/8 bg-[#050505] p-1.5 shadow-inner sm:min-h-[500px] sm:p-2.5 lg:min-h-[540px]">
                             <img
                                 src={cert.image}
                                 alt={cert.title}
-                                className="block h-auto max-h-full w-auto max-w-full rounded-2xl bg-white object-contain shadow-[0_20px_60px_rgba(0,0,0,0.4)]"
+                                className="block h-auto max-h-full w-auto max-w-full rounded-[22px] bg-white object-contain shadow-[0_20px_60px_rgba(0,0,0,0.4)]"
                             />
                         </div>
                     </div>
@@ -249,30 +249,52 @@ export default function ExperienceSection() {
         <section
             id="experience"
             ref={sectionRef}
-            className="section-container relative overflow-visible bg-transparent [perspective:2500px] py-44 md:py-56 lg:py-72"
+            className="section-container relative overflow-visible bg-transparent [perspective:2500px] py-32 md:py-40 lg:py-48"
         >
+            <div className="absolute inset-0 pointer-events-none">
+                <div
+                    className="absolute inset-0 opacity-15"
+                    style={{ background: `radial-gradient(circle at 50% 12%, rgba(${theme.primaryRgb},0.2), transparent 58%)` }}
+                />
+                <div
+                    className="absolute left-1/2 top-28 h-[420px] w-[420px] -translate-x-1/2 rounded-full blur-[150px]"
+                    style={{ background: `rgba(${theme.primaryRgb},0.12)` }}
+                />
+            </div>
             <div
                 className="absolute inset-0 pointer-events-none opacity-20"
                 style={{ background: `radial-gradient(circle at 50% 15%, rgba(${theme.primaryRgb},0.15), transparent 60%)` }}
             />
 
             <div className="section-inner relative z-10 mx-auto max-w-[1520px] px-6 md:px-12 lg:px-20">
-                <div ref={titleRef} className="mx-auto max-w-3xl text-center">
-                    <p className="text-[10px] font-bold uppercase tracking-[0.5em] text-white/30 md:text-xs">
+                <div ref={titleRef} className="mx-auto flex max-w-4xl flex-col items-center text-center">
+                    <div
+                        className="inline-flex items-center gap-2 rounded-full border px-4 py-2 text-[10px] font-bold uppercase tracking-[0.35em] text-white/55"
+                        style={{
+                            borderColor: `rgba(${theme.primaryRgb},0.28)`,
+                            background: `rgba(${theme.primaryRgb},0.1)`,
+                            boxShadow: `0 0 30px rgba(${theme.primaryRgb},0.08)`,
+                        }}
+                    >
+                        <Sparkles size={12} />
                         Professional Journey
-                    </p>
-                    <h2 className="mt-4 text-5xl font-black uppercase tracking-tighter text-white sm:text-6xl md:text-7xl leading-none">
+                    </div>
+                    <h2 className="mt-6 text-5xl font-black uppercase tracking-[-0.08em] text-white sm:text-6xl md:text-7xl lg:text-[5.5rem] leading-[0.92]">
                         Impact Timeline
                     </h2>
-                    <p className="mx-auto mt-4 max-w-2xl text-center text-sm leading-7 text-white/50 md:text-base">
+                    <p className="mx-auto mt-6 max-w-2xl text-center text-sm leading-7 text-white/55 md:text-base">
                         A dynamic chronicle of technical achievements, architectural leadership, and scalable solution delivery.
                     </p>
+                    <div
+                        className="mt-8 h-px w-28 rounded-full"
+                        style={{ background: `linear-gradient(90deg, transparent, ${theme.primary}, transparent)` }}
+                    />
                 </div>
 
-                <div className="relative mx-auto mt-28 w-full">
+                <div className="relative mx-auto mt-20 w-full md:mt-24">
                     {/* Vertical Rail / Spine */}
                     <svg
-                        className="pointer-events-none absolute left-6 top-0 h-full w-8 opacity-30 md:left-1/2 md:-translate-x-1/2"
+                        className="pointer-events-none absolute left-6 top-0 h-full w-8 opacity-50 md:left-1/2 md:-translate-x-1/2"
                         viewBox="0 0 32 800"
                         fill="none"
                         preserveAspectRatio="none"
@@ -286,7 +308,12 @@ export default function ExperienceSection() {
                         />
                     </svg>
 
-                    <div className="space-y-32 md:space-y-44 lg:space-y-52">
+                    <div
+                        className="pointer-events-none absolute left-6 top-0 h-full w-px md:left-1/2 md:-translate-x-1/2"
+                        style={{ background: `linear-gradient(180deg, transparent, rgba(${theme.primaryRgb},0.3), transparent)` }}
+                    />
+
+                    <div className="space-y-18 md:space-y-24 lg:space-y-28">
                         {EXPERIENCE_DATA.map((exp, index) => {
                             const fromLeft = index % 2 === 0;
 
@@ -295,12 +322,18 @@ export default function ExperienceSection() {
                                     key={`${exp.company}-${exp.role}`}
                                     className={`relative flex pl-16 md:pl-0 ${fromLeft ? 'md:justify-start' : 'md:justify-end'}`}
                                 >
+                                    <div
+                                        className={`pointer-events-none absolute left-6 top-12 hidden h-px w-[8.5%] opacity-80 md:block ${fromLeft ? 'md:left-[calc(50%-8.5%)]' : 'md:left-1/2'}`}
+                                        style={{
+                                            background: `linear-gradient(${fromLeft ? '90deg' : '270deg'}, rgba(${theme.primaryRgb},0.9), transparent)`,
+                                        }}
+                                    />
                                     {/* Spine Dot */}
                                     <div
                                         className="absolute left-6 top-10 z-20 h-5 w-5 rounded-full md:left-1/2 md:-translate-x-1/2"
                                         style={{
                                             background: theme.primary,
-                                            boxShadow: `0 0 30px ${theme.primary}CC, 0 0 10px white`,
+                                            boxShadow: `0 0 0 8px rgba(${theme.primaryRgb},0.08), 0 0 24px ${theme.primary}CC, 0 0 8px white`,
                                         }}
                                     />
 
@@ -308,65 +341,80 @@ export default function ExperienceSection() {
                                         ref={(element) => {
                                             itemRefs.current[index] = element;
                                         }}
-                                        className="relative w-full overflow-hidden rounded-[44px] border p-12 text-left md:w-[49%] md:p-14 lg:w-[50%] lg:p-16 transition-all duration-500 hover:border-white/20"
+                                        className="group relative w-full overflow-hidden rounded-[36px] border p-7 text-left md:w-[44%] md:p-9 lg:w-[45%] lg:p-10 transition-all duration-500 hover:-translate-y-1 hover:border-white/20"
 
                                         style={{
-                                            background: 'linear-gradient(165deg, rgba(20,20,20,0.95), rgba(40,40,40,0.4))',
-                                            borderColor: `rgba(${theme.primaryRgb},0.15)`,
-                                            boxShadow: `0 40px 100px rgba(0,0,0,0.5), 0 0 40px rgba(${theme.primaryRgb},0.05)`,
+                                            background: `linear-gradient(165deg, rgba(11,11,11,0.96), rgba(${theme.primaryRgb},0.08) 120%)`,
+                                            borderColor: `rgba(${theme.primaryRgb},0.22)`,
+                                            boxShadow: `0 28px 80px rgba(0,0,0,0.42), inset 0 1px 0 rgba(255,255,255,0.04), 0 0 30px rgba(${theme.primaryRgb},0.06)`,
                                             transformStyle: 'preserve-3d',
                                         }}
                                     >
+                                        <div
+                                            className="absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+                                            style={{ background: `radial-gradient(circle at ${fromLeft ? '0%' : '100%'} 0%, rgba(${theme.primaryRgb},0.18), transparent 55%)` }}
+                                        />
                                         {/* Color Accent Bar */}
                                         <div
-                                            className="absolute inset-y-0 w-2"
+                                            className="absolute inset-x-0 top-0 h-px"
                                             style={{
-                                                [fromLeft ? 'right' : 'left']: 0,
-                                                background: `linear-gradient(180deg, ${theme.primary}, transparent 90%)`,
+                                                background: `linear-gradient(90deg, transparent, ${theme.primary}, transparent)`,
                                             }}
                                         />
 
                                         <div className="relative z-10" style={{ transform: 'translateZ(50px)' }}>
-                                            <div className="mb-10 flex items-center justify-between">
+                                            <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
                                                 <span
-                                                    className="inline-flex rounded-full border px-6 py-3 text-[10px] font-black uppercase tracking-widest text-white/80"
+                                                    className="inline-flex items-center gap-2 rounded-full border px-4 py-2 text-[10px] font-black uppercase tracking-[0.22em] text-white/80"
                                                     style={{
                                                         borderColor: `rgba(${theme.primaryRgb},0.3)`,
                                                         background: `rgba(${theme.primaryRgb},0.1)`,
                                                     }}
                                                 >
+                                                    <CalendarRange size={12} />
                                                     {exp.period}
+                                                </span>
+                                                <span className="inline-flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.28em] text-white/35">
+                                                    <ArrowUpRight size={12} />
+                                                    Experience Node {String(index + 1).padStart(2, '0')}
                                                 </span>
                                             </div>
 
-                                            <h3 className="text-3xl font-black leading-tight text-white md:text-4xl">
-                                                {exp.role}
-                                            </h3>
-                                            <p className="mt-3 text-base font-bold uppercase tracking-[0.3em]" style={{ color: theme.primary }}>
-                                                {exp.company}
-                                            </p>
+                                            <div className="flex flex-col gap-3">
+                                                <p className="text-[11px] font-bold uppercase tracking-[0.35em]" style={{ color: theme.primary }}>
+                                                    {exp.company}
+                                                </p>
+                                                <h3 className="text-3xl font-black leading-[0.95] text-white md:text-[2.3rem]">
+                                                    {exp.role}
+                                                </h3>
+                                            </div>
 
-                                            <p className="mt-8 text-base leading-8 text-white/60 md:text-lg">
+                                            <p className="mt-5 max-w-2xl text-[15px] leading-7 text-white/62 md:text-base">
                                                 {exp.summary}
                                             </p>
 
-                                            <div className="mt-12 space-y-6">
-                                                {exp.achievements.map((achievement) => (
+                                            <div className="mt-8 grid gap-3">
+                                                {exp.achievements.map((achievement, achievementIndex) => (
                                                     <div
                                                         key={achievement}
-                                                        className="flex items-start gap-5 rounded-[28px] border border-white/5 bg-white/[0.02] px-7 py-6 hover:bg-white/[0.05] transition-colors"
+                                                        className="flex items-start gap-4 rounded-[22px] border border-white/8 bg-white/[0.03] px-4 py-4 transition-colors hover:bg-white/[0.05]"
                                                     >
                                                         <span
-                                                            className="mt-2.5 h-2 w-2 shrink-0 rounded-full shadow-[0_0_10px_currentColor]"
-                                                            style={{ backgroundColor: theme.primary, color: theme.primary }}
-                                                        />
-                                                        <p className="text-sm leading-7 text-white/80">{achievement}</p>
+                                                            className="mt-0.5 inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-[11px] font-black"
+                                                            style={{
+                                                                background: `rgba(${theme.primaryRgb},0.16)`,
+                                                                color: theme.primary,
+                                                            }}
+                                                        >
+                                                            {achievementIndex + 1}
+                                                        </span>
+                                                        <p className="text-sm leading-7 text-white/78">{achievement}</p>
                                                     </div>
                                                 ))}
                                             </div>
 
                                             {exp.certificate && (
-                                                <div className="mt-10 flex flex-wrap gap-4">
+                                                <div className="mt-7 flex flex-wrap gap-4">
                                                     <button
                                                         type="button"
                                                         onClick={() => setActiveCertificate(exp.certificate)}
@@ -381,11 +429,15 @@ export default function ExperienceSection() {
                                                 </div>
                                             )}
 
-                                            <div className="mt-10 flex flex-wrap gap-4">
+                                            <div className="mt-7 flex flex-wrap gap-3">
                                                 {exp.highlights.map((highlight) => (
                                                     <span
                                                         key={highlight}
-                                                        className="rounded-xl border border-white/5 bg-white/[0.04] px-6 py-3 text-[10px] font-black uppercase tracking-widest text-white/60 hover:text-white transition-colors"
+                                                        className="rounded-full border px-4 py-2 text-[10px] font-black uppercase tracking-[0.22em] text-white/62 transition-colors hover:text-white"
+                                                        style={{
+                                                            borderColor: 'rgba(255,255,255,0.08)',
+                                                            background: 'rgba(255,255,255,0.03)',
+                                                        }}
                                                     >
                                                         {highlight}
                                                     </span>
