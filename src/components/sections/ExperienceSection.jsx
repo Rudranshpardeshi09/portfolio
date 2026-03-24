@@ -280,7 +280,7 @@ export default function ExperienceSection() {
                         Professional Journey
                     </div>
                     <h2 className="mt-6 text-5xl font-black uppercase tracking-[-0.08em] text-white sm:text-6xl md:text-7xl lg:text-[5.5rem] leading-[0.92]">
-                        Impact Timeline
+                        Impact  Timeline
                     </h2>
                     <p className="mx-auto mt-6 max-w-2xl text-center text-sm leading-7 text-white/55 md:text-base">
                         A dynamic chronicle of technical achievements, architectural leadership, and scalable solution delivery.

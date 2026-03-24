@@ -107,12 +107,19 @@ function SkillCard({ category, idx, total, theme, scrollYProgress }) {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.45, delay: 0.18 + skillIndex * 0.04 }}
-                        whileHover={{ y: -6, z: 22 }}
+                        whileHover={{
+                            y: -10,
+                            rotateX: -8,
+                            rotateY: skillIndex % 2 === 0 ? 8 : -8,
+                            z: 36,
+                            transition: { type: 'spring', stiffness: 240, damping: 18 },
+                        }}
                         className="rounded-[24px] border p-3 md:p-4"
                         style={{
                             transformStyle: 'preserve-3d',
                             borderColor: 'rgba(255,255,255,0.08)',
-                            background: 'rgba(255,255,255,0.03)',
+                            background: `linear-gradient(180deg, rgba(255,255,255,0.05), rgba(${theme.primaryRgb},0.06))`,
+                            boxShadow: `inset 0 1px 0 rgba(255,255,255,0.05), 0 12px 30px rgba(0,0,0,0.14)`,
                         }}
                     >
                         <AnimatedLogo
