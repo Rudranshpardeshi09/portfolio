@@ -212,32 +212,76 @@ export default function ExperienceSection() {
                         }
                     );
                 } else {
-                    // Mobile: "Slide-and-Scale-in" keeping content space safe from spine
-                    gsap.fromTo(
+                    const mobileRevealTargets = item.querySelectorAll('[data-mobile-reveal]');
+                    const mobileDot = item.parentElement?.querySelector('[data-mobile-dot]');
+
+                    // Mobile: compressed shell opens into place with layered content follow-through.
+                    const mobileTimeline = gsap.timeline({
+                        scrollTrigger: {
+                            trigger: item,
+                            start: 'top 88%',
+                            toggleActions: 'play none none reverse',
+                        },
+                    });
+
+                    mobileTimeline.fromTo(
                         item,
                         {
                             opacity: 0,
+                            y: 96,
                             scale: 0.9,
-                            x: 40,
-                            rotationY: -15, // Subtle tilt away from line
-                            y: 50,
-                            transformOrigin: 'left center', // Rotate from spine side
+                            rotateZ: -2.5,
+                            clipPath: 'inset(16% 0% 12% 0% round 36px)',
+                            filter: 'blur(14px)',
                         },
                         {
                             opacity: 1,
-                            scale: 1,
-                            x: 0,
-                            rotationY: 0,
                             y: 0,
+                            scale: 1,
+                            rotateZ: 0,
+                            clipPath: 'inset(0% 0% 0% 0% round 36px)',
+                            filter: 'blur(0px)',
                             duration: 1,
-                            ease: 'back.out(1.2)',
-                            scrollTrigger: {
-                                trigger: item,
-                                start: 'top 90%',
-                                toggleActions: 'play none none reverse',
-                            },
-                        }
+                            ease: 'expo.out',
+                        },
                     );
+
+                    if (mobileDot) {
+                        mobileTimeline.fromTo(
+                            mobileDot,
+                            {
+                                opacity: 0,
+                                scale: 0.35,
+                            },
+                            {
+                                opacity: 1,
+                                scale: 1,
+                                duration: 0.42,
+                                ease: 'back.out(2.6)',
+                            },
+                            0.06,
+                        );
+                    }
+
+                    if (mobileRevealTargets.length) {
+                        mobileTimeline.fromTo(
+                            mobileRevealTargets,
+                            {
+                                opacity: 0,
+                                y: 26,
+                                x: -14,
+                            },
+                            {
+                                opacity: 1,
+                                y: 0,
+                                x: 0,
+                                duration: 0.6,
+                                stagger: 0.09,
+                                ease: 'power3.out',
+                            },
+                            0.18,
+                        );
+                    }
                 }
             });
         }, sectionRef);
@@ -330,6 +374,7 @@ export default function ExperienceSection() {
                                     />
                                     {/* Spine Dot */}
                                     <div
+                                        data-mobile-dot
                                         className="absolute left-6 top-10 z-20 h-5 w-5 rounded-full md:left-1/2 md:-translate-x-1/2"
                                         style={{
                                             background: theme.primary,
@@ -363,7 +408,10 @@ export default function ExperienceSection() {
                                         />
 
                                         <div className="relative z-10" style={{ transform: 'translateZ(50px)' }}>
-                                            <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
+                                            <div
+                                                data-mobile-reveal
+                                                className="mb-6 flex flex-wrap items-center justify-between gap-3"
+                                            >
                                                 <span
                                                     className="inline-flex items-center gap-2 rounded-full border px-4 py-2 text-[10px] font-black uppercase tracking-[0.22em] text-white/80"
                                                     style={{
@@ -380,7 +428,7 @@ export default function ExperienceSection() {
                                                 </span>
                                             </div>
 
-                                            <div className="flex flex-col gap-3">
+                                            <div data-mobile-reveal className="flex flex-col gap-3">
                                                 <p className="text-[11px] font-bold uppercase tracking-[0.35em]" style={{ color: theme.primary }}>
                                                     {exp.company}
                                                 </p>
@@ -389,11 +437,14 @@ export default function ExperienceSection() {
                                                 </h3>
                                             </div>
 
-                                            <p className="mt-5 max-w-2xl text-[15px] leading-7 text-white/62 md:text-base">
+                                            <p
+                                                data-mobile-reveal
+                                                className="mt-5 max-w-2xl text-[15px] leading-7 text-white/62 md:text-base"
+                                            >
                                                 {exp.summary}
                                             </p>
 
-                                            <div className="mt-8 grid gap-3">
+                                            <div data-mobile-reveal className="mt-8 grid gap-3">
                                                 {exp.achievements.map((achievement, achievementIndex) => (
                                                     <div
                                                         key={achievement}
@@ -414,7 +465,7 @@ export default function ExperienceSection() {
                                             </div>
 
                                             {exp.certificate && (
-                                                <div className="mt-7 flex flex-wrap gap-4">
+                                                <div data-mobile-reveal className="mt-7 flex flex-wrap gap-4">
                                                     <button
                                                         type="button"
                                                         onClick={() => setActiveCertificate(exp.certificate)}
@@ -429,7 +480,7 @@ export default function ExperienceSection() {
                                                 </div>
                                             )}
 
-                                            <div className="mt-7 flex flex-wrap gap-3">
+                                            <div data-mobile-reveal className="mt-7 flex flex-wrap gap-3">
                                                 {exp.highlights.map((highlight) => (
                                                     <span
                                                         key={highlight}

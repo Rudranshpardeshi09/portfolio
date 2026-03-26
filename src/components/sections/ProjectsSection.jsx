@@ -142,7 +142,7 @@ export default function ProjectsSection() {
             </div>
 
             <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 max-w-7xl flex flex-col items-center">
-                
+
                 {/* Section Header */}
                 <motion.div
                     className="text-center mb-16 sm:mb-24 flex flex-col items-center"
@@ -154,21 +154,21 @@ export default function ProjectsSection() {
                     <p className="text-[11px] sm:text-xs uppercase tracking-[0.4em] sm:tracking-[0.5em] text-white/60 mb-4">
                         Innovation & Engineering
                     </p>
-                    <h2 className="text-4xl sm:text-5xl md:text-7xl font-black text-white hover:text-white/90 transition-colors drop-shadow-2xl inline-block" style={{ textShadow: `0 0 40px rgba(${theme.primaryRgb}, 0.3)`}}>
+                    <h2 className="text-4xl sm:text-5xl md:text-7xl font-black text-white hover:text-white/90 transition-colors drop-shadow-2xl inline-block" style={{ textShadow: `0 0 40px rgba(${theme.primaryRgb}, 0.3)` }}>
                         PROJECT
                     </h2>
                 </motion.div>
 
                 {/* Grid Layout */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 sm:gap-10 lg:gap-14 w-full place-items-center">
-                     {PROJECTS_DATA.map((project, index) => (
-                         <TiltProjectCard
-                             key={project.id}
-                             project={project}
-                             index={index}
-                             theme={theme}
-                         />
-                     ))}
+                    {PROJECTS_DATA.map((project, index) => (
+                        <TiltProjectCard
+                            key={project.id}
+                            project={project}
+                            index={index}
+                            theme={theme}
+                        />
+                    ))}
                 </div>
 
             </div>
