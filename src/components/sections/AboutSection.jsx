@@ -10,6 +10,8 @@ import useThemeStore from '../../store/themeStore';
 
 gsap.registerPlugin(ScrollTrigger);
 
+const MotionDiv = motion.div;
+
 export default function AboutSection() {
     const { theme } = useThemeStore();
     const sectionRef = useRef(null);
@@ -59,7 +61,7 @@ export default function AboutSection() {
             className="section-container relative flex items-center justify-center py-24 md:py-32 overflow-hidden perspective-2000"
         >
             {/* 3D Background Decorative Element */}
-            <motion.div 
+            <MotionDiv 
                 style={{ 
                     rotate: scrollYProgress,
                     rotateX: useTransform(scrollYProgress, [0, 1], [0, 360]),
@@ -69,7 +71,7 @@ export default function AboutSection() {
                 className="absolute top-0 right-0 w-[500px] h-[500px] rounded-full border-[60px] border-white pointer-events-none"
             />
 
-            <motion.div 
+            <MotionDiv 
                 ref={container3DRef}
                 style={{ 
                     rotateX, 
@@ -83,7 +85,7 @@ export default function AboutSection() {
                     style={{ transformStyle: 'preserve-3d' }}
                 >
                     {/* Image Left */}
-                    <motion.div
+                    <MotionDiv
                         ref={imageRef}
                         style={{ translateZ: imageTranslateZ, transformStyle: 'preserve-3d' }}
                         className="lg:w-1/2 flex justify-center items-center"
@@ -123,10 +125,10 @@ export default function AboutSection() {
                                 }}
                             />
                         </div>
-                    </motion.div>
+                    </MotionDiv>
 
                     {/* Text Right */}
-                    <motion.div 
+                    <MotionDiv 
                         ref={textRef} 
                         style={{ translateZ: textTranslateZ, transformStyle: 'preserve-3d' }}
                         className="lg:w-[60%] flex flex-col justify-center transform-gpu"
@@ -139,7 +141,7 @@ export default function AboutSection() {
                             }}>
                             
                             {/* Light Sheen Effect */}
-                            <motion.div 
+                            <MotionDiv 
                                 style={{ 
                                     left: useTransform(scrollYProgress, [0, 1], ['-100%', '200%']),
                                     rotate: 25 
@@ -212,9 +214,9 @@ export default function AboutSection() {
                                 ))}
                             </div>
                         </div>
-                    </motion.div>
+                    </MotionDiv>
                 </div>
-            </motion.div>
+            </MotionDiv>
         </section>
     );
 }
